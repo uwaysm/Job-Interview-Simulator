@@ -1,5 +1,7 @@
 $(document).ready(function () {
   let responses = [];
+
+  // Add the toggleJobTitleInput function here
   function toggleJobTitleInput(enable) {
     $("#jobTitle").prop("disabled", !enable);
     $("#jobTitleSubmit").prop("disabled", !enable);
@@ -32,21 +34,6 @@ $(document).ready(function () {
       });
     }
   });
-  function displayNextQuestion() {
-    if (questionIndex < questions.length) {
-      const question = questions[questionIndex];
-      appendMessage(question, "bot");
-      questionIndex++;
-      $("#userInput").val("");
-      $("#sendBtn").prop("disabled", false);
-      $("#userInput").prop("disabled", false);
-    } else {
-      // ... rest of the code ...
-
-      // Re-enable job title input and submit button
-      toggleJobTitleInput(true);
-    }
-  }
 
   // Handle send button click
   $("#sendBtn").on("click", function () {
@@ -107,6 +94,9 @@ $(document).ready(function () {
 
       $("#sendBtn").prop("disabled", true);
       $("#userInput").prop("disabled", true);
+
+      // Re-enable job title input and submit button
+      toggleJobTitleInput(true);
     }
   }
 
