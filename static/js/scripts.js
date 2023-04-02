@@ -1,4 +1,8 @@
 $(document).ready(function () {
+  $("#micBtn").addClass("locked");
+  $("#sendBtn").addClass("locked");
+  $("#userInput").addClass("locked");
+
   $("#micBtn").on("mousedown", function () {
     if ($(this).hasClass("locked")) {
       alert("Enter a job title first.");
@@ -165,6 +169,11 @@ $(document).ready(function () {
   });
 
   function displayNextQuestion() {
+    // Remove the 'locked' class from the elements
+    $("#sendBtn").removeClass("locked");
+    $("#userInput").removeClass("locked");
+    $("#micBtn").removeClass("locked");
+
     $("#sendBtn").prop("disabled", false);
     $("#userInput").prop("disabled", false);
     $("#micBtn").prop("disabled", false);
