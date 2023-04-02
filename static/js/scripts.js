@@ -107,7 +107,7 @@ $(document).ready(function () {
   function sendResponse() {
     const userResponse = $("#userInput").val().trim();
     if (userResponse) {
-      // Lock send button and input field
+      // Lock send button, input field, and mic button
       $("#sendBtn").prop("disabled", true);
       $("#userInput").prop("disabled", true);
       $("#micBtn").prop("disabled", true);
@@ -190,6 +190,7 @@ $(document).ready(function () {
 
       $("#sendBtn").prop("disabled", true);
       $("#userInput").prop("disabled", true);
+      $("#micBtn").prop("disabled", true); // Disable mic button when the send button is disabled
 
       // Re-enable job title input and submit button
       toggleJobTitleInput(true);
