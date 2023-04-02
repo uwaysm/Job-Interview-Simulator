@@ -22,9 +22,17 @@ $(document).ready(function () {
     };
 
     // Handle any speech recognition errors
-    recognition.onerror = function (event) {
-      console.error("Error during speech recognition:", event.error);
-    };
+    recognition.onerror = // Handle any speech recognition errors
+      recognition.onerror = function (event) {
+        console.error("Error during speech recognition:", event.error);
+        if (event.error === "not-allowed") {
+          alert(
+            "Access to the microphone was denied. Please allow access to the microphone to use the voice input feature."
+          );
+        } else {
+          alert("An error occurred during speech recognition: " + event.error);
+        }
+      };
   }
 
   // Add event listener to the microphone button
