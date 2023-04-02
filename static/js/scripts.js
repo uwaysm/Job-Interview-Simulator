@@ -55,9 +55,14 @@ $(document).ready(function () {
         type: "POST",
         data: { job_title: jobTitle },
         success: function (response) {
-          questions = response.questions;
-          questionIndex = 0;
-          displayNextQuestion();
+          if (response.error) {
+            appendMessage(response.error, "bot");
+            toggleJobTitleInput(true); // Re-enable job title input and submit button
+          } else {
+            questions = response.questions;
+            questionIndex = 0;
+            displayNextQuestion();
+          }
         },
         error: function (error) {
           console.error("Error fetching questions:", error);
@@ -75,6 +80,9 @@ $(document).ready(function () {
 
       // Display user's response
       appendMessage(userResponse, "user");
+
+      // Clear the response box
+      $("#userInput").val(""); // Add this line to clear the response box
 
       $.ajax({
         url: "/evaluate_response",
@@ -127,7 +135,7 @@ $(document).ready(function () {
         type: "POST",
         data: { job_title: jobTitle, responses: JSON.stringify(responses) },
         success: function (response) {
-          appendMessage(`Rating: ${response}`, "bot");
+          appendMessage(`${response}`, "bot");
           appendMessage("Thank you for completing the interview!", "bot");
         },
         error: function (error) {

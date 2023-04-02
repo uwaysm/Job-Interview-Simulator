@@ -21,6 +21,20 @@ except FileExistsError:
 app = Flask(__name__)
 
 openai.api_key = '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'
+def is_real_job_title(job_title):
+    prompt = f"Is '{job_title}' a real job title?"
+    
+    response = openai.Completion.create(
+        engine="text-davinci-003",
+        prompt=prompt,
+        max_tokens=10,
+        n=1,
+        stop=None,
+        temperature=0.7,
+    )
+    
+    answer = response.choices[0].text.strip().lower()
+    return 'yes' in answer
 
 def extract_keywords(text):
     stop_words = set(stopwords.words('english'))
@@ -120,10 +134,14 @@ def generate_questions():
     if not job_title:
         return jsonify({'error': 'Job title is required'}), 400
 
+    if not is_real_job_title(job_title):
+        return jsonify({'error': 'Please provide a real job title'}), 400
+
     # Generate interview questions using the OpenAI API
     questions = generate_interview_questions(job_title)
 
     return jsonify({'questions': questions})
+
 
 @app.route('/evaluate_response', methods=['POST'])
 def evaluate_response_route():
