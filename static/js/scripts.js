@@ -98,6 +98,11 @@ $(document).ready(function () {
   });
 
   function displayNextQuestion() {
+    // Unlock send button and input field
+    $("#sendBtn").prop("disabled", false);
+    $("#userInput").prop("disabled", false);
+    $("#userInput").focus(); // Set focus back to the input field
+
     if (questionIndex < questions.length) {
       const question = questions[questionIndex];
       appendMessage(question, "bot");
