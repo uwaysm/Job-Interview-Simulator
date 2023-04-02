@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  $("#micBtn").on("click", function () {
+  $("#micBtn").on("mousedown", function () {
     if ($(this).hasClass("locked")) {
       alert("Enter a job title first.");
     } else if (recognition) {
@@ -7,7 +7,7 @@ $(document).ready(function () {
     }
   });
 
-  $("#sendBtn").on("click", function () {
+  $("#sendBtn").on("mousedown", function () {
     if ($(this).hasClass("locked")) {
       alert("Enter a job title first.");
     } else {
@@ -15,7 +15,7 @@ $(document).ready(function () {
     }
   });
 
-  $("#userInput").on("click", function () {
+  $("#userInput").on("mousedown", function () {
     if ($(this).hasClass("locked")) {
       alert("Enter a job title first.");
     }
