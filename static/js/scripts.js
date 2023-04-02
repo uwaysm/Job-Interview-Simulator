@@ -44,7 +44,9 @@ $(document).ready(function () {
 
   // Implement the startRecognition function
   function startRecognition() {
-    recognition.continuous = true;
+    if ($("#sendBtn").prop("disabled")) {
+      return; // Return early if the send button is locked
+    }
 
     $("#micBtn").prop("disabled", true); // Disable the mic button while recording
 
@@ -157,6 +159,7 @@ $(document).ready(function () {
     // Unlock send button and input field
     $("#sendBtn").prop("disabled", false);
     $("#userInput").prop("disabled", false);
+    $("#micBtn").prop("disabled", false);
     $("#userInput").focus(); // Set focus back to the input field
 
     if (questionIndex < questions.length) {
