@@ -1,4 +1,48 @@
 $(document).ready(function () {
+  // Check if the browser supports SpeechRecognition
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    console.error("Speech recognition is not supported in your browser.");
+    $("#micBtn").prop("disabled", true);
+  } else {
+    // Create a new speech recognition instance
+    const recognition = new SpeechRecognition();
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    // Handle the speech recognition result
+    recognition.onresult = function (event) {
+      const speechResult = event.results[0][0].transcript;
+      $("#userInput").val(speechResult);
+    };
+
+    // Handle any speech recognition errors
+    recognition.onerror = function (event) {
+      console.error("Error during speech recognition:", event.error);
+    };
+  }
+
+  // Add event listener to the microphone button
+  $("#micBtn").on("click", function () {
+    if (recognition) {
+      startRecognition();
+    }
+  });
+
+  // Implement the startRecognition function
+  function startRecognition() {
+    $("#micBtn").prop("disabled", true); // Disable the mic button while recording
+
+    recognition.start();
+
+    recognition.onend = function () {
+      $("#micBtn").prop("disabled", false); // Re-enable the mic button after recording
+    };
+  }
+
   let responses = [];
   function submitJobTitle() {
     const jobTitle = $("#jobTitle").val().trim();
