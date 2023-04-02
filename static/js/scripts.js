@@ -45,36 +45,14 @@ $(document).ready(function () {
   let questionIndex = 0;
   let questions = [];
 
-  // Handle job title submission
-  $("#jobTitleSubmit").on("click", function () {
-    const jobTitle = $("#jobTitle").val().trim();
-    if (jobTitle) {
-      toggleJobTitleInput(false); // Disable job title input and submit button
-      $.ajax({
-        url: "/generate_questions",
-        type: "POST",
-        data: { job_title: jobTitle },
-        success: function (response) {
-          if (response.error) {
-            appendMessage(response.error, "bot");
-            toggleJobTitleInput(true); // Re-enable job title input and submit button
-          } else {
-            questions = response.questions;
-            questionIndex = 0;
-            displayNextQuestion();
-          }
-        },
-        error: function (error) {
-          console.error("Error fetching questions:", error);
-        },
-      });
-    }
-  });
-
   // Handle send button click
   function sendResponse() {
     const userResponse = $("#userInput").val().trim();
     if (userResponse) {
+      // Lock send button and input field
+      $("#sendBtn").prop("disabled", true);
+      $("#userInput").prop("disabled", true);
+
       const currentQuestion = questions[questionIndex - 1];
       const jobTitle = $("#jobTitle").val(); // Get the selected job title
 
@@ -125,6 +103,8 @@ $(document).ready(function () {
       appendMessage(question, "bot");
       questionIndex++;
       $("#userInput").val("");
+
+      // Unlock send button and input field
       $("#sendBtn").prop("disabled", false);
       $("#userInput").prop("disabled", false);
     } else {
