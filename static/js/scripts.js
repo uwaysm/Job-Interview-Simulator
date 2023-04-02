@@ -1,31 +1,26 @@
 $(document).ready(function () {
   $("#micBtn").on("click", function () {
-    if (recognition) {
-      if ($(this).prop("disabled")) {
-        alert("Enter a job title first.");
-      } else {
-        startRecognition();
-      }
+    if ($(this).hasClass("locked")) {
+      alert("Enter a job title first.");
+    } else if (recognition) {
+      startRecognition();
     }
   });
 
-  // Add event listener to the send button
   $("#sendBtn").on("click", function () {
-    if ($(this).prop("disabled")) {
+    if ($(this).hasClass("locked")) {
       alert("Enter a job title first.");
     } else {
       sendResponse();
     }
   });
 
-  // Add event listener to the user input field
   $("#userInput").on("click", function () {
-    if ($(this).prop("disabled")) {
+    if ($(this).hasClass("locked")) {
       alert("Enter a job title first.");
     }
   });
 
-  // Check if the browser supports SpeechRecognition
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
 
@@ -35,51 +30,45 @@ $(document).ready(function () {
     console.error("Speech recognition is not supported in your browser.");
     $("#micBtn").prop("disabled", true);
   } else {
-    // Create a new speech recognition instance
     recognition = new SpeechRecognition();
     recognition.lang = "en-US";
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
 
-    // Handle the speech recognition result
     recognition.onresult = function (event) {
       const speechResult = event.results[0][0].transcript;
       $("#userInput").val(speechResult);
     };
 
-    // Handle any speech recognition errors
-    recognition.onerror = // Handle any speech recognition errors
-      recognition.onerror = function (event) {
-        console.error("Error during speech recognition:", event.error);
-        if (event.error === "not-allowed") {
-          alert(
-            "Access to the microphone was denied. Please allow access to the microphone to use the voice input feature."
-          );
-        } else {
-          alert("An error occurred during speech recognition: " + event.error);
-        }
-      };
+    recognition.onerror = function (event) {
+      console.error("Error during speech recognition:", event.error);
+      if (event.error === "not-allowed") {
+        alert(
+          "Access to the microphone was denied. Please allow access to the microphone to use the voice input feature."
+        );
+      } else {
+        alert("An error occurred during speech recognition: " + event.error);
+      }
+    };
   }
 
-  // Add event listener to the microphone button
   $("#micBtn").on("click", function () {
     if (recognition) {
       startRecognition();
     }
   });
 
-  // Implement the startRecognition function
   function startRecognition() {
     if ($("#sendBtn").prop("disabled")) {
-      return; // Return early if the send button is locked
+      return;
     }
 
-    $("#micBtn").prop("disabled", true); // Disable the mic button while recording
+    $("#micBtn").prop("disabled", true);
 
     recognition.start();
 
     recognition.onend = function () {
-      $("#micBtn").prop("disabled", false); // Re-enable the mic button after recording
+      $("#micBtn").prop("disabled", false);
     };
   }
 
@@ -87,7 +76,7 @@ $(document).ready(function () {
   function submitJobTitle() {
     const jobTitle = $("#jobTitle").val().trim();
     if (jobTitle) {
-      toggleJobTitleInput(false); // Disable job title input and submit button
+      toggleJobTitleInput(false);
       $.ajax({
         url: "/generate_questions",
         type: "POST",
@@ -110,42 +99,36 @@ $(document).ready(function () {
 
   $("#jobTitle").on("keypress", function (e) {
     if (e.which == 13) {
-      // 13 is the Enter key code
-      e.preventDefault(); // Prevent default form submission behavior
+      e.preventDefault();
       submitJobTitle();
     }
   });
 
-  // Add the toggleJobTitleInput function here
   function toggleJobTitleInput(enable) {
     $("#jobTitle").prop("disabled", !enable);
     $("#jobTitleSubmit").prop("disabled", !enable);
   }
 
-  // Disable the send button and user input field initially
   $("#sendBtn").prop("disabled", true);
   $("#userInput").prop("disabled", true);
+  $("#micBtn").prop("disabled", true);
 
   let questionIndex = 0;
   let questions = [];
 
-  // Handle send button click
   function sendResponse() {
     const userResponse = $("#userInput").val().trim();
     if (userResponse) {
-      // Lock send button, input field, and mic button
       $("#sendBtn").prop("disabled", true);
       $("#userInput").prop("disabled", true);
       $("#micBtn").prop("disabled", true);
 
       const currentQuestion = questions[questionIndex - 1];
-      const jobTitle = $("#jobTitle").val(); // Get the selected job title
+      const jobTitle = $("#jobTitle").val();
 
-      // Display user's response
       appendMessage(userResponse, "user");
 
-      // Clear the response box
-      $("#userInput").val(""); // Add this line to clear the response box
+      $("#userInput").val("");
 
       $.ajax({
         url: "/evaluate_response",
@@ -154,7 +137,7 @@ $(document).ready(function () {
           user_response: userResponse,
           question: currentQuestion,
           job_title: jobTitle,
-        }, // Include the job title in the data
+        },
         success: function (response) {
           displayFeedback(response);
           responses.push({
@@ -176,18 +159,16 @@ $(document).ready(function () {
 
   $("#userInput").on("keypress", function (e) {
     if (e.which == 13) {
-      // 13 is the Enter key code
-      e.preventDefault(); // Prevent default form submission behavior
+      e.preventDefault();
       sendResponse();
     }
   });
 
   function displayNextQuestion() {
-    // Unlock send button, input field, and mic button
     $("#sendBtn").prop("disabled", false);
     $("#userInput").prop("disabled", false);
-    $("#micBtn").prop("disabled", false); // Unlock mic button
-    $("#userInput").focus(); // Set focus back to the input field
+    $("#micBtn").prop("disabled", false);
+    $("#userInput").focus();
 
     if (questionIndex < questions.length) {
       const question = questions[questionIndex];
@@ -195,11 +176,9 @@ $(document).ready(function () {
       questionIndex++;
       $("#userInput").val("");
 
-      // Unlock send button and input field
       $("#sendBtn").prop("disabled", false);
       $("#userInput").prop("disabled", false);
     } else {
-      // Request a final decision when the interview is complete
       const jobTitle = $("#jobTitle").val();
       $.ajax({
         url: "/final_decision",
@@ -216,9 +195,8 @@ $(document).ready(function () {
 
       $("#sendBtn").prop("disabled", true);
       $("#userInput").prop("disabled", true);
-      $("#micBtn").prop("disabled", true); // Disable mic button when the send button is disabled
+      $("#micBtn").prop("disabled", true);
 
-      // Re-enable job title input and submit button
       toggleJobTitleInput(true);
     }
   }
@@ -226,24 +204,14 @@ $(document).ready(function () {
   function displayFeedback(feedback) {
     appendMessage(feedback, "bot");
 
-    // Add a break after the feedback
     const breakElement = $("<li>").addClass("break");
     $("#chatBox").append(breakElement);
-
     displayNextQuestion();
   }
 
   function appendMessage(message, sender) {
-    const messageClass = sender === "bot" ? "bot-message" : "user-message";
-    const messageElement = $("<li>").addClass(messageClass).text(message);
-    $("#chatBox").append(messageElement);
-
-    if (sender === "bot") {
-      // Add a line break only after the bot's message
-      const breakElement = $("<li>").addClass("break");
-      $("#chatBox").append(breakElement);
-    }
-
-    $(".chat-container").scrollTop($(".chat-container")[0].scrollHeight);
+    const liElement = $("<li>").addClass(sender).text(message);
+    $("#chatBox").append(liElement);
+    $("#chatBox").scrollTop($("#chatBox")[0].scrollHeight);
   }
 });
