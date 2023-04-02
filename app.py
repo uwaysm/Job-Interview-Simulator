@@ -7,8 +7,16 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
 # Download stopwords
-nltk.download('stopwords')
-nltk.download('punkt')
+
+try:
+    nltk.download('stopwords')
+except FileExistsError:
+    pass
+
+try:
+    nltk.download('punkt')
+except FileExistsError:
+    pass
 
 app = Flask(__name__)
 
