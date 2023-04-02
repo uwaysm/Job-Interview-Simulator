@@ -3,12 +3,14 @@ $(document).ready(function () {
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
 
+  let recognition;
+
   if (!SpeechRecognition) {
     console.error("Speech recognition is not supported in your browser.");
     $("#micBtn").prop("disabled", true);
   } else {
     // Create a new speech recognition instance
-    const recognition = new SpeechRecognition();
+    recognition = new SpeechRecognition();
     recognition.lang = "en-US";
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
@@ -34,6 +36,8 @@ $(document).ready(function () {
 
   // Implement the startRecognition function
   function startRecognition() {
+    recognition.continuous = true;
+
     $("#micBtn").prop("disabled", true); // Disable the mic button while recording
 
     recognition.start();
