@@ -1,5 +1,36 @@
 $(document).ready(function () {
   let responses = [];
+  function submitJobTitle() {
+    const jobTitle = $("#jobTitle").val().trim();
+    if (jobTitle) {
+      toggleJobTitleInput(false); // Disable job title input and submit button
+      $.ajax({
+        url: "/generate_questions",
+        type: "POST",
+        data: { job_title: jobTitle },
+        success: function (response) {
+          questions = response.questions;
+          questionIndex = 0;
+          displayNextQuestion();
+        },
+        error: function (error) {
+          console.error("Error fetching questions:", error);
+        },
+      });
+    }
+  }
+
+  $("#jobTitleSubmit").on("click", function () {
+    submitJobTitle();
+  });
+
+  $("#jobTitle").on("keypress", function (e) {
+    if (e.which == 13) {
+      // 13 is the Enter key code
+      e.preventDefault(); // Prevent default form submission behavior
+      submitJobTitle();
+    }
+  });
 
   // Add the toggleJobTitleInput function here
   function toggleJobTitleInput(enable) {
@@ -36,7 +67,7 @@ $(document).ready(function () {
   });
 
   // Handle send button click
-  $("#sendBtn").on("click", function () {
+  function sendResponse() {
     const userResponse = $("#userInput").val().trim();
     if (userResponse) {
       const currentQuestion = questions[questionIndex - 1];
@@ -65,6 +96,18 @@ $(document).ready(function () {
           console.error("Error evaluating response:", error);
         },
       });
+    }
+  }
+
+  $("#sendBtn").on("click", function () {
+    sendResponse();
+  });
+
+  $("#userInput").on("keypress", function (e) {
+    if (e.which == 13) {
+      // 13 is the Enter key code
+      e.preventDefault(); // Prevent default form submission behavior
+      sendResponse();
     }
   });
 
