@@ -1,4 +1,6 @@
 $(document).ready(function () {
+  let responses = [];
+
   // Disable the send button and user input field initially
   $("#sendBtn").prop("disabled", true);
   $("#userInput").prop("disabled", true);
@@ -27,7 +29,6 @@ $(document).ready(function () {
   });
 
   // Handle send button click
-  // Handle send button click
   $("#sendBtn").on("click", function () {
     const userResponse = $("#userInput").val().trim();
     if (userResponse) {
@@ -47,6 +48,11 @@ $(document).ready(function () {
         }, // Include the job title in the data
         success: function (response) {
           displayFeedback(response);
+          responses.push({
+            question: currentQuestion,
+            response: userResponse,
+            feedback: response,
+          });
         },
         error: function (error) {
           console.error("Error evaluating response:", error);
@@ -64,7 +70,21 @@ $(document).ready(function () {
       $("#sendBtn").prop("disabled", false);
       $("#userInput").prop("disabled", false);
     } else {
-      appendMessage("Thank you for completing the interview!", "bot");
+      // Request a final decision when the interview is complete
+      const jobTitle = $("#jobTitle").val();
+      $.ajax({
+        url: "/final_decision",
+        type: "POST",
+        data: { job_title: jobTitle, responses: JSON.stringify(responses) },
+        success: function (response) {
+          appendMessage(`Rating: ${response}`, "bot");
+          appendMessage("Thank you for completing the interview!", "bot");
+        },
+        error: function (error) {
+          console.error("Error getting final decision:", error);
+        },
+      });
+
       $("#sendBtn").prop("disabled", true);
       $("#userInput").prop("disabled", true);
     }
