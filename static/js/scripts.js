@@ -1,4 +1,30 @@
 $(document).ready(function () {
+  $("#micBtn").on("click", function () {
+    if (recognition) {
+      if ($(this).prop("disabled")) {
+        alert("Enter a job title first.");
+      } else {
+        startRecognition();
+      }
+    }
+  });
+
+  // Add event listener to the send button
+  $("#sendBtn").on("click", function () {
+    if ($(this).prop("disabled")) {
+      alert("Enter a job title first.");
+    } else {
+      sendResponse();
+    }
+  });
+
+  // Add event listener to the user input field
+  $("#userInput").on("click", function () {
+    if ($(this).prop("disabled")) {
+      alert("Enter a job title first.");
+    }
+  });
+
   // Check if the browser supports SpeechRecognition
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
