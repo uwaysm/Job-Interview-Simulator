@@ -1,5 +1,9 @@
 $(document).ready(function () {
   let responses = [];
+  function toggleJobTitleInput(enable) {
+    $("#jobTitle").prop("disabled", !enable);
+    $("#jobTitleSubmit").prop("disabled", !enable);
+  }
 
   // Disable the send button and user input field initially
   $("#sendBtn").prop("disabled", true);
@@ -12,6 +16,7 @@ $(document).ready(function () {
   $("#jobTitleSubmit").on("click", function () {
     const jobTitle = $("#jobTitle").val().trim();
     if (jobTitle) {
+      toggleJobTitleInput(false); // Disable job title input and submit button
       $.ajax({
         url: "/generate_questions",
         type: "POST",
@@ -27,6 +32,21 @@ $(document).ready(function () {
       });
     }
   });
+  function displayNextQuestion() {
+    if (questionIndex < questions.length) {
+      const question = questions[questionIndex];
+      appendMessage(question, "bot");
+      questionIndex++;
+      $("#userInput").val("");
+      $("#sendBtn").prop("disabled", false);
+      $("#userInput").prop("disabled", false);
+    } else {
+      // ... rest of the code ...
+
+      // Re-enable job title input and submit button
+      toggleJobTitleInput(true);
+    }
+  }
 
   // Handle send button click
   $("#sendBtn").on("click", function () {
