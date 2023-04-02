@@ -110,6 +110,7 @@ $(document).ready(function () {
       // Lock send button and input field
       $("#sendBtn").prop("disabled", true);
       $("#userInput").prop("disabled", true);
+      $("#micBtn").prop("disabled", true);
 
       const currentQuestion = questions[questionIndex - 1];
       const jobTitle = $("#jobTitle").val(); // Get the selected job title
@@ -156,10 +157,10 @@ $(document).ready(function () {
   });
 
   function displayNextQuestion() {
-    // Unlock send button and input field
+    // Unlock send button, input field, and mic button
     $("#sendBtn").prop("disabled", false);
     $("#userInput").prop("disabled", false);
-    $("#micBtn").prop("disabled", false);
+    $("#micBtn").prop("disabled", false); // Unlock mic button
     $("#userInput").focus(); // Set focus back to the input field
 
     if (questionIndex < questions.length) {
