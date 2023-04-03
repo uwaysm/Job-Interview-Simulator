@@ -1,22 +1,15 @@
 $(document).ready(function () {
+  let checkForRealJobTitle = true;
+  let checkGenuineResponses = true;
+
   $("#saveSettingsBtn").on("click", function () {
-    // Save settings changes here
-    let checkForRealJobTitle = $("#checkForRealJobTitle").is(":checked");
-    let checkforGenuineResponse = $("#checkforGenuineResponse").is(":checked");
-
-    console.log("Check for Real Job Title:", checkForRealJobTitle);
-    console.log("Check for Genuine Response:", checkforGenuineResponse);
-
+    checkForRealJobTitle = $("#checkForRealJobTitle").is(":checked");
+    checkGenuineResponses = $("#checkforGenuineResponse").is(":checked");
     $("#settingsModal").modal("hide");
   });
 
   $("#settingsBtn").on("click", function () {
     $("#settingsModal").modal("show");
-  });
-
-  $("#saveSettingsBtn").on("click", function () {
-    // Save settings changes here
-    $("#settingsModal").modal("hide");
   });
 
   $("#micBtn").addClass("locked");
@@ -127,142 +120,100 @@ $(document).ready(function () {
     $.ajax({
       url: "/generate_questions",
       type: "POST",
-      data: { job_title: jobTitle },
+      data: {
+        job_title: jobTitle,
+      },
       success: function (response) {
-        questions = response.questions;
-        questionIndex = 0;
-        displayNextQuestion();
+        if (response.questions) {
+          displayQuestions(response.questions);
+        } else {
+          alert("Error generating questions. Please try again.");
+          toggleJobTitleInput(true);
+        }
       },
       error: function (error) {
-        console.error("Error fetching questions:", error);
+        console.error("Error generating questions:", error);
+        toggleJobTitleInput(true);
       },
     });
   }
-  $("#jobTitleSubmit").on("click", function () {
+
+  function toggleJobTitleInput(enable) {
+    if (enable) {
+      $("#jobTitle").removeAttr("disabled");
+      $("#submitJobTitleBtn").removeAttr("disabled");
+    } else {
+      $("#jobTitle").attr("disabled", "disabled");
+      $("#submitJobTitleBtn").attr("disabled", "disabled");
+    }
+  }
+
+  function displayQuestions(questions) {
+    $("#questions").empty();
+
+    questions.forEach(function (question, index) {
+      const listItem = $(
+        `<li class="list-group-item">${index + 1}. ${question}</li>`
+      );
+      $("#questions").append(listItem);
+    });
+
+    $("#micBtn").removeClass("locked");
+    $("#sendBtn").removeClass("locked");
+    $("#userInput").removeClass("locked");
+  }
+
+  function sendResponse() {
+    const userInput = $("#userInput").val().trim();
+    if (userInput) {
+      responses.push(userInput);
+      $("#userInput").val("");
+
+      if (responses.length >= 5) {
+        if (checkGenuineResponses) {
+          $.ajax({
+            url: "/evaluate_response",
+            type: "POST",
+            data: {
+              user_response: userInput,
+              question: currentQuestion,
+              job_title: jobTitle,
+              check_genuine_responses: checkGenuineResponses, // added this line
+            },
+            success: function (response) {
+              if (response.are_genuine) {
+                alert("Thank you for your genuine responses!");
+                responses = [];
+              } else {
+                alert("Some responses were not genuine. Please try again.");
+                responses.pop();
+              }
+            },
+            error: function (error) {
+              console.error("Error checking responses:", error);
+            },
+          });
+        } else {
+          alert("Thank you for your responses!");
+          responses = [];
+        }
+      }
+    }
+  }
+
+  $("#submitJobTitleBtn").on("click", function () {
     submitJobTitle();
   });
 
-  $("#jobTitle").on("keypress", function (e) {
-    if (e.which == 13) {
-      e.preventDefault();
+  $("#jobTitle").on("keydown", function (event) {
+    if (event.key === "Enter") {
       submitJobTitle();
     }
   });
 
-  function toggleJobTitleInput(enable) {
-    $("#jobTitle").prop("disabled", !enable);
-    $("#jobTitleSubmit").prop("disabled", !enable);
-  }
-
-  $("#sendBtn").prop("disabled", true);
-  $("#userInput").prop("disabled", true);
-  $("#micBtn").prop("disabled", true);
-
-  let questionIndex = 0;
-  let questions = [];
-
-  function sendResponse() {
-    const userResponse = $("#userInput").val().trim();
-    if (userResponse) {
-      $("#sendBtn").prop("disabled", true);
-      $("#userInput").prop("disabled", true);
-      $("#micBtn").prop("disabled", true);
-
-      const currentQuestion = questions[questionIndex - 1];
-      const jobTitle = $("#jobTitle").val();
-
-      appendMessage(userResponse, "user");
-
-      $("#userInput").val("");
-
-      $.ajax({
-        url: "/evaluate_response",
-        type: "POST",
-        data: {
-          user_response: userResponse,
-          question: currentQuestion,
-          job_title: jobTitle,
-          check_genuine_responses: checkGenuineResponses,
-        },
-        success: function (response) {
-          displayFeedback(response);
-          responses.push({
-            question: currentQuestion,
-            response: userResponse,
-            feedback: response,
-          });
-        },
-        error: function (error) {
-          console.error("Error evaluating response:", error);
-        },
-      });
-    }
-  }
-
-  $("#sendBtn").on("click", function () {
-    sendResponse();
-  });
-
-  $("#userInput").on("keypress", function (e) {
-    if (e.which == 13) {
-      e.preventDefault();
+  $("#userInput").on("keydown", function (event) {
+    if (event.key === "Enter") {
       sendResponse();
     }
   });
-
-  function displayNextQuestion() {
-    // Remove the 'locked' class from the elements
-    $("#sendBtn").removeClass("locked");
-    $("#userInput").removeClass("locked");
-    $("#micBtn").removeClass("locked");
-
-    $("#sendBtn").prop("disabled", false);
-    $("#userInput").prop("disabled", false);
-    $("#micBtn").prop("disabled", false);
-    $("#userInput").focus();
-
-    if (questionIndex < questions.length) {
-      const question = questions[questionIndex];
-      appendMessage(question, "bot");
-      questionIndex++;
-      $("#userInput").val("");
-
-      $("#sendBtn").prop("disabled", false);
-      $("#userInput").prop("disabled", false);
-    } else {
-      const jobTitle = $("#jobTitle").val();
-      $.ajax({
-        url: "/final_decision",
-        type: "POST",
-        data: { job_title: jobTitle, responses: JSON.stringify(responses) },
-        success: function (response) {
-          appendMessage(`${response}`, "bot");
-          appendMessage("Thank you for completing the interview!", "bot");
-        },
-        error: function (error) {
-          console.error("Error getting final decision:", error);
-        },
-      });
-
-      $("#sendBtn").prop("disabled", true);
-      $("#userInput").prop("disabled", true);
-      $("#micBtn").prop("disabled", true);
-
-      toggleJobTitleInput(true);
-    }
-  }
-
-  function displayFeedback(feedback) {
-    appendMessage(feedback, "bot");
-
-    const breakElement = $("<li>").addClass("break");
-    $("#chatBox").append(breakElement);
-    displayNextQuestion();
-  }
-
-  function appendMessage(message, sender) {
-    const liElement = $("<li>").addClass(sender).text(message);
-    $("#chatBox").append(liElement);
-    $("#chatBox").scrollTop($("#chatBox")[0].scrollHeight);
-  }
 });

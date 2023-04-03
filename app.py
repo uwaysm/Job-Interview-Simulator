@@ -151,7 +151,6 @@ def generate_questions():
 
     return jsonify({'questions': questions})
 
-
 @app.route('/evaluate_response', methods=['POST'])
 def evaluate_response_route():
     check_genuine_responses = request.form.get('check_genuine_responses', 'True') == 'True'
@@ -166,6 +165,7 @@ def evaluate_response_route():
     feedback = get_feedback(user_response, question, job_title, check_genuine_responses)
 
     return jsonify(feedback)
+
 
 @app.route('/final_decision', methods=['POST'])
 def final_decision_route():
