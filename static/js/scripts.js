@@ -1,4 +1,13 @@
 $(document).ready(function () {
+  $("#settingsBtn").on("click", function () {
+    $("#settingsModal").modal("show");
+  });
+
+  $("#saveSettingsBtn").on("click", function () {
+    // Save settings changes here
+    $("#settingsModal").modal("hide");
+  });
+
   $("#micBtn").addClass("locked");
   $("#sendBtn").addClass("locked");
   $("#userInput").addClass("locked");

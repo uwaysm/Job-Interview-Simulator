@@ -35,6 +35,10 @@
         <div class="col-md-8 offset-md-2">
           <div class="chat-container">
             <ul class="chat-box list-unstyled" id="chatBox"></ul>
+            <!-- Add settings button -->
+            <button id="settingsBtn" type="button" class="btn btn-secondary position-absolute top-0 end-0">
+              <i class="fas fa-cog"></i>
+            </button>
           </div>
           <div class="input-group mt-3">
             <input
@@ -46,6 +50,44 @@
             <button class="btn btn-primary" id="sendBtn">Send</button>
             <button id="micBtn" type="button" class="btn btn-secondary">
               <i class="fas fa-microphone"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+
+    <!-- Settings Modal -->
+    <div
+      class="modal fade"
+      id="settingsModal"
+      tabindex="-1"
+      aria-labelledby="settingsModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <!-- Add your settings options here -->
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" id="saveSettingsBtn">
+              Save changes
             </button>
           </div>
         </div>
