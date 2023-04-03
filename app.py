@@ -122,6 +122,15 @@ def get_feedback(user_response, question, job_title):
     feedback = response.choices[0].text.strip()
     return feedback
 
+@app.route('/is_real_job_title', methods=['POST'])
+def is_real_job_title_route():
+    job_title = request.form.get('job_title')
+    if not job_title:
+        return jsonify({'error': 'Job title is required'}), 400
+
+    is_real = is_real_job_title(job_title)
+
+    return jsonify({'is_real': is_real})
 
 
 @app.route('/')
