@@ -89,18 +89,33 @@ $(document).ready(function () {
   function submitJobTitle() {
     const jobTitle = $("#jobTitle").val().trim();
     if (jobTitle) {
-      toggleJobTitleInput(false);
+      // Check if the job title is real before proceeding
       $.ajax({
-        url: "/generate_questions",
+        url: "/is_real_job_title",
         type: "POST",
         data: { job_title: jobTitle },
         success: function (response) {
-          questions = response.questions;
-          questionIndex = 0;
-          displayNextQuestion();
+          if (response.is_real) {
+            toggleJobTitleInput(false);
+            $.ajax({
+              url: "/generate_questions",
+              type: "POST",
+              data: { job_title: jobTitle },
+              success: function (response) {
+                questions = response.questions;
+                questionIndex = 0;
+                displayNextQuestion();
+              },
+              error: function (error) {
+                console.error("Error fetching questions:", error);
+              },
+            });
+          } else {
+            alert("Enter a real job title");
+          }
         },
         error: function (error) {
-          console.error("Error fetching questions:", error);
+          console.error("Error checking job title:", error);
         },
       });
     }
