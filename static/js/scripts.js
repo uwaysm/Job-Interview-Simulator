@@ -1,4 +1,34 @@
 $(document).ready(function () {
+  $("#evaluateButton").on("click", function () {
+    let userResponse = $("#userResponse").val();
+    let currentQuestion = $("#question").val();
+    let jobTitle = $("#jobTitle").val();
+
+    // Get the state of the checkForRealJobTitle checkbox
+    let checkForRealJobTitle = $("#checkForRealJobTitle").is(":checked");
+
+    // Get the state of the checkforGenuineResponse checkbox
+    let checkforGenuineResponse = $("#checkforGenuineResponse").is(":checked");
+
+    if (checkForRealJobTitle && jobTitle.trim() === "") {
+      alert("Please enter a valid job title.");
+    } else {
+      $.ajax({
+        type: "POST",
+        url: "/evaluate_response",
+        data: {
+          user_response: userResponse,
+          question: currentQuestion,
+          job_title: jobTitle,
+          check_genuine_responses: checkforGenuineResponse,
+        },
+        success: function (result) {
+          $("#feedback").text(result);
+        },
+      });
+    }
+  });
+
   $("#settingsBtn").on("click", function () {
     $("#settingsModal").modal("show");
   });
@@ -171,6 +201,7 @@ $(document).ready(function () {
           user_response: userResponse,
           question: currentQuestion,
           job_title: jobTitle,
+          check_genuine_responses: checkGenuineResponses,
         },
         success: function (response) {
           displayFeedback(response);

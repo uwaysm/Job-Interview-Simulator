@@ -100,12 +100,12 @@ def is_genuine_response(user_response, question):
     answer = response.choices[0].text.strip().lower()
     return 'genuine' in answer
 
-def get_feedback(user_response, question, job_title):
-    # Check if the response is genuine
-    genuine = is_genuine_response(user_response, question)
+def get_feedback(user_response, question, job_title, check_genuine_responses=True):
+    if check_genuine_responses:
+        genuine = is_genuine_response(user_response, question)
 
-    if not genuine:
-        return "Troll response"
+        if not genuine:
+            return "Troll response"
 
     # Continue with the existing feedback logic if the response is genuine
     prompt = f'Prompt: Given the job title "{job_title}", please analyze the following interview response to the question "{question}". Response: {user_response}. Provide a detailed evaluation of the response, highlighting its strengths, weaknesses, and any suggestions for improvement. Put the strengths and weaknesses on separate lines.'
@@ -154,6 +154,8 @@ def generate_questions():
 
 @app.route('/evaluate_response', methods=['POST'])
 def evaluate_response_route():
+    check_genuine_responses = request.form.get('check_genuine_responses', 'True') == 'True'
+
     user_response = request.form.get('user_response')
     question = request.form.get('question')
     job_title = request.form.get('job_title')
@@ -161,7 +163,7 @@ def evaluate_response_route():
         return jsonify({'error': 'User response, question, and job title are required'}), 400
 
     # Evaluate the user's response using the OpenAI API
-    feedback = get_feedback(user_response, question, job_title)
+    feedback = get_feedback(user_response, question, job_title, check_genuine_responses)
 
     return jsonify(feedback)
 
