@@ -89,38 +89,44 @@ $(document).ready(function () {
   function submitJobTitle() {
     const jobTitle = $("#jobTitle").val().trim();
     if (jobTitle) {
-      // Check if the job title is real before proceeding
-      $.ajax({
-        url: "/is_real_job_title",
-        type: "POST",
-        data: { job_title: jobTitle },
-        success: function (response) {
-          if (response.is_real) {
-            toggleJobTitleInput(false);
-            $.ajax({
-              url: "/generate_questions",
-              type: "POST",
-              data: { job_title: jobTitle },
-              success: function (response) {
-                questions = response.questions;
-                questionIndex = 0;
-                displayNextQuestion();
-              },
-              error: function (error) {
-                console.error("Error fetching questions:", error);
-              },
-            });
-          } else {
-            alert("Enter a real job title");
-          }
-        },
-        error: function (error) {
-          console.error("Error checking job title:", error);
-        },
-      });
+      if (checkForRealJobTitle) {
+        // Check if the job title is real before proceeding
+        $.ajax({
+          url: "/is_real_job_title",
+          type: "POST",
+          data: { job_title: jobTitle },
+          success: function (response) {
+            if (response.is_real) {
+              proceedWithQuestions(jobTitle);
+            } else {
+              alert("Enter a real job title");
+            }
+          },
+          error: function (error) {
+            console.error("Error checking job title:", error);
+          },
+        });
+      } else {
+        proceedWithQuestions(jobTitle);
+      }
     }
   }
-
+  function proceedWithQuestions(jobTitle) {
+    toggleJobTitleInput(false);
+    $.ajax({
+      url: "/generate_questions",
+      type: "POST",
+      data: { job_title: jobTitle },
+      success: function (response) {
+        questions = response.questions;
+        questionIndex = 0;
+        displayNextQuestion();
+      },
+      error: function (error) {
+        console.error("Error fetching questions:", error);
+      },
+    });
+  }
   $("#jobTitleSubmit").on("click", function () {
     submitJobTitle();
   });
