@@ -127,7 +127,7 @@ def get_feedback(user_response, question, job_title, check_genuine_responses=Tru
             return "Troll response"
 
     # Create a prompt for the OpenAI API
-    prompt = f'Prompt: Given the job title "{job_title}", please analyze the following interview response to the question "{question}". Response: {user_response}. Provide a detailed evaluation of the response, highlighting its strengths, weaknesses, and any suggestions for improvement. Put the strengths and weaknesses on separate lines.'
+    prompt = f'Prompt: Given the job title "{job_title}", please analyze the following interview response to the question "{question}". Response: {user_response}. Provide a detailed evaluation of the response, highlighting its strengths, weaknesses, and any suggestions for improvement.'
     
     # Call the OpenAI API to get feedback
     response = openai.Completion.create(
@@ -141,6 +141,7 @@ def get_feedback(user_response, question, job_title, check_genuine_responses=Tru
     
     # Process the response and return the feedback
     feedback = response.choices[0].text.strip()
+    
     return feedback
 
 # Route to check if a job title is real
