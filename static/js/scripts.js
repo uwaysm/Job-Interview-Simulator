@@ -243,7 +243,12 @@ $(document).ready(function () {
         data: { job_title: jobTitle, responses: JSON.stringify(responses) },
         success: function (response) {
           appendMessage(`${response}`, "bot");
+          appendMessage("", "bot");
           appendMessage("Thank you for completing the interview!", "bot");
+          appendMessage(
+            "Enter a job title if you would like another interview.",
+            "bot"
+          );
         },
         error: function (error) {
           console.error("Error getting final decision:", error);
