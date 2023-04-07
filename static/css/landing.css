@@ -1,0 +1,15 @@
+#main {
+  width: 90%;
+}
+
+#top {
+  margin-top: 1em;
+}
+
+#logo {
+  font-size: 1.5em;
+}
+
+#login-buttons {
+  float: right;
+}

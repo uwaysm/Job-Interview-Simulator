@@ -23,6 +23,28 @@ app = Flask(__name__)
 # Set OpenAI API key
 openai.api_key = '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'
 
+# Main route, renders the landing page
+@app.route('/')
+def landing():
+    return render_template('landing.html')
+
+# Renders the app
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+# Renders the app
+@app.route('/register')
+def register():
+    return render_template('register.html')
+
+# Renders the app
+@app.route('/app')
+def app_main():
+    return render_template('app.html')
+
+
+
 # Function to check if a job title is real
 def is_real_job_title(job_title):
     prompt = f"Is '{job_title}' a real job title?"
@@ -124,7 +146,7 @@ def get_feedback(user_response, question, job_title, check_genuine_responses=Tru
         genuine = is_genuine_response(user_response, question)
 
         if not genuine:
-            return "Troll response"
+            return "Please provide a valid response"
 
     # Create a prompt for the OpenAI API
     prompt = f'Prompt: Given the job title "{job_title}", please analyze the following interview response to the question "{question}". Response: {user_response}. Provide a detailed evaluation of the response, highlighting its strengths, weaknesses, and any suggestions for improvement.'
@@ -155,10 +177,6 @@ def is_real_job_title_route():
 
     return jsonify({'is_real': is_real})
 
-# Main route, renders the index.html template
-@app.route('/')
-def index():
-    return render_template('index.html')
 
 # Route to generate interview questions
 @app.route('/generate_questions', methods=['POST'])
