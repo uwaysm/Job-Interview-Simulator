@@ -1,15 +1,68 @@
-#main {
+#top {
+  margin: 1em auto 6em auto;
+}
+
+#top, #main, #footer {
   width: 90%;
 }
 
-#top {
-  margin-top: 1em;
+#main > div {
+  margin-bottom: 5em; /* Seperates each div within main body */
 }
 
-#logo {
-  font-size: 1.5em;
+.content {
+  text-align: center;
+  margin-bottom: 2em;
+}
+
+.p-content {
+  width: 70%;
+  text-align: left;
+}
+
+.h1-content {
+  font-size: 2em;
+  font-weight: bolder;
+}
+
+.logo {
+  font-size: 1.3em;
+  font-weight: bolder;
 }
 
 #login-buttons {
   float: right;
+}
+
+#introduction {
+  text-align: center;
+}
+
+#intro-header h1 {
+  font-size: 2.5em;
+  font-weight: bolder;
+}
+
+#intro-button button {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+#interview-image {
+  max-width: 500px;
+}
+
+#footer {
+  margin: 10em auto 1em auto;
+}
+
+.footer-legal {
+  font-size: small;
+  margin: 0;
+}
+
+.footer-content {
+  text-align: center;
+  font-size: small;
+  margin: 0;
 }
