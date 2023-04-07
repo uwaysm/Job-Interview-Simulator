@@ -1,6 +1,38 @@
+/* Below is the common CSS for consistent styling over different pages */
+
 body {
   font-family: Arial, sans-serif;
+  background-color: #EDEDED;
 }
+
+.vertical-center {
+  /* Add this to the child element's class when you want to center vertically */
+  margin: 0;
+  position: relative;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+/* Below is CSS specific for the landing apge */ 
+
+#main {
+  width: 90%;
+}
+
+#top {
+  margin-top: 1em;
+}
+
+#logo {
+  font-size: 1.5em;
+}
+
+#login-buttons {
+  float: right;
+}
+
+/* Below is CSS specific for the Chat Page */
 
 .chat-container {
   background-color: #f8f8f8;
@@ -34,3 +66,12 @@ body {
 .break {
   height: 10px;
 }
+
+
+
+/* For trouble shooting */
+/*
+div {
+  border: solid black;
+}
+*/
