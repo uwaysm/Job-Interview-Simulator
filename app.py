@@ -44,9 +44,7 @@ def app_main():
     return render_template('app.html')
 
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+
 # Function to check if a job title is real
 def is_real_job_title(job_title):
     prompt = f"Is '{job_title}' a real job title?"
@@ -148,7 +146,7 @@ def get_feedback(user_response, question, job_title, check_genuine_responses=Tru
         genuine = is_genuine_response(user_response, question)
 
         if not genuine:
-            return "Troll response"
+            return "Please provide a valid response"
 
     # Create a prompt for the OpenAI API
     prompt = f'Prompt: Given the job title "{job_title}", please analyze the following interview response to the question "{question}". Response: {user_response}. Provide a detailed evaluation of the response, highlighting its strengths, weaknesses, and any suggestions for improvement.'
