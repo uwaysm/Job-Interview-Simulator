@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/auth.css" />
+    <title>Login</title>
+  </head>
+  <body>
+    <div class="container">
+      <form id="login-form" class="auth-form">
+        <h2>Login</h2>
+        <input type="text" placeholder="Username" required />
+        <input type="password" placeholder="Password" required />
+        <button type="submit" id="launchAppBtn">Login</button>
+      </form>
+      <p>Don't have an account? <button id="registerBtn">Register</button></p>
+    </div>
+  </body>
+  <script>
+    document
+      .getElementById("launchAppBtn")
+      .addEventListener("click", function () {
+        window.location.href = "/app";
+      });
+    document
+      .getElementById("registerBtn")
+      .addEventListener("click", function () {
+        window.location.href = "/register";
+      });
+  </script>
+</html>
