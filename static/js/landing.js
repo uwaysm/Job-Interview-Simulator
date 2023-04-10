@@ -4,17 +4,24 @@ const jobTitles = ["Software Engineer", "Data Scientist", "UX Designer",
                     "Marketing Manager", "Office Assitant", "Lawyer",
                     "Accountant", "Sales Manager"]; // Add more job titles here
 
+// Functions to run when the page loads
 window.onload = () => {
     changeTitle();
 };
 
-// Function to change the job title on the landing page every 3 seconds
+// Function to change the job title every 3 seconds
 function changeTitle() {
-    // TODO: Change the for loop into a infinite loop that will iterate through the array continuously
-    let jobTitle = document.getElementById("job-title");
-    for(let i = 0; i < jobTitles.length; i++) {
-        setTimeout(function() {
-            jobTitle.innerHTML = jobTitles[i++ % jobTitles.length];
-        }, 3000 * i);
+    let indx = 0;
+    const jobTitle = document.getElementById("job-title");
+    jobTitle.innerHTML = jobTitles[0];
+
+    function displayNextItem(){
+        jobTitle.classList.remove("show");
+        setTimeout(() => {
+            jobTitle.innerHTML = jobTitles[++indx % jobTitles.length];
+            jobTitle.classList.add("show");
+        }, 1000);
     }
+
+    setInterval(displayNextItem, 3000);
 }

@@ -40,6 +40,16 @@
 
 #job-title {
   color: #3164f4;
+  transition: 1s ease-in;
+}
+
+.fade-in {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.fade-in.show {
+  opacity: 1;
 }
 
 #intro-header h1 {
