@@ -27,6 +27,7 @@ the vertically stacked children
 /* Further customises the bootstrap button classes to better fit our theme*/
 .btn-primary {
   background-color: #3164f4;
+  color: #ededed;
 }
 
 .btn-light {

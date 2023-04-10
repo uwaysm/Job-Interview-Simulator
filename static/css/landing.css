@@ -65,6 +65,42 @@
   max-width: 500px;
 }
 
+#testimonial-description {
+  margin: auto;
+}
+
+#testimonial-content {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);  
+  height: 20em;
+}
+
+#testimonial-content > * {
+  text-align: center;
+}
+
+#testimonial-rating {
+  font-size: 3em;
+  color: #3164f4;
+}
+
+#testimonial-arrows button {
+  font-size: 1.5em;
+  font-weight: bolder;
+  background-color: #3164f4;
+  color: #ededed;
+  height: 2em;
+  width: 2em;
+  border-radius: 50%;
+  margin: .8em;
+  border: 1px #ededed;;
+}
+
+#testimonial-arrows button:hover {
+  background-color: #ededed;
+  color: #3164f4; 
+  transition: 0.4s ease-in;
+}
+
 #footer {
   margin: 10em auto 1em auto;
 }
