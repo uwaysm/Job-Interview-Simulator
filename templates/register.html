@@ -5,21 +5,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../static/css/style.css" />
+    <link href="../static/css/register.css" rel="stylesheet" type="text/css" />
     <title>Register</title>
   </head>
   <body>
-    <div class="container">
-      <form id="register-form" class="auth-form">
-        <h2>Register</h2>
-        <input type="text" placeholder="Username" required />
-        <input type="email" placeholder="Email" required />
-        <input type="password" placeholder="Password" required />
-        <input type="password" placeholder="Confirm Password" required />
-        <button type="submit">Register</button>
-      </form>
-      <p>
-        Already have an account? <button id="launchAppBtn">Register</button>
-      </p>
-    </div>
+    <div class="popup">
+      <div class="close-btn">&times;</div>
+      <div class="form">
+          <h2>Welcome Back</h2>
+          <div class="form-element">
+              <label for="email">Username</label>
+              <input type="text" id="email" placeholder="Enter your Username">
+          </div>
+          <div class="form-element">
+              <label for="email">Password</label>
+              <input type="password" id="password" placeholder="Enter your Password">
+          </div>
+          <div class="form-element">
+            <label for="email">Re-Enter Password</label>
+            <input type="password" id="password" placeholder="Re-nter your Password">
+          </div>
+          <div class="form-element">
+            <label for="email">Email</label>
+            <input type="text" id="email" placeholder="Enter your email">
+          </div>
+          <div class="form-element">
+              <button>Sign Up</button>
+          </div>
+      </div>
+  </div>
   </body>
 </html>
