@@ -40,10 +40,14 @@ let carouselLength = testimonials.length;
 
 // Function that displays the carousel items from the testimonials array
 function displayCarouselItem() {
-    $("#testimonial-name").html(testimonials[currCarouselIndx].name);
-    $("#testimonial-job").html(testimonials[currCarouselIndx].job);
-    $("#testimonial-text").html(testimonials[currCarouselIndx].testimonial);
-    $("#testimonial-rating").html(testimonials[currCarouselIndx].rating);
+    $("#testimonial-name").html(testimonials[currCarouselIndx].name).hide();
+    $("#testimonial-name").fadeIn(800);
+    $("#testimonial-job").html(testimonials[currCarouselIndx].job).hide();
+    $("#testimonial-job").fadeIn(800);
+    $("#testimonial-text").html(testimonials[currCarouselIndx].testimonial).hide();
+    $("#testimonial-text").fadeIn(800);
+    $("#testimonial-rating").html(testimonials[currCarouselIndx].rating).hide();
+    $("#testimonial-rating").fadeIn(800);
 }
 
 // Function to change the job title every 3 seconds
