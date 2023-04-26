@@ -9,7 +9,12 @@
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />  </head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="/static/css/app.css" />
+    <script src="/static/js/scripts.js"></script>
+    <link rel="stylesheet" href="../static/css/style.css" />
+  </head>
   <style>
     .sidebar {
       width: 280px;
@@ -65,78 +70,108 @@
       left: 220px;
       overflow-y: auto;
     }
-    .settings {
-        color: white;
-    }
   </style>
-
-  <!DOCTYPE html>
-  <html>
-    <head>
-      <title>Page Title</title>
-    </head>
-    <body>
-      <div
-        class="sidebar d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
-      >
-        <span class="fs-4"><strong>gethired.ai</strong></span>
-        <hr />
-        <ul class="nav nav-pills flex-column mb-auto">
-          <li class="nav-item">
-            <label for="jobTitle" class="form-label">Enter a job title</label>
-            <div class="input-group">
-              <input
-                class="form-control"
-                id="jobTitle"
-                placeholder="Job title"
-              />
-              <button class="btn btn-primary" id="jobTitleSubmit">
-                Submit
-              </button>
-            </div>
-          </li>
-          <li>
-            <a href="#" class="nav-link text-white">test item</a>
-          </li>
-          <li>
-            <a href="#" class="nav-link text-white">test item</a>
-          </li>
-          <li>
-            <!---Opens settings modal -->
-            <a href="#" class="nav-link text-white">
-            <object class="settings" data="../static/images/settings_icon.svg" alt=""></path></object>
-            Settings</a>
-            </li>
-        </ul>
-        <!-- placeholder for user icon -->
-        <hr />
-        <strong>Username</strong>
-        <a href="#" class="nav-link text-white">Logout</a>
-      </div>
-
-      <div class="chatbot-container">
-        <form class="user-input">
+  <body>
+    
+    <div
+      class="sidebar d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
+    >
+      <span class="fs-4"><strong>gethired.ai</strong></span>
+      <hr />
+      <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+          <label for="jobTitle" class="form-label">Enter a job title</label>
           <div class="input-group">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Type here..."
-            />
-            <div class="input-group-append">
-              <button class="btn btn-primary" type="submit">Send</button>
-            </div>
+            <input class="form-control" id="jobTitle" placeholder="Job title" />
+            <button class="btn btn-primary" id="jobTitleSubmit">Submit</button>
           </div>
-        </form>
-      </div>
+        </li>
+        <li>
+          <a href="#" class="nav-link text-white">Chat History</a>
+        </li>
+        <li>
+          <a href="#" class="nav-link text-white">Menu Item</a>
+        </li>
+        <li>
+          <!---TODO: implement settings modal -->
+          <a href="#" class="nav-link text-white"> Settings</a>
+          
+        </li>
+      </ul>
+      <!-- placeholder for user icon -->
+      <hr />
+      <strong>Username</strong>
+      <a href="#" class="nav-link text-white">Logout</a>
+    </div>
 
-      <!-- Bootstrap JS -->
-      <script>
-        src =
-          "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js";
-        integrity =
-          "sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM";
-        crossorigin = "anonymous";
-      </script>
-    </body>
-  </html>
+    <div class="chatbot-container">
+      <form class="user-input">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Type here..." />
+          <div class="input-group-append">
+            <button class="btn btn-primary" id="sendBtn">Send</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script>
+      src =
+        "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js";
+      integrity =
+        "sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM";
+      crossorigin = "anonymous";
+    </script>
+  </body>
 </html>
+
+
+
+    <!-- 
+        
+        Settings Modal
+    <div
+      class="modal fade"
+      id="settingsModal"
+      tabindex="-1"
+      aria-labelledby="settingsModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <label for="checkForRealJobTitle">Check for Real Job Title:</label>
+            <br>
+            <input type="checkbox" id="checkForRealJobTitle" checked />
+            <label for="checkForRealJobTitle">Check for is Genuine Response:</label><input type="checkbox" id="checkforGenuineResponse" checked />
+
+            
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" id="saveSettingsBtn">
+              Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div> 
+
+
+-->
