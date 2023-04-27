@@ -1,4 +1,3 @@
-// Execute when the document is ready
 $(document).ready(function () {
   // Show the settings modal when the settings button is clicked
   $("#settingsBtn").on("click", function () {
@@ -41,11 +40,22 @@ $(document).ready(function () {
     }
   });
 
+  // Initialize the rest of the code
+  initInterviewProcess();
+});
+
+function initInterviewProcess() {
   // Set up speech recognition
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
 
   let recognition;
+
+  function appendMessage(message, sender) {
+    const liElement = $("<li>").addClass(sender).text(message);
+    $("#chatBox").append(liElement);
+    $("#chatBox").scrollTop($("#chatBox")[0].scrollHeight);
+  }
 
   if (!SpeechRecognition) {
     console.error("Speech recognition is not supported in your browser.");
@@ -105,50 +115,62 @@ $(document).ready(function () {
   function submitJobTitle() {
     const jobTitle = $("#jobTitle").val().trim();
     if (jobTitle) {
-      // Check if the job title is real before proceeding
-      $.ajax({
-        url: "/is_real_job_title",
-        type: "POST",
-        data: { job_title: jobTitle },
-        success: function (response) {
-          if (response.is_real) {
-            toggleJobTitleInput(false);
-            $.ajax({
-              url: "/generate_questions",
-              type: "POST",
-              data: { job_title: jobTitle },
-              success: function (response) {
-                questions = response.questions;
-                questionIndex = 0;
-                displayNextQuestion();
-              },
-              error: function (error) {
-                console.error("Error fetching questions:", error);
-              },
-            });
-          } else {
-            alert("Enter a real job title");
-          }
-        },
-        error: function (error) {
-          console.error("Error checking job title:", error);
-        },
-      });
+      const checkRealJobTitle = $("#checkRealJobTitle").prop("checked");
+
+      if (!checkRealJobTitle) {
+        toggleJobTitleInput(false);
+        generateQuestions(jobTitle);
+      } else {
+        checkRealJobTitleAndGenerateQuestions(jobTitle);
+      }
     }
   }
 
-  // Submit the job title when the submit button is clicked
   $("#jobTitleSubmit").on("click", function () {
     submitJobTitle();
   });
 
-  // Submit the job title when the enter key is pressed
   $("#jobTitle").on("keypress", function (e) {
     if (e.which == 13) {
       e.preventDefault();
       submitJobTitle();
     }
   });
+
+  function generateQuestions(jobTitle) {
+    $.ajax({
+      url: "/generate_questions",
+      type: "POST",
+      data: { job_title: jobTitle },
+      success: function (response) {
+        questions = response.questions;
+        questionIndex = 0;
+        displayNextQuestion();
+      },
+      error: function (error) {
+        console.error("Error fetching questions:", error);
+      },
+    });
+  }
+
+  function checkRealJobTitleAndGenerateQuestions(jobTitle) {
+    $.ajax({
+      url: "/is_real_job_title",
+      type: "POST",
+      data: { job_title: jobTitle },
+      success: function (response) {
+        if (response.is_real) {
+          toggleJobTitleInput(false);
+          generateQuestions(jobTitle);
+        } else {
+          alert("Enter a real job title");
+        }
+      },
+      error: function (error) {
+        console.error("Error checking job title:", error);
+      },
+    });
+  }
 
   // Enable or disable job title input
   function toggleJobTitleInput(enable) {
@@ -188,12 +210,14 @@ $(document).ready(function () {
           job_title: jobTitle,
         },
         success: function (response) {
-          displayFeedback(response);
-          responses.push({
-            question: currentQuestion,
-            response: userResponse,
-            feedback: response,
-          });
+          setTimeout(function () {
+            displayFeedback(response);
+            responses.push({
+              question: currentQuestion,
+              response: userResponse,
+              feedback: response,
+            });
+          }, 2000);
         },
         error: function (error) {
           console.error("Error evaluating response:", error);
@@ -278,4 +302,9 @@ $(document).ready(function () {
     $("#chatBox").append(liElement);
     $("#chatBox").scrollTop($("#chatBox")[0].scrollHeight);
   }
+}
+
+// Call the initInterviewProcess() function to start the interview process
+$(document).ready(function () {
+  initInterviewProcess();
 });

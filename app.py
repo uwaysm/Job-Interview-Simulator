@@ -170,8 +170,12 @@ def get_feedback(user_response, question, job_title, check_genuine_responses=Tru
 @app.route('/is_real_job_title', methods=['POST'])
 def is_real_job_title_route():
     job_title = request.form.get('job_title')
+    check_real_job_title = request.form.get('check_real_job_title', 'True') == 'True'
     if not job_title:
         return jsonify({'error': 'Job title is required'}), 400
+
+    if not check_real_job_title:
+        return jsonify({'is_real': True})
 
     is_real = is_real_job_title(job_title)
 
