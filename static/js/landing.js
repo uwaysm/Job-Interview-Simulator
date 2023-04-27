@@ -69,6 +69,38 @@ function changeTitle() {
 
 // Functions to run when the page loads
 window.onload = () => {
+    // EventListeners for buttons:
+    // Login button
+    document
+        .getElementById("login-button")
+        .addEventListener("click", function () {
+            window.location.href = "/login";
+    });
+    // Sign up button
+    document
+        .getElementById("signup-button")
+        .addEventListener("click", function () {
+            window.location.href = "/register";
+    });
+    // Launch app button
+    document
+        .getElementsByClassName("launch-app-button")[0]
+        .addEventListener("click", function () {
+            window.location.href = "/app";
+    });
+    // Launch app button
+    document
+        .getElementsByClassName("launch-app-button")[1]
+        .addEventListener("click", function () {
+            window.location.href = "/app";
+    });
+    // Tutorial button
+    document
+        .getElementById("tutorial-button")
+        .addEventListener("click", function () {
+            window.alert("Tutorial not yet implemented")
+    });
+
     // Carousel variables
     let prevBtn = document.getElementById("prev");
     let nextBtn = document.getElementById("next");
