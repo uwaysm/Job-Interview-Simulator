@@ -16,11 +16,69 @@
 
     <script src="../static/js/landing.js"></script>
 
+    <!-- Below are the css files for the two modals (login and sign up)-->
+    <link href="../static/css/login.css" rel="stylesheet" type="text/css" />
+    <link href="../static/css/signup.css" rel="stylesheet" type="text/css" />
+
     <link href="../static/css/landing.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="../static/css/style.css" />
 </head>
 
 <body>
+    <!-- Below is the login modal -->
+    <div id="overlay"></div>
+    <div id="login-modal" class="popup">
+        <div class="close-btn" aria-label="Close">&times;</div>
+        <div class="form">
+            <h2>Welcome Back</h2>
+            <div class="form-element">
+                <label for="email">Username</label>
+                <input type="text" id="email" placeholder="Enter your Username">
+            </div>
+            <div class="form-element">
+                <label for="email">Password</label>
+                <input type="password" id="password" placeholder="Enter your Password">
+            </div>
+            <div class="form-element">
+                <button>Log in</button>
+            </div>
+            <div class="form-element2">
+              <button>Register</button>
+            </div>
+            <div class="form-element">
+                <a href="#">Forgot your password?</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Below is the signup modal -->
+    <div id="signup-modal" class="popup">
+        <div class="close-btn" aria-label="Close">&times;</div>
+        <div class="form">
+            <h2>Welcome Back</h2>
+            <div class="form-element">
+                <label for="email">Username</label>
+                <input type="text" id="email" placeholder="Enter your Username">
+            </div>
+            <div class="form-element">
+                <label for="email">Password</label>
+                <input type="password" id="password" placeholder="Enter your Password">
+            </div>
+            <div class="form-element">
+              <label for="email">Re-Enter Password</label>
+              <input type="password" id="password" placeholder="Re-nter your Password">
+            </div>
+            <div class="form-element">
+              <label for="email">Email</label>
+              <input type="text" id="email" placeholder="Enter your email">
+            </div>
+            <div class="form-element">
+                <button>Sign Up</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Below is the default landing page -->
     <div id="top" class="container-fluid">
         <div class="row">
             <div class="col-3">

@@ -1,3 +1,28 @@
+/* Below is for the modals on the landing page */
+#login-modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+}
+
+#signup-modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+}
+
+#overlay {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+}
+
+/* Below is for the default landing page */
 #top {
   margin: 1em auto 6em auto;
 }
