@@ -126,12 +126,6 @@
   border: 1px #ededed;;
 }
 
-#testimonial-arrows button:hover {
-  background-color: #ededed;
-  color: #3164f4; 
-  transition: 0.4s ease-in;
-}
-
 #footer {
   margin: 10em auto 1em auto;
 }
