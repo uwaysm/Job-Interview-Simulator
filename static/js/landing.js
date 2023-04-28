@@ -119,6 +119,10 @@ window.onload = () => {
         $("#overlay").fadeIn(600);
         $("#login-modal").show();
         $("#overlay").css("display", "block"); // activates overlay
+        
+        // Prevents scrolling when modal is open
+        $("html").css("position", "fixed");
+        $("html").css("overflow-y", "scroll");
     });
 
     // Display the sign up modal when sign up button is clicked
@@ -127,17 +131,29 @@ window.onload = () => {
         $("#overlay").fadeIn(600);
         $("#signup-modal").show();
         $("#overlay").css("display", "block"); // activates overlay
+
+        // Prevents scrolling when modal is open
+        $("html").css("position", "fixed");
+        $("html").css("overflow-y", "scroll");
     });
 
     // Hide the modals when the close button is clicked
     $(".close-btn").click(function () {
         $(".popup").hide();
         $("#overlay").css("display", "none"); // activates overlay
+
+        // Allows scrolling when modal is closed
+        $("html").css("position", "static");
+        $("html").css("overflow-y", "auto");
     });
 
     // When overlay is clicked, hide the modals
     $("#overlay").click(function () {
         $(".popup").hide();
         $("#overlay").css("display", "none"); // activates overlay
+
+        // Allows scrolling when modal is closed
+        $("html").css("position", "static");
+        $("html").css("overflow-y", "auto");
     });
 };
