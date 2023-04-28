@@ -105,8 +105,8 @@ window.onload = () => {
         displayCarouselItem();
     });
 
-    changeTitle();
-    displayCarouselItem();
+    changeTitle(); // Change the job title every 3 seconds
+    displayCarouselItem(); // Display the carousel items
 
     setInterval(() => {
         currCarouselIndx = (currCarouselIndx + 1) % carouselLength;
