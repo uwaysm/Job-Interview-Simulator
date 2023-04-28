@@ -1,11 +1,5 @@
 /* Below is for the modals on the landing page */
-#login-modal {
-  display: none;
-  position: fixed;
-  z-index: 9999;
-}
-
-#signup-modal {
+.popup {
   display: none;
   position: fixed;
   z-index: 9999;
