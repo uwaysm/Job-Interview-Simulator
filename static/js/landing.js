@@ -114,34 +114,30 @@ window.onload = () => {
     }, 4000);
 
     // Display the login modal when login button is clicked
-    $("#login-button").click(function () {
+    $(".login-button").click(function () {
         $("#login-modal").fadeIn(600);
         $("#overlay").fadeIn(600);
         $("#login-modal").show();
-        $("body").css("overflow", "hidden"); // stops background scrolling
         $("#overlay").css("display", "block"); // activates overlay
     });
 
     // Display the sign up modal when sign up button is clicked
-    $("#signup-button").click(function () {
+    $(".signup-button").click(function () {
         $("#signup-modal").fadeIn(600);
         $("#overlay").fadeIn(600);
         $("#signup-modal").show();
-        $("body").css("overflow", "hidden"); // stops background scrolling\
         $("#overlay").css("display", "block"); // activates overlay
     });
 
     // Hide the modals when the close button is clicked
     $(".close-btn").click(function () {
         $(".popup").hide();
-        $("body").css("overflow", "auto"); // allows background scrolling
         $("#overlay").css("display", "none"); // activates overlay
     });
 
     // When overlay is clicked, hide the modals
     $("#overlay").click(function () {
         $(".popup").hide();
-        $("body").css("overflow", "auto"); // allows background scrolling
         $("#overlay").css("display", "none"); // activates overlay
     });
 };
