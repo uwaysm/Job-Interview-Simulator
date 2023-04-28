@@ -105,6 +105,10 @@
         <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855a.75.75 0 0 0-.124 1.329l4.995 3.178 1.531 2.406a.5.5 0 0 0 .844-.536L6.637 10.07l7.494-7.494-1.895 4.738a.5.5 0 1 0 .928.372l2.8-7Zm-2.54 1.183L5.93 9.363 1.591 6.602l11.833-4.733Z"/>
         <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Zm-3.5-2a.5.5 0 0 0-.5.5v1h-1a.5.5 0 0 0 0 1h1v1a.5.5 0 0 0 1 0v-1h1a.5.5 0 0 0 0-1h-1v-1a.5.5 0 0 0-.5-.5Z"/>
       </symbol>
+      <symbol id="chat-left-dots" viewBox="0 0 16 16">
+        <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+        <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>      
+      </symbol>
       </svg>
     <div
       class="sidebar d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
@@ -113,14 +117,15 @@
       <hr />
       <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
-          <label for="jobTitle" class="form-label">New Chat</label>
+          <label for="jobTitle" class="form-label"><svg class="bi me-2" width="15" height="16"><use xlink:href="#chat-left"/></svg>New Chat</label>
           <div class="input-group">
             <input class="form-control" id="jobTitle" placeholder="Job title" />
-            <button class="btn btn-primary" id="jobTitleSubmit">Submit</button>
+            <button class="btn btn-primary" id="jobTitleSubmit"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#send-plus"/>
+            </svg></button>
           </div>
         </li>
         <li>
-          <a href="#" class="nav-link text-white"><svg class="bi me-2" width="15" height="16"><use xlink:href="#chat-left"/></svg>
+          <a href="#" class="nav-link text-white"><svg class="bi me-2" width="15" height="16"><use xlink:href="#chat-left-dots"/></svg>
             Chat History</a>
         </li>
         <li>
