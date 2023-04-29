@@ -1,55 +1,75 @@
 $(document).ready(function () {
-  // Show the settings modal when the settings button is clicked
-  $("#settingsBtn").on("click", function () {
-    $("#settingsModal").modal("show");
-  });
+  // Button event listeners
+  setUpButtonEventListeners();
 
-  // Hide the settings modal and save the settings changes when the save button is clicked
-  $("#saveSettingsBtn").on("click", function () {
-    // Save settings changes here
-    $("#settingsModal").modal("hide");
-  });
+  // Initialize UI elements
+  initializeUIElements();
 
-  // Initialize buttons and input as locked
-  $("#micBtn").addClass("locked");
-  $("#sendBtn").addClass("locked");
-  $("#userInput").addClass("locked");
-
-  // Alert the user to enter a job title first when they click the locked mic button
-  $("#micBtn").on("mousedown", function () {
-    if ($(this).hasClass("locked")) {
-      alert("Enter a job title first.");
-    } else if (recognition) {
-      startRecognition();
-    }
-  });
-
-  // Alert the user to enter a job title first when they click the locked send button
-  $("#sendBtn").on("mousedown", function () {
-    if ($(this).hasClass("locked")) {
-      alert("Enter a job title first.");
-    } else {
-      sendResponse();
-    }
-  });
-
-  // Alert the user to enter a job title first when they click the locked user input
-  $("#userInput").on("mousedown", function () {
-    if ($(this).hasClass("locked")) {
-      alert("Enter a job title first.");
-    }
-  });
-
-  // Initialize the rest of the code
-  initInterviewProcess();
-});
-
-function initInterviewProcess() {
   // Set up speech recognition
-  const SpeechRecognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
+  setUpSpeechRecognition();
 
   let recognition;
+
+  // Functions for UI manipulation
+  function toggleJobTitleInput(enable) {
+    $("#jobTitle").prop("disabled", !enable);
+    $("#jobTitleSubmit").prop("disabled", !enable);
+  }
+  function displayNextQuestion() {
+    // Remove the 'locked' class from the elements
+    $("#sendBtn").removeClass("locked");
+    $("#userInput").removeClass("locked");
+    $("#micBtn").removeClass("locked");
+
+    $("#sendBtn").prop("disabled", false);
+    $("#userInput").prop("disabled", false);
+    $("#micBtn").prop("disabled", false);
+    $("#userInput").focus();
+
+    if (questionIndex === 5) {
+      // Add this condition to check for 5 questions
+      const jobTitle = $("#jobTitle").val();
+      $.ajax({
+        url: "/final_decision",
+        type: "POST",
+        data: { job_title: jobTitle, responses: JSON.stringify(responses) },
+        success: function (response) {
+          appendMessage(`${response}`, "bot");
+          appendMessage("", "bot");
+          appendMessage("Thank you for completing the interview!", "bot");
+          appendMessage(
+            "Enter a job title if you would like another interview.",
+            "bot"
+          );
+        },
+        error: function (error) {
+          console.error("Error getting final decision:", error);
+        },
+      });
+
+      // Lock the buttons after calling the final_decision route
+      $("#sendBtn").addClass("locked").prop("disabled", true);
+      $("#userInput").addClass("locked").prop("disabled", true);
+      $("#micBtn").addClass("locked").prop("disabled", true);
+
+      toggleJobTitleInput(true);
+    } else if (questionIndex < questions.length) {
+      const question = questions[questionIndex];
+      appendMessage(question, "bot");
+      questionIndex++;
+      $("#userInput").val("");
+
+      $("#sendBtn").prop("disabled", false);
+      $("#userInput").prop("disabled", false);
+    }
+  }
+  function displayFeedback(feedback) {
+    appendMessage(feedback, "bot");
+
+    const breakElement = $("<li>").addClass("break");
+    $("#chatBox").append(breakElement);
+    displayNextQuestion();
+  }
 
   function appendMessage(message, sender) {
     const liElement = $("<li>").addClass(sender).text(message);
@@ -57,136 +77,6 @@ function initInterviewProcess() {
     $("#chatBox").scrollTop($("#chatBox")[0].scrollHeight);
   }
 
-  if (!SpeechRecognition) {
-    console.error("Speech recognition is not supported in your browser.");
-    $("#micBtn").prop("disabled", true);
-  } else {
-    recognition = new SpeechRecognition();
-    recognition.lang = "en-US";
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-
-    // Handle speech recognition results
-    recognition.onresult = function (event) {
-      const speechResult = event.results[0][0].transcript;
-      $("#userInput").val(speechResult);
-    };
-
-    // Handle speech recognition errors
-    recognition.onerror = function (event) {
-      console.error("Error during speech recognition:", event.error);
-      if (event.error === "not-allowed") {
-        alert(
-          "Access to the microphone was denied. Please allow access to the microphone to use the voice input feature."
-        );
-      } else {
-        alert("An error occurred during speech recognition: " + event.error);
-      }
-    };
-  }
-
-  // Start speech recognition when the mic button is clicked
-  $("#micBtn").on("click", function () {
-    if (recognition) {
-      startRecognition();
-    }
-  });
-
-  // Start the speech recognition process
-  function startRecognition() {
-    if ($("#sendBtn").prop("disabled")) {
-      return;
-    }
-
-    $("#micBtn").prop("disabled", true);
-
-    recognition.start();
-
-    // Re-enable the mic button when speech recognition ends
-    recognition.onend = function () {
-      $("#micBtn").prop("disabled", false);
-    };
-  }
-
-  // Store responses
-  let responses = [];
-
-  // Submit the job title and generate interview questions
-  function submitJobTitle() {
-    const jobTitle = $("#jobTitle").val().trim();
-    if (jobTitle) {
-      const checkRealJobTitle = $("#checkRealJobTitle").prop("checked");
-
-      if (!checkRealJobTitle) {
-        toggleJobTitleInput(false);
-        generateQuestions(jobTitle);
-      } else {
-        checkRealJobTitleAndGenerateQuestions(jobTitle);
-      }
-    }
-  }
-
-  $("#jobTitleSubmit").on("click", function () {
-    submitJobTitle();
-  });
-
-  $("#jobTitle").on("keypress", function (e) {
-    if (e.which == 13) {
-      e.preventDefault();
-      submitJobTitle();
-    }
-  });
-
-  function generateQuestions(jobTitle) {
-    $.ajax({
-      url: "/generate_questions",
-      type: "POST",
-      data: { job_title: jobTitle },
-      success: function (response) {
-        questions = response.questions;
-        questionIndex = 0;
-        displayNextQuestion();
-      },
-      error: function (error) {
-        console.error("Error fetching questions:", error);
-      },
-    });
-  }
-
-  function checkRealJobTitleAndGenerateQuestions(jobTitle) {
-    $.ajax({
-      url: "/is_real_job_title",
-      type: "POST",
-      data: { job_title: jobTitle },
-      success: function (response) {
-        if (response.is_real) {
-          toggleJobTitleInput(false);
-          generateQuestions(jobTitle);
-        } else {
-          alert("Enter a real job title");
-        }
-      },
-      error: function (error) {
-        console.error("Error checking job title:", error);
-      },
-    });
-  }
-
-  // Enable or disable job title input
-  function toggleJobTitleInput(enable) {
-    $("#jobTitle").prop("disabled", !enable);
-    $("#jobTitleSubmit").prop("disabled", !enable);
-  }
-
-  // Initialize buttons and input as disabled
-  $("#sendBtn").prop("disabled", true);
-  $("#userInput").prop("disabled", true);
-  $("#micBtn").prop("disabled", true);
-
-  let questionIndex = 0;
-  let questions = [];
-
-  // Send the user's response and evaluate it
   function sendResponse() {
     const userResponse = $("#userInput").val().trim();
     if (userResponse) {
@@ -210,14 +100,12 @@ function initInterviewProcess() {
           job_title: jobTitle,
         },
         success: function (response) {
-          setTimeout(function () {
-            displayFeedback(response);
-            responses.push({
-              question: currentQuestion,
-              response: userResponse,
-              feedback: response,
-            });
-          }, 2000);
+          displayFeedback(response);
+          responses.push({
+            question: currentQuestion,
+            response: userResponse,
+            feedback: response,
+          });
         },
         error: function (error) {
           console.error("Error evaluating response:", error);
@@ -226,85 +114,252 @@ function initInterviewProcess() {
     }
   }
 
-  // Send the response when the send button is clicked
-  $("#sendBtn").on("click", function () {
-    sendResponse();
-  });
+  // AJAX request functions
+  function isRealJobTitle(jobTitle, successCallback, errorCallback) {
+    $.ajax({
+      url: "/is_real_job_title",
+      type: "POST",
+      data: { job_title: jobTitle },
+      success: function (response) {
+        successCallback(response.is_real);
+      },
+      error: function (error) {
+        console.error("Error checking job title:", error);
+        errorCallback(error);
+      },
+    });
+  }
+  function generateQuestions(jobTitle, successCallback, errorCallback) {
+    $.ajax({
+      url: "/generate_questions",
+      type: "POST",
+      data: { job_title: jobTitle },
+      success: function (response) {
+        successCallback(response.questions);
+      },
+      error: function (error) {
+        console.error("Error fetching questions:", error);
+        errorCallback(error);
+      },
+    });
+  }
+  function evaluateResponse(
+    userResponse,
+    currentQuestion,
+    jobTitle,
+    successCallback,
+    errorCallback
+  ) {
+    $.ajax({
+      url: "/evaluate_response",
+      type: "POST",
+      data: {
+        user_response: userResponse,
+        question: currentQuestion,
+        job_title: jobTitle,
+      },
+      success: function (response) {
+        successCallback(response);
+      },
+      error: function (error) {
+        console.error("Error evaluating response:", error);
+        errorCallback(error);
+      },
+    });
+  }
+  function getFinalDecision(
+    jobTitle,
+    responses,
+    successCallback,
+    errorCallback
+  ) {
+    $.ajax({
+      url: "/final_decision",
+      type: "POST",
+      data: { job_title: jobTitle, responses: JSON.stringify(responses) },
+      success: function (response) {
+        successCallback(response);
+      },
+      error: function (error) {
+        console.error("Error getting final decision:", error);
+        errorCallback(error);
+      },
+    });
+  }
 
-  // Send the response when the enter key is pressed
-  $("#userInput").on("keypress", function (e) {
-    if (e.which == 13) {
-      e.preventDefault();
+  // Event listener setup functions
+  function setUpButtonEventListeners() {
+    // Settings button click listener
+    $("#settingsBtn").on("click", function () {
+      $("#settingsModal").modal("show");
+    });
+
+    // Save settings button click listener
+    $("#saveSettingsBtn").on("click", function () {
+      // Save settings changes here
+      $("#settingsModal").modal("hide");
+    });
+
+    // Mic button click listener
+    $("#micBtn").on("mousedown", function () {
+      if ($(this).hasClass("locked")) {
+        alert("Enter a job title first.");
+      } else if (recognition) {
+        recognition.start();
+      }
+    });
+
+    // Send button click listener
+    $("#sendBtn").on("mousedown", function () {
+      if ($(this).hasClass("locked")) {
+        alert("Enter a job title first.");
+      } else {
+        sendResponse();
+      }
+    });
+
+    // User input click listener
+    $("#userInput").on("mousedown", function () {
+      if ($(this).hasClass("locked")) {
+        alert("Enter a job title first.");
+      }
+    });
+
+    // Job title submit button click listener
+    $("#jobTitleSubmit").on("click", function () {
+      submitJobTitle();
+    });
+
+    // Job title input enter key press listener
+    $("#jobTitle").on("keypress", function (e) {
+      if (e.which == 13) {
+        e.preventDefault();
+        submitJobTitle();
+      }
+    });
+
+    // Send button click listener
+    $("#sendBtn").on("click", function () {
       sendResponse();
-    }
-  });
+    });
 
-  // Display the next question or final decision
-  function displayNextQuestion() {
-    // Remove the 'locked' class from the elements
-    $("#sendBtn").removeClass("locked");
-    $("#userInput").removeClass("locked");
-    $("#micBtn").removeClass("locked");
+    // User input enter key press listener
+    $("#userInput").on("keypress", function (e) {
+      if (e.which == 13) {
+        e.preventDefault();
+        sendResponse();
+      }
+    });
+  }
 
-    $("#sendBtn").prop("disabled", false);
-    $("#userInput").prop("disabled", false);
-    $("#micBtn").prop("disabled", false);
-    $("#userInput").focus();
+  function initializeUIElements() {
+    // Initialize buttons and input as locked
+    $("#micBtn").addClass("locked");
+    $("#sendBtn").addClass("locked");
+    $("#userInput").addClass("locked");
 
-    if (questionIndex < questions.length) {
-      const question = questions[questionIndex];
-      appendMessage(question, "bot");
-      questionIndex++;
-      $("#userInput").val("");
+    // Initialize buttons and input as disabled
+    $("#sendBtn").prop("disabled", true);
+    $("#userInput").prop("disabled", true);
+    $("#micBtn").prop("disabled", true);
+  }
 
-      $("#sendBtn").prop("disabled", false);
-      $("#userInput").prop("disabled", false);
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (!SpeechRecognition) {
+    console.error("Speech recognition is not supported in your browser.");
+    $("#micBtn").prop("disabled", true);
+  } else {
+    recognition = new SpeechRecognition();
+    recognition.lang = "en-US";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+
+    // Handle speech recognition results
+    recognition.onresult = function (event) {
+      const speechResult = event.results[0][0].transcript;
+      $("#userInput").val(speechResult);
+      sendResponse(); // Automatically submit the recognized speech.
+    };
+
+    // Handle speech recognition errors
+    recognition.onerror = function (event) {
+      console.error("Error during speech recognition:", event.error);
+      if (event.error === "not-allowed") {
+        alert(
+          "Access to the microphone was denied. Please allow access to the microphone to use the voice input feature."
+        );
+      } else {
+        alert("An error occurred during speech recognition: " + event.error);
+      }
+    };
+  }
+  function setUpSpeechRecognition() {
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+      console.error("Speech recognition is not supported in your browser.");
+      $("#micBtn").prop("disabled", true);
     } else {
-      const jobTitle = $("#jobTitle").val();
-      $.ajax({
-        url: "/final_decision",
-        type: "POST",
-        data: { job_title: jobTitle, responses: JSON.stringify(responses) },
-        success: function (response) {
-          appendMessage(`${response}`, "bot");
-          appendMessage("", "bot");
-          appendMessage("Thank you for completing the interview!", "bot");
-          appendMessage(
-            "Enter a job title if you would like another interview.",
-            "bot"
+      recognition = new SpeechRecognition();
+      recognition.lang = "en-US";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      // Handle speech recognition results
+      recognition.onresult = function (event) {
+        const speechResult = event.results[0][0].transcript;
+        $("#userInput").val(speechResult);
+        sendResponse(); // Automatically submit the recognized speech.
+      };
+
+      // Handle speech recognition errors
+      recognition.onerror = function (event) {
+        console.error("Error during speech recognition:", event.error);
+        if (event.error === "not-allowed") {
+          alert(
+            "Access to the microphone was denied. Please allow access to the microphone to use the voice input feature."
           );
+        } else {
+          alert("An error occurred during speech recognition: " + event.error);
+        }
+      };
+    }
+  }
+  function submitJobTitle() {
+    const jobTitle = $("#jobTitle").val().trim();
+    if (jobTitle) {
+      // Check if the job title is real before proceeding
+      $.ajax({
+        url: "/is_real_job_title",
+        type: "POST",
+        data: { job_title: jobTitle },
+        success: function (response) {
+          if (response.is_real) {
+            toggleJobTitleInput(false);
+            $.ajax({
+              url: "/generate_questions",
+              type: "POST",
+              data: { job_title: jobTitle },
+              success: function (response) {
+                questions = response.questions;
+                questionIndex = 0;
+                displayNextQuestion();
+              },
+              error: function (error) {
+                console.error("Error fetching questions:", error);
+              },
+            });
+          } else {
+            alert("Enter a real job title");
+          }
         },
         error: function (error) {
-          console.error("Error getting final decision:", error);
+          console.error("Error checking job title:", error);
         },
       });
-
-      $("#sendBtn").prop("disabled", true);
-      $("#userInput").prop("disabled", true);
-      $("#micBtn").prop("disabled", true);
-
-      toggleJobTitleInput(true);
     }
   }
-
-  // Display the feedback for the user's response
-  function displayFeedback(feedback) {
-    appendMessage(feedback, "bot");
-
-    const breakElement = $("<li>").addClass("break");
-    $("#chatBox").append(breakElement);
-    displayNextQuestion();
-  }
-
-  // Append a message to the chat box
-  function appendMessage(message, sender) {
-    const liElement = $("<li>").addClass(sender).text(message);
-    $("#chatBox").append(liElement);
-    $("#chatBox").scrollTop($("#chatBox")[0].scrollHeight);
-  }
-}
-
-// Call the initInterviewProcess() function to start the interview process
-$(document).ready(function () {
-  initInterviewProcess();
 });
