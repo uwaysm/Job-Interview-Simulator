@@ -69,6 +69,26 @@ function changeTitle() {
 
 // Functions to run when the page loads
 window.onload = () => {
+    // EventListeners for buttons:
+    // Launch app button
+    document
+        .getElementsByClassName("launch-app-button")[0]
+        .addEventListener("click", function () {
+            window.location.href = "/app";
+    });
+    // Launch app button
+    document
+        .getElementsByClassName("launch-app-button")[1]
+        .addEventListener("click", function () {
+            window.location.href = "/app";
+    });
+    // Tutorial button
+    document
+        .getElementById("tutorial-button")
+        .addEventListener("click", function () {
+            window.alert("Tutorial not yet implemented")
+    });
+
     // Carousel variables
     let prevBtn = document.getElementById("prev");
     let nextBtn = document.getElementById("next");
@@ -85,11 +105,55 @@ window.onload = () => {
         displayCarouselItem();
     });
 
-    changeTitle();
-    displayCarouselItem();
+    changeTitle(); // Change the job title every 3 seconds
+    displayCarouselItem(); // Display the carousel items
 
     setInterval(() => {
         currCarouselIndx = (currCarouselIndx + 1) % carouselLength;
         displayCarouselItem();
     }, 4000);
+
+    // Display the login modal when login button is clicked
+    $(".login-button").click(function () {
+        $("#login-modal").fadeIn(600);
+        $("#overlay").fadeIn(600);
+        $("#login-modal").show();
+        $("#overlay").css("display", "block"); // activates overlay
+        
+        // Prevents scrolling when modal is open
+        $("html").css("position", "fixed");
+        $("html").css("overflow-y", "scroll");
+    });
+
+    // Display the sign up modal when sign up button is clicked
+    $(".signup-button").click(function () {
+        $("#signup-modal").fadeIn(600);
+        $("#overlay").fadeIn(600);
+        $("#signup-modal").show();
+        $("#overlay").css("display", "block"); // activates overlay
+
+        // Prevents scrolling when modal is open
+        $("html").css("position", "fixed");
+        $("html").css("overflow-y", "scroll");
+    });
+
+    // Hide the modals when the close button is clicked
+    $(".close-btn").click(function () {
+        $(".popup").hide();
+        $("#overlay").css("display", "none"); // activates overlay
+
+        // Allows scrolling when modal is closed
+        $("html").css("position", "static");
+        $("html").css("overflow-y", "auto");
+    });
+
+    // When overlay is clicked, hide the modals
+    $("#overlay").click(function () {
+        $(".popup").hide();
+        $("#overlay").css("display", "none"); // activates overlay
+
+        // Allows scrolling when modal is closed
+        $("html").css("position", "static");
+        $("html").css("overflow-y", "auto");
+    });
 };
