@@ -71,3 +71,33 @@
 - Creates a new list item element and assigns the sender class (either "user" or "bot").
 - Sets the text content to message.
 - Appends the list item to the chat box and scrolls the chat box to the bottom.
+
+# How the code works from start to finish
+
+1. **User enters a job title**: The user enters a job title in the `#jobTitle` input field.
+
+2. **Submit job title**: The user clicks the `#jobTitleSubmit` button or presses the "Enter" key in the `#jobTitle` input field. This triggers the `submitJobTitle` function.
+
+3. **Validate and fetch questions**: In the `submitJobTitle` function, the entered job title is first validated using an AJAX request to the `/is_real_job_title` endpoint. If the job title is valid, the input field is disabled, and another AJAX request is made to the `/generate_questions` endpoint to fetch a list of questions related to the job title.
+
+4. **Store questions and display the first question**: The fetched questions are stored in the `questions` array, and the first question is displayed by calling the `displayNextQuestion` function.
+
+5. **User inputs their response**: The user enters their response in the `#userInput` field.
+
+6. **Send response**: The user clicks the `#sendBtn` button or presses the "Enter" key in the `#userInput` field. This triggers the `sendResponse` function.
+
+7. **Evaluate user response**: In the `sendResponse` function, the user's response is appended to the chatbox and sent to the `/evaluate_response` endpoint via an AJAX request for evaluation.
+
+8. **Store response and feedback**: The response and feedback from the server are stored in the `responses` array.
+
+9. **Display feedback**: The `displayFeedback` function is called, which appends the feedback message to the chatbox.
+
+10. **Display next question**: The `displayNextQuestion` function is called again, which removes the "locked" class from elements, enables input fields and buttons, and displays the next question in the `questions` array.
+
+11. **Repeat steps 5 to 10**: The user continues to input responses and receive feedback until all questions have been answered.
+
+12. **Final decision**: Once all questions have been answered, the `displayNextQuestion` function sends the user's responses to the `/final_decision` endpoint via an AJAX request. The final decision is then displayed in the chatbox.
+
+13. **Completion**: The interview is complete, and the user can enter a new job title to start another interview if they wish.
+
+Throughout this process, the functions and event listeners are connected through various events and interactions, such as button clicks, keypresses, and API calls, to create a seamless user experience.
