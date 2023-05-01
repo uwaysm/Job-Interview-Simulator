@@ -41,6 +41,7 @@ function toggleJobTitleInput(enable) {
 function submitJobTitle() {
   const jobTitle = $("#jobTitle").val().trim();
   if (jobTitle) {
+    toggleJobTitleInput(false);
     // Check if the job title is real before proceeding
     $.ajax({
       url: "/is_real_job_title",
@@ -48,7 +49,6 @@ function submitJobTitle() {
       data: { job_title: jobTitle },
       success: function (response) {
         if (response.is_real) {
-          toggleJobTitleInput(false);
           $.ajax({
             url: "/generate_questions",
             type: "POST",
@@ -64,6 +64,7 @@ function submitJobTitle() {
           });
         } else {
           alert("Enter a real job title");
+          toggleJobTitleInput(true);
         }
       },
       error: function (error) {
