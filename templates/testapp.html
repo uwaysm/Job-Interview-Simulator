@@ -63,22 +63,37 @@
       padding: 0 20px 20px;
     }
 
-    .chatbot-container {
-      position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 220px;
-      overflow-y: auto;
-    }
     .bi {
-  vertical-align: -.125em;
-  pointer-events: none;
-  fill: currentColor;
-}
-.me-2 {
-  margin-right: .5rem !important;
-}
+    vertical-align: -.125em;
+    pointer-events: none;
+    fill: currentColor;
+    }
+    .me-2 {
+      margin-right: .5rem !important;
+    }
+    .form-control{
+      height: 50px;
+      background-color: #ededed;
+      border: 1px solid #f5f5f5; /* Add a border */
+      border-radius: 5px; /* Add rounded corners */
+      padding: 10px; /* Add some padding */
+      border-color: grey;
+    }
+    .form-control:focus{
+      background-color: #ededed;
+      box-shadow: none;
+    }
+    .input-group-chatbox{
+      width: 750px;
+      position: absolute;
+      bottom: 20%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    body{
+      background-color:#ededed;
+;
+    }
     
   </style>
   <body>
@@ -109,19 +124,29 @@
         <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
         <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>      
       </symbol>
+      <symbol id="briefcase-fill" viewBox="0 0 16 16">
+        <path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v1.384l7.614 2.03a1.5 1.5 0 0 0 .772 0L16 5.884V4.5A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1h-3zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5z"/>
+        <path d="M0 12.5A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5V6.85L8.129 8.947a.5.5 0 0 1-.258 0L0 6.85v5.65z"/>
+      </symbol>
+      <symbol id="plus" viewBox="0 0 16 16">
+        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+      </symbol>
+      <symbol id="plus-circle-fill" viewBox="0 0 16 16">
+        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
+      </symbol>
       </svg>
+
     <div
       class="sidebar d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
     >
-      <span class="fs-4"><strong>gethired.ai</strong></span>
+      <span class="fs-4"><strong><svg class="bi me-2" width="15" height="16"><use xlink:href="#briefcase-fill"/></svg>GetHired.ai</strong></span>
       <hr />
       <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
-          <label for="jobTitle" class="form-label"><svg class="bi me-2" width="15" height="16"><use xlink:href="#chat-left"/></svg>New Chat</label>
+          <label for="jobTitle" class="form-label"></label>
           <div class="input-group">
-            <input class="form-control" id="jobTitle" placeholder="Job title" />
-            <button class="btn btn-primary" id="jobTitleSubmit"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#send-plus"/>
-            </svg></button>
+            <button class="btn btn-primary" id="jobTitleSubmit"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#plus"/>
+            </svg>New Job Title</button>
           </div>
         </li>
         <li>
@@ -154,11 +179,9 @@
 
     <div class="chatbot-container">
       <form class="user-input">
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Type here..." />
+        <div class="input-group-chatbox">
+          <input type="text" class="form-control" placeholder="Send a message"/>
           <div class="input-group-append">
-            <button class="btn btn-primary" id="sendBtn"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#send-plus"/>
-            </svg></button>
           </div>
         </div>
       </form>
