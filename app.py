@@ -29,16 +29,6 @@ def landing():
     return render_template('landing.html')
 
 # Renders the app
-@app.route('/login')
-def login():
-    return render_template('login.html')
-
-# Renders the app
-@app.route('/register')
-def register():
-    return render_template('register.html')
-
-# Renders the app
 @app.route('/app')
 def app_main():
     return render_template('app.html')
