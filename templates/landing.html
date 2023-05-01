@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GetHired.ai</title>
 
     <!-- Latest compiled and minified CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
 
     <!-- Latest compiled JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -16,194 +18,247 @@
 
     <script src="../static/js/landing.js"></script>
 
+    <link href="../static/css/login.css" rel="stylesheet" type="text/css" />
+
     <link href="../static/css/landing.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="../static/css/style.css" />
-</head>
+  </head>
 
-<body>
-    <div id="top" class="container-fluid">
-        <div class="row">
-            <div class="col-3">
-                <h1 class="vertical-center logo">
-                    <u>GetHired.ai</u>
-                </h1>
-            </div>
-
-            <div id="login" class="col-9">
-                <div id="login-buttons" class="vertical-center">
-                    <button id="login-button" type="button" class="btn">Login</button>
-                    <button id="signup-button" type="button" class="btn btn-primary">
-                        Sign Up
-                    </button>
-                </div>
-            </div>
+  <body>
+    <!-- Below is the login modal -->
+    <div id="overlay"></div>
+    <div id="login-modal" class="popup">
+      <div class="close-btn" aria-label="Close">&times;</div>
+      <div class="form">
+        <h2>Welcome Back</h2>
+        <div class="form-element">
+          <label for="username-login">Username</label>
+          <input
+            type="text"
+            id="username-login"
+            placeholder="Enter your Username"
+          />
         </div>
+        <div class="form-element">
+          <label for="password-login">Password</label>
+          <input
+            type="password"
+            id="password-login"
+            placeholder="Enter your Password"
+          />
+        </div>
+        <div class="form-element">
+          <button>Log in</button>
+        </div>
+        <div class="form-element2">
+          <button class="signup-button">Register</button>
+        </div>
+        <div class="form-element">
+          <a href="#">Forgot your password?</a>
+        </div>
+      </div>
     </div>
 
+    <!-- Below is the signup modal -->
+    <div id="signup-modal" class="popup">
+      <div class="close-btn" aria-label="Close">&times;</div>
+      <div class="form">
+        <h2>Hi, Stranger!</h2>
+        <div class="form-element">
+          <label for="username-signup">Username</label>
+          <input
+            type="text"
+            id="username-signup"
+            placeholder="Enter your Username"
+          />
+        </div>
+        <div class="form-element">
+          <label for="password-signup">Password</label>
+          <input
+            type="password"
+            id="password-signup"
+            placeholder="Enter your Password"
+          />
+        </div>
+        <div class="form-element">
+          <label for="re-password-signup">Re-Enter Password</label>
+          <input
+            type="password"
+            id="re-password-signup"
+            placeholder="Re-nter your Password"
+          />
+        </div>
+        <div class="form-element">
+          <label for="email-signup">Email</label>
+          <input type="text" id="email-signup" placeholder="Enter your email" />
+        </div>
+        <div class="form-element">
+          <button>Sign Up</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Below is the default landing page -->
+    <div id="top" class="container-fluid">
+      <div class="row">
+        <div class="col-3">
+          <h1 class="vertical-center logo">
+            <u>GetHired.ai</u>
+          </h1>
+        </div>
+
+        <div id="login" class="col-9">
+          <div id="login-buttons" class="vertical-center">
+            <button type="button" class="login-button btn">Login</button>
+            <button type="button" class="signup-button btn btn-primary">
+              Sign Up
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div id="main" class="container-fluid">
-        <div id="introduction" class="container-fluid">
-            <div class="column-center">
-                <div id="intro-header" class="content">
-                    <h1>The Best Way to Nail Your Next 
-                        <br>
-                        <span id="job-title" class="fade-in show"></span> 
-                        <br>
-                        Interview</h1>
-                </div>
-                <div id="intro-content" class="content p-content">
-                    <p>
-                        Navigating the job market can be challenging, but GetHired.ai is
-                        here to assist you in acing your interviews and landing your dream
-                        job. Our AI-powered job interview chatbot is designed to provide you
-                        with personalized guidance, helping you boost your confidence and
-                        enhance your interview skills.
-                    </p>
-                </div>
-            </div>
-
-            <div id="intro-button" class="content">
-                <button type="button" class="btn btn-primary launch-app-button">Launch App</button>
-                <button id="tutorial-button" type="button" class="btn btn-light">See How It Works</button>
-            </div>
-
-            <div class="content">
-                <!-- source: https://pngtree.com/freepng/meeting-of-people-face-to-face-for-consultation-job-interview-concept-design_5442387.html?sce=sol_pin -->
-                <img id="interview-image" src="../static/images/InterviewIllustration.png" alt="Two people in an interview" width="60%">
-            </div>
-
+      <div id="introduction" class="container-fluid">
+        <div class="column-center">
+          <div id="intro-header" class="content">
+            <h1>
+              The Best Way to Nail Your Next
+              <br />
+              <span id="job-title" class="fade-in show"></span>
+              <br />
+              Interview
+            </h1>
+          </div>
+          <div id="intro-content" class="content p-content">
+            <p>
+              Navigating the job market can be challenging, but GetHired.ai is
+              here to assist you in acing your interviews and landing your dream
+              job. Our AI-powered job interview chatbot is designed to provide
+              you with personalized guidance, helping you boost your confidence
+              and enhance your interview skills.
+            </p>
+          </div>
         </div>
 
-        <div id="about-us" class="container-fluid">
-            <div class="column-center">
-                <div id="about-header" class="content">
-                    <h1 class="h1-content">About Us</h1>
-                </div>
-                <div id="about-content" class="content p-content">
-                    <p>
-                        GetHired.ai was founded by a group of students from the University of Western Australia, 
-                        who recognized the necessity for an intuitive interview preparation tool.
-                    </p>
-                    <p>
-                        We are a team of aspiring developers who strongly believe that everyone should have access 
-                        to the resources needed to ace their next interview and achieve their career aspirations.
-                    </p>
-                </div>
-            </div>
+        <div id="intro-button" class="content">
+          <button type="button" class="btn btn-primary launch-app-button">
+            Launch App
+          </button>
+          <button id="tutorial-button" type="button" class="btn btn-light">
+            See How It Works
+          </button>
         </div>
 
-        <div id="our-purpose" class="container-fluid">
-            <div class="column-center">
-                <div id="purpose-header" class="content">
-                    <h1 class="h1-content">Our Purpose</h1>
-                </div>
-                <div id="purpose-content" class="content p-content">
-                    <p>
-                        We understand that preparing for interviews are daunting. That is why we created GetHired.ai, now you can practice your interview skills with our AI-powered chatbot.
-                    </p>
-                    <p>
-                        Our purpose is to provide fellow students struggling with job interviews with a platform to practice and hone their skills so they can land their dream job.
-                    </p>
-                </div>
-            </div>
+        <div class="content">
+          <!-- source: https://pngtree.com/freepng/meeting-of-people-face-to-face-for-consultation-job-interview-concept-design_5442387.html?sce=sol_pin -->
+          <img
+            id="interview-image"
+            src="../static/images/InterviewIllustration.png"
+            alt="Two people in an interview"
+            width="60%"
+          />
         </div>
+      </div>
 
-        <div id="testimonial" class="container-fluid">
-            <div id="testimonial-carousel" class="row">
-                <div id="testimonial-description" class="col-md-4 column-center">
-                    <h1 class="h1-content">Don't just take our world for it, check how GetHired.io helped real students</h1>
-                    <div id="testimonial-arrows">
-                        <button id="prev">&#60;</button>
-                        <button id="next">&#62;</button>
-                    </div>
-                </div>
-                <div id="testimonial-content" class="col-md-7 column-center">
-                    <div class="vertical-center">
-                        <h3 id="testimonial-text">
-
-                        </h3>
-                        <p id="testimonial-name">
-    
-                        </p>
-                        <p id="testimonial-job">
-    
-                        </p>
-                        <p id="testimonial-rating">
-    
-                        </p>
-                    </div>
-                </div> 
-            </div>
+      <div id="about-us" class="container-fluid">
+        <div class="column-center">
+          <div id="about-header" class="content">
+            <h1 class="h1-content">About Us</h1>
+          </div>
+          <div id="about-content" class="content p-content">
+            <p>
+              GetHired.ai was founded by a group of students from the University
+              of Western Australia, who recognized the necessity for an
+              intuitive interview preparation tool.
+            </p>
+            <p>
+              We are a team of aspiring developers who strongly believe that
+              everyone should have access to the resources needed to ace their
+              next interview and achieve their career aspirations.
+            </p>
+          </div>
         </div>
+      </div>
 
-        <div id="epilogue" class="container-fluid">
-            <div class="column-center">
-                <div id="epilogue-header" class="content">
-                    <h1 class="h1-content">Ready to Get Hired?</h1>
-                </div>
-                <div id="epilogue-button">
-                    <button type="button" class="btn btn-primary launch-app-button">Launch App</button>
-                </div>
-            </div>
+      <div id="our-purpose" class="container-fluid">
+        <div class="column-center">
+          <div id="purpose-header" class="content">
+            <h1 class="h1-content">Our Purpose</h1>
+          </div>
+          <div id="purpose-content" class="content p-content">
+            <p>
+              We understand that preparing for interviews are daunting. That is
+              why we created GetHired.ai, now you can practice your interview
+              skills with our AI-powered chatbot.
+            </p>
+            <p>
+              Our purpose is to provide fellow students struggling with job
+              interviews with a platform to practice and hone their skills so
+              they can land their dream job.
+            </p>
+          </div>
         </div>
+      </div>
+
+      <div id="testimonial" class="container-fluid">
+        <div id="testimonial-carousel" class="row">
+          <div id="testimonial-description" class="col-md-4 column-center">
+            <h1 class="h1-content">
+              Don't just take our world for it, check how GetHired.io helped
+              real students
+            </h1>
+            <div id="testimonial-arrows">
+              <button id="prev">&#60;</button>
+              <button id="next">&#62;</button>
+            </div>
+          </div>
+          <div id="testimonial-content" class="col-md-7 column-center">
+            <div class="vertical-center">
+              <h3 id="testimonial-text"></h3>
+              <p id="testimonial-name"></p>
+              <p id="testimonial-job"></p>
+              <p id="testimonial-rating"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="epilogue" class="container-fluid">
+        <div class="column-center">
+          <div id="epilogue-header" class="content">
+            <h1 class="h1-content">Ready to Get Hired?</h1>
+          </div>
+          <div id="epilogue-button">
+            <button type="button" class="btn btn-primary launch-app-button">
+              Launch App
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id="footer" class="container-fluid">
-        <hr>
-        <div id="footer-links" class="row">
-            <div class="col-sm-4">
-                <h1 class="logo">GetHired.ai</h1>
-                <p class="footer-legal">2023 @ UWA CITS3403</p>
-                <p class="footer-legal">All rights reserved.</p>
-            </div>
-            <div class="col-sm-2">
-                <p class="footer-content vertical-center">Link1</p>
-            </div>
-            <div class="col-sm-2">
-                <p class="footer-content vertical-center">Link2</p>
-            </div>
-            <div class="col-sm-2">
-                <p class="footer-content vertical-center">Link3</p>
-            </div>
-            <div class="col-sm-2">
-                <p class="footer-content vertical-center">Link4</p>
-            </div>
+      <hr />
+      <div id="footer-links" class="row">
+        <div class="col-sm-4">
+          <h1 class="logo">GetHired.ai</h1>
+          <p class="footer-legal">2023 @ UWA CITS3403</p>
+          <p class="footer-legal">All rights reserved.</p>
         </div>
+        <div class="col-sm-2">
+          <p class="footer-content vertical-center">Link1</p>
+        </div>
+        <div class="col-sm-2">
+          <p class="footer-content vertical-center">Link2</p>
+        </div>
+        <div class="col-sm-2">
+          <p class="footer-content vertical-center">Link3</p>
+        </div>
+        <div class="col-sm-2">
+          <p class="footer-content vertical-center">Link4</p>
+        </div>
+      </div>
     </div>
-
-    <!-- Below is only for testing. Delete Afterwards -->
-    <script>
-        document
-            .getElementById("login-button")
-            .addEventListener("click", function () {
-                window.location.href = "/login";
-        });
-
-        document
-            .getElementById("signup-button")
-            .addEventListener("click", function () {
-                window.location.href = "/register";
-        });
-
-        document
-            .getElementsByClassName("launch-app-button")[0]
-            .addEventListener("click", function () {
-                window.location.href = "/app";
-        });
-
-        document
-            .getElementsByClassName("launch-app-button")[1]
-            .addEventListener("click", function () {
-                window.location.href = "/app";
-        });
-
-        document
-            .getElementById("tutorial-button")
-            .addEventListener("click", function () {
-                window.alert("Tutorial not yet implemented")
-        });
-    </script>
-    <!-- Above is only for testing. Delete Afterwards -->
-</body>
-
+  </body>
 </html>

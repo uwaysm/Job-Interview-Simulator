@@ -76,19 +76,14 @@
               aria-label="Close"
             ></button>
           </div>
-          <!-- Add this inside the settingsModal body -->
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="checkRealJobTitle" checked>
-              <label class="form-check-label" for="checkRealJobTitle">
-                Check for Real Job Title
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="checkGenuineResponse" checked>
-              <label class="form-check-label" for="checkGenuineResponse">
-                Check for Genuine Response
-              </label>
-            </div>
+          <div class="modal-body">
+            <!-- Add your settings options here --><label for="checkForRealJobTitle">Check for Real Job Title:</label>
+            <br>
+            <input type="checkbox" id="checkForRealJobTitle" checked />
+            <!-- Add your settings options here --><label for="checkForRealJobTitle">Check for is Genuine Response:</label><input type="checkbox" id="checkforGenuineResponse" checked />
+
+            <!-- Add your settings options here -->
+          </div>
           <div class="modal-footer">
             <button
               type="button"
