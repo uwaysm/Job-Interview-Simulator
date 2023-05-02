@@ -80,6 +80,20 @@
   margin: 0.5em;
 }
 
+.infinite-carousel-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.infinite-carousel-items {
+  display: flex;
+}
+
+.infinite-carousel-item {
+  flex: 0 0 10%;
+  margin: 1em 3em 1em 0;
+}
+
 #interview-image {
   max-width: 500px;
 }
