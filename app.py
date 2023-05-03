@@ -5,7 +5,8 @@ import os
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-
+from dotenv import load_dotenv
+load_dotenv()
 # Download stopwords
 try:
     nltk.download('stopwords')
@@ -21,7 +22,8 @@ except FileExistsError:
 app = Flask(__name__)
 
 # Set OpenAI API key
-openai.api_key = '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'
+openai.api_key = os.environ['OPENAI_API_KEY']
+
 
 # Main route, renders the landing page
 @app.route('/')
