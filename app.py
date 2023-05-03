@@ -187,11 +187,30 @@ def generate_questions():
     if not job_title:
         return jsonify({'error': 'Job title is required'}), 400
 
+
+####################################################
+# Is the below if statment necessary? This function only gets called when the job title is valid
+####################################################
+
     if not is_real_job_title(job_title):
         return jsonify({'error': 'Please provide a real job title'}), 400
 
     # Generate interview questions using the OpenAI API
     questions = generate_interview_questions(job_title)
+
+####################################################
+# Below is the test code for the database
+####################################################
+
+    # Hardcode in userID for now
+    userID = 1
+
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute("INSERT INTO sessionHistory (userID, jobTitle) VALUES (?, ?)", (userID, job_title))
+    
+    conn.commit()
+    conn.close()
 
     return jsonify({'questions': questions})
 
@@ -211,19 +230,18 @@ def evaluate_response_route():
 
 ####################################################
 # Below is the test code for the database
-####################################################    
-
-    # Hardcode in sessionID and userID for now
-    sessionID = 1
-    userID = 1
+####################################################
 
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
-    c.execute('INSERT INTO chatHistory (sessionID, userID, botQuestion, userResponse, botReview) VALUES (?, ?, ?, ?, ?)', 
-              (sessionID, userID, question, user_response, feedback))
+
+    c.execute("SELECT sessionID FROM sessionHistory ORDER BY sessionID DESC LIMIT 1")
+    sessionID = c.fetchone()[0] # Fetch the result of the query -> This is the current session number
+    c.execute('INSERT INTO chatHistory (sessionID, botQuestion, userResponse, botReview) VALUES (?, ?, ?, ?)', 
+              (sessionID, question, user_response, feedback))
+
     conn.commit()
     conn.close()
-
 
     return jsonify(feedback)
 
@@ -241,18 +259,35 @@ def final_decision_route():
 
     # Get the final decision based on the responses and job title
     decision = get_final_decision(responses, job_title)
-    return jsonify(decision)
-
 
 ####################################################
 # Below is the test code for the database
 ####################################################    
 
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    
+    c.execute("SELECT sessionID FROM sessionHistory ORDER BY sessionID DESC LIMIT 1")
+    sessionID = c.fetchone()[0] # Fetch the result of the query -> This is the current session number
+
+    # Add the final decision to the database
+    c.execute('UPDATE sessionHistory SET finalDecision = ? WHERE sessionID = ?', (decision, sessionID))
+
+    conn.commit()
+    conn.close()
+    
+    return jsonify(decision)
+
+
+####################################################
+# Below is the test code for the database
+####################################################
+
 @app.route('/chat_logs')
 def chat_logs():
     conn = sqlite3.connect('database.db')
     c = conn.cursor()
-    c.execute('SELECT * FROM chatHistory ORDER BY timestamp DESC')
+    c.execute("SELECT * FROM chatHistory JOIN sessionHistory ON chatHistory.sessionID = sessionHistory.sessionID")
     logs = c.fetchall()
     conn.close()
 

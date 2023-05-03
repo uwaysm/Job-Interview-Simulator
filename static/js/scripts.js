@@ -101,6 +101,9 @@ $(document).ready(function () {
   // Store responses
   let responses = [];
 
+  let questionIndex = 0;
+  let questions = [];
+
   // Submit the job title and generate interview questions
   function submitJobTitle() {
     const jobTitle = $("#jobTitle").val().trim();
@@ -160,9 +163,6 @@ $(document).ready(function () {
   $("#sendBtn").prop("disabled", true);
   $("#userInput").prop("disabled", true);
   $("#micBtn").prop("disabled", true);
-
-  let questionIndex = 0;
-  let questions = [];
 
   // Send the user's response and evaluate it
   function sendResponse() {
