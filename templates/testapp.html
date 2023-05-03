@@ -61,6 +61,7 @@
       left: 280px;
       right: 0;
       padding: 0 20px 20px;
+
     }
 
     .bi {
@@ -78,22 +79,40 @@
       border-radius: 5px; /* Add rounded corners */
       padding: 10px; /* Add some padding */
       border-color: grey;
+      background: transparent;
+      outline: none;
+      border: none;
     }
     .form-control:focus{
-      background-color: #ededed;
+      background-color: #dbdbdb;
       box-shadow: none;
     }
     .input-group-chatbox{
+      display: flex; /* Use flexbox */
+      align-items: center; /* Center the button vertically */
       width: 750px;
       position: absolute;
       bottom: 20%;
       left: 50%;
       transform: translate(-50%, -50%);
+      border-radius: .5rem;
+      background-color: #dbdbdb;
+    }
+    .input-group-chatbox button {
+      width: 50px;
     }
     body{
       background-color:#ededed;
-;
     }
+    #jobTitleSubmit{
+      font-size: 1.25rem;
+      color: var(--blue);
+      background: transparent;
+      border: none;
+      outline: none;
+      box-shadow: none;
+    }
+
     
   </style>
   <body>
@@ -134,6 +153,9 @@
       <symbol id="plus-circle-fill" viewBox="0 0 16 16">
         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"/>
       </symbol>
+      <symbol id="send" viewBox="0 0 16 16">
+        <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576 6.636 10.07Zm6.787-8.201L1.591 6.602l4.339 2.76 7.494-7.493Z"/>
+      </symbol>
       </svg>
 
     <div
@@ -145,7 +167,7 @@
         <li class="nav-item">
           <label for="jobTitle" class="form-label"></label>
           <div class="input-group">
-            <button class="btn btn-primary" id="jobTitleSubmit"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#plus"/>
+            <button class="btn btn-primary" id="jobTitleSubmit1"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#plus"/>
             </svg>New Job Title</button>
           </div>
         </li>
@@ -181,8 +203,7 @@
       <form class="user-input">
         <div class="input-group-chatbox">
           <input type="text" class="form-control" placeholder="Send a message"/>
-          <div class="input-group-append">
-          </div>
+          <button class="btn btn-primary" id="jobTitleSubmit"><svg width="15" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#send-plus"/></svg></button>
         </div>
       </form>
     </div>
