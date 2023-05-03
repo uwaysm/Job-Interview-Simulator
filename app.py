@@ -6,6 +6,8 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
+import sqlite3
+
 # Download stopwords
 try:
     nltk.download('stopwords')
@@ -207,6 +209,22 @@ def evaluate_response_route():
     # Evaluate the user's response using the OpenAI API
     feedback = get_feedback(user_response, question, job_title, check_genuine_responses)
 
+####################################################
+# Below is the test code for the database
+####################################################    
+
+    # Hardcode in sessionID and userID for now
+    sessionID = 1
+    userID = 1
+
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute('INSERT INTO chatHistory (sessionID, userID, botQuestion, userResponse, botReview) VALUES (?, ?, ?, ?, ?)', 
+              (sessionID, userID, question, user_response, feedback))
+    conn.commit()
+    conn.close()
+
+
     return jsonify(feedback)
 
 # Route to get the final decision based on user responses
@@ -224,6 +242,21 @@ def final_decision_route():
     # Get the final decision based on the responses and job title
     decision = get_final_decision(responses, job_title)
     return jsonify(decision)
+
+
+####################################################
+# Below is the test code for the database
+####################################################    
+
+@app.route('/chat_logs')
+def chat_logs():
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute('SELECT * FROM chatHistory ORDER BY timestamp DESC')
+    logs = c.fetchall()
+    conn.close()
+
+    return render_template('chat_logs.html', logs=logs)
 
 # Start the Flask app
 if __name__ == '__main__':

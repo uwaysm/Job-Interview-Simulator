@@ -7,5 +7,5 @@ CREATE TABLE chatHistory (
     botQuestion TEXT NOT NULL, /* The question asked by the bot */
     userResponse TEXT NOT NULL, /* The response given by the user */
     botReview TEXT NOT NULL, /* The review of user answer given by the bot */
-    timestamp TEXT NOT NULL /* The timestamp of the chat */
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP /* The timestamp of the chat */
 );
