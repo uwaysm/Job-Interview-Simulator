@@ -182,6 +182,8 @@ function appendMessage(message, sender) {
 // ------------------------------
 
 $(document).ready(function () {
+  $("#userInput").addClass("locked");
+
   $("#settingsBtn").on("click", function () {
     $("#settingsModal").modal("show");
   });
@@ -196,6 +198,7 @@ $(document).ready(function () {
   $("#micBtn").addClass("locked");
   $("#sendBtn").addClass("locked");
   $("#userInput").addClass("locked");
+  $("#userInput").prop("disabled", true);
 
   // When the "micBtn" button is pressed, if it's locked, it shows an alert asking to enter a job title first.
   // If speech recognition is supported, it calls the startRecognition function.
