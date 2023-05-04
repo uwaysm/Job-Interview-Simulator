@@ -1,8 +1,9 @@
 from flask import Flask, render_template
 from src.functions import is_real_job_title_route, generate_questions, evaluate_response_route, final_decision_route
 
+app = Flask(__name__)
+
 def create_app():
-    app = Flask(__name__)
 
     @app.route('/')
     def landing():
@@ -28,5 +29,5 @@ def create_app():
     return app
 
 if __name__ == '__main__':
-    app = create_app()
+    app_create = create_app()
     app.run(debug=True)
