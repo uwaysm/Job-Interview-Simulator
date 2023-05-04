@@ -16,11 +16,67 @@
 
     <script src="../static/js/landing.js"></script>
 
+    <link href="../static/css/login.css" rel="stylesheet" type="text/css" />
+
     <link href="../static/css/landing.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="../static/css/style.css" />
 </head>
 
 <body>
+    <!-- Below is the login modal -->
+    <div id="overlay"></div>
+    <div id="login-modal" class="popup">
+        <div class="close-btn" aria-label="Close">&times;</div>
+        <div class="form">
+            <h2>Welcome Back</h2>
+            <div class="form-element">
+                <label for="username-login">Username</label>
+                <input type="text" id="username-login" placeholder="Enter your Username">
+            </div>
+            <div class="form-element">
+                <label for="password-login">Password</label>
+                <input type="password" id="password-login" placeholder="Enter your Password">
+            </div>
+            <div class="form-element">
+                <button>Log in</button>
+            </div>
+            <div class="form-element2">
+              <button class="signup-button">Register</button>
+            </div>
+            <div class="form-element">
+                <a href="#">Forgot your password?</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Below is the signup modal -->
+    <div id="signup-modal" class="popup">
+        <div class="close-btn" aria-label="Close">&times;</div>
+        <div class="form">
+            <h2>Hi, Stranger!</h2>
+            <div class="form-element">
+                <label for="username-signup">Username</label>
+                <input type="text" id="username-signup" placeholder="Enter your Username">
+            </div>
+            <div class="form-element">
+                <label for="password-signup">Password</label>
+                <input type="password" id="password-signup" placeholder="Enter your Password">
+            </div>
+            <div class="form-element">
+              <label for="re-password-signup">Re-Enter Password</label>
+              <input type="password" id="re-password-signup" placeholder="Re-nter your Password">
+            </div>
+            <div class="form-element">
+              <label for="email-signup">Email</label>
+              <input type="text" id="email-signup" placeholder="Enter your email">
+            </div>
+            <div class="form-element">
+                <button>Sign Up</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Below is the default landing page -->
     <div id="top" class="container-fluid">
         <div class="row">
             <div class="col-3">
@@ -31,8 +87,8 @@
 
             <div id="login" class="col-9">
                 <div id="login-buttons" class="vertical-center">
-                    <button id="login-button" type="button" class="btn">Login</button>
-                    <button id="signup-button" type="button" class="btn btn-primary">
+                    <button type="button" class="login-button btn">Login</button>
+                    <button type="button" class="signup-button btn btn-primary">
                         Sign Up
                     </button>
                 </div>
@@ -170,40 +226,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Below is only for testing. Delete Afterwards -->
-    <script>
-        document
-            .getElementById("login-button")
-            .addEventListener("click", function () {
-                window.location.href = "/login";
-        });
-
-        document
-            .getElementById("signup-button")
-            .addEventListener("click", function () {
-                window.location.href = "/register";
-        });
-
-        document
-            .getElementsByClassName("launch-app-button")[0]
-            .addEventListener("click", function () {
-                window.location.href = "/app";
-        });
-
-        document
-            .getElementsByClassName("launch-app-button")[1]
-            .addEventListener("click", function () {
-                window.location.href = "/app";
-        });
-
-        document
-            .getElementById("tutorial-button")
-            .addEventListener("click", function () {
-                window.alert("Tutorial not yet implemented")
-        });
-    </script>
-    <!-- Above is only for testing. Delete Afterwards -->
 </body>
 
 </html>
