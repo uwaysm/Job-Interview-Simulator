@@ -9,7 +9,7 @@ from wtforms.validators import EqualTo, InputRequired, Length
 app = Flask(__name__)
 
 
-#============= USER AUTHENTICATION =============#
+# ============= USER AUTHENTICATION ============= #
 
 db = SQLAlchemy()
 bcrypt = Bcrypt(app)
@@ -19,7 +19,7 @@ app.config['SECRET_KEY'] = 'mysecretkey'
 db.init_app(app)
 
 login_manager = LoginManager()
-login_manager.login_view = 'login' # type: ignore
+login_manager.login_view = 'login'  # type: ignore
 login_manager.init_app(app)
 
 
