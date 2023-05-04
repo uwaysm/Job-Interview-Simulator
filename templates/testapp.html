@@ -3,6 +3,9 @@
   <head>
     <title>gethired.ai</title>
     <!-- Bootstrap CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="UTF-8" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -18,30 +21,29 @@
   </head>
   <style>
     .sidebar {
-      width: 280px;
-      padding: 20px;
+      position: relative;
+      width: 220px;
       background-color: #f8f9fa;
-      border-right: 1px solid #dee2e6;
       height: 100vh;
     }
 
     .sidebar h4 {
-      font-size: 18px;
+      font-size: 5%;
       font-weight: bold;
-      margin-bottom: 10px;
+      margin-bottom: 5%;
     }
 
     .sidebar ul {
-      margin-top: 20px;
+      margin-top: 10%;
     }
 
     .sidebar li {
-      margin-bottom: 10px;
+      margin-bottom: 5%;
     }
 
     .sidebar a {
       color: #333;
-      font-size: 16px;
+      font-size: 100%;
       text-decoration: none;
     }
 
@@ -51,8 +53,6 @@
 
     .chatbot-container {
       position: relative;
-      margin-left: 220px;
-      padding-bottom: 70px;
     }
 
     .user-input {
@@ -73,10 +73,10 @@
       margin-right: .5rem !important;
     }
     .form-control{
-      height: 50px;
+      height: 10%;
       background-color: #ededed;
       border: 1px solid #f5f5f5; /* Add a border */
-      border-radius: 5px; /* Add rounded corners */
+      border-radius: .5rem; /* Add rounded corners */
       padding: 10px; /* Add some padding */
       border-color: grey;
       background: transparent;
@@ -90,7 +90,7 @@
     .input-group-chatbox{
       display: flex; /* Use flexbox */
       align-items: center; /* Center the button vertically */
-      width: 750px;
+      width: 60%;
       position: absolute;
       bottom: 20%;
       left: 50%;
@@ -104,16 +104,19 @@
     body{
       background-color:#ededed;
     }
-    #jobTitleSubmit{
+    #sendBtn{
       font-size: 1.25rem;
-      color: var(--blue);
+      color: black;
       background: transparent;
       border: none;
       outline: none;
       box-shadow: none;
     }
+    strong{
+      position: relative;
+    }
 
-    
+
   </style>
   <body>
 
@@ -167,7 +170,7 @@
         <li class="nav-item">
           <label for="jobTitle" class="form-label"></label>
           <div class="input-group">
-            <button class="btn btn-primary" id="jobTitleSubmit1"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#plus"/>
+            <button class="btn btn-primary" id="jobTitleSubmit"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#plus"/>
             </svg>New Job Title</button>
           </div>
         </li>
@@ -175,38 +178,36 @@
           <a href="#" class="nav-link text-white"><svg class="bi me-2" width="15" height="16"><use xlink:href="#chat-left-dots"/></svg>
             Chat History</a>
         </li>
-        <li>
-          <a href="#" class="nav-link text-white"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#list"/>
-          </svg>Menu Item</a>
-        </li>
       </ul>
       <!-- placeholder for user icon -->
       <hr />
       <div class="dropdown">
-      <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-        <img src="https://github.com/hurrkage.png" alt="" class="rounded-circle me-2" width="32" height="32">
-        <strong>Jericho</strong>
-      </a>
-      <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1" style="">
-        <li><a class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#sliders"/></svg>
-          Settings</a></li>
-        <li><a class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#person-circle"/></svg>
-          Profile</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2" viewBox="0 0 16 16"><use xlink:href="#box-arrow-in-right"/></svg>
-          Sign out</a></li>
-      </ul>
+      <div href="#" class="flex align-items-center text-white text-ellipsis text-decoration-none dropdown-toggle" role="button" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+        {{current_user.username}}
+      </div>
+      <div class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1" style="">
+        <a class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#sliders"/></svg>
+          Settings</a>
+        <a class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#person-circle"/></svg>
+          Profile</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2" viewBox="0 0 16 16"><use xlink:href="#box-arrow-in-right"/></svg>
+          Sign out</a>
+        </div>
     </div>
     </div>
+
 
     <div class="chatbot-container">
       <form class="user-input">
         <div class="input-group-chatbox">
-          <input type="text" class="form-control" placeholder="Send a message"/>
-          <button class="btn btn-primary" id="jobTitleSubmit"><svg width="15" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#send-plus"/></svg></button>
+          <input type="text" class="form-control" id="userInput" placeholder="Send a message"/>
+          <button class="btn btn-primary" id="sendBtn"><svg width="15" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#send-plus"/></svg></button>
         </div>
       </form>
     </div>
+
+
 
     <!-- Bootstrap JS -->
     <script>
