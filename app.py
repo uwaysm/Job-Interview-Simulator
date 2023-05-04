@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from src.app import is_real_job_title_route, generate_questions, evaluate_response_route, final_decision_route
+from functions import is_real_job_title_route, generate_questions, evaluate_response_route, final_decision_route
 
 def create_app():
     app = Flask(__name__)
