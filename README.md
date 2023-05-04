@@ -15,12 +15,12 @@ This Interview Simulator is a Flask web app that uses OpenAI's GPT-4 to generate
 
 1. Clone the repository:
 ```
-git clone https://github.com/yourusername/interview-simulator.git
+git clone https://github.com/uwaysm/Job-Interview-Simulator.git
 ```
 
 2. Navigate to the project directory:
 ```python
-cd interview-simulator
+cd job-interview-simulator
 ```
 
 
@@ -63,7 +63,7 @@ This project is a collaborative effort by the following team members:
 - Uways Minty (https://github.com/uwaysm)
 - Lloyd Na (https://github.com/LloydN01)
 - Jericho Cura (https://github.com/hurrkage)
-- Jason (https://github.com/Jayce-m)
+- Jason Millman (https://github.com/Jayce-m)
 
 We would also like to thank everyone who provided their valuable feedback and suggestions during the development process.
 
