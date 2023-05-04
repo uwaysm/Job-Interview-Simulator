@@ -1,0 +1,45 @@
+/* Below is the common CSS for consistent styling over different pages */
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #ededed;
+}
+
+/* Add this to the child element's class when you want to center vertically */
+.vertical-center {
+  margin: 0;
+  position: relative;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+/* 
+Add this to the parent div's class if you want to horizontally center
+the vertically stacked children 
+*/
+.column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Further customises the bootstrap button classes to better fit our theme*/
+.btn-primary {
+  background-color: #3164f4;
+  color: #ededed;
+}
+
+.btn-light {
+  background-color: #ededed;
+  color: black;
+  border: solid black 1px;
+}
+
+
+/* For trouble shooting purposes */
+/*
+div {
+  border: solid gray 1px;
+}
+*/
