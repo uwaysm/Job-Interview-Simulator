@@ -31,16 +31,6 @@ def landing():
     return render_template('landing.html')
 
 # Renders the app
-@app.route('/login')
-def login():
-    return render_template('login.html')
-
-# Renders the app
-@app.route('/register')
-def register():
-    return render_template('register.html')
-
-# Renders the app
 @app.route('/app')
 def app_main():
     return render_template('app.html')
@@ -186,9 +176,6 @@ def generate_questions():
     job_title = request.form.get('job_title')
     if not job_title:
         return jsonify({'error': 'Job title is required'}), 400
-
-    if not is_real_job_title(job_title):
-        return jsonify({'error': 'Please provide a real job title'}), 400
 
     # Generate interview questions using the OpenAI API
     questions = generate_interview_questions(job_title)
