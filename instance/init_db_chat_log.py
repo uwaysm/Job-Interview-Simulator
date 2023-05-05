@@ -2,9 +2,9 @@
 
 import sqlite3
 
-conn = sqlite3.connect('database.db')
+conn = sqlite3.connect('./instance/database.db')
 
-with open("schema.sql") as f:
+with open("./instance/chat_log_schema.sql") as f:
     conn.executescript(f.read())
 
 conn.commit()

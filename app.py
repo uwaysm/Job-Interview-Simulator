@@ -218,7 +218,7 @@ def final_decision_route():
     userID = 1 # TODO: Change this to the actual userID once user-authentication system in implemented
 
     # Connect to the database
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('./instance/database.db')
     cursor = conn.cursor() # Create a cursor object to execute SQL commands
 
     # Insert the session history into the database
@@ -244,12 +244,12 @@ def final_decision_route():
 
 ####################################################
 # Below is the placeholder page for the chat logs
-# Access it by adding \chat_logs to the URL
+# Access it by adding /chat_logs to the URL
 ####################################################
 
 @app.route('/chat_logs')
 def chat_logs():
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect('./instance/database.db')
     c = conn.cursor()
     c.execute("SELECT * FROM chatHistory JOIN sessionHistory ON chatHistory.sessionID = sessionHistory.sessionID")
     logs = c.fetchall()
