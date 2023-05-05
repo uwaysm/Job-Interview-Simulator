@@ -40,6 +40,11 @@ function toggleJobTitleInput(enable) {
 // The questions are then stored in the "questions" array, and the first question is displayed.
 function submitJobTitle() {
   const jobTitle = $("#jobTitle").val().trim();
+
+  // Reset the responses and questions arrays
+  responses = [];
+  questions = [];
+  
   if (jobTitle) {
     toggleJobTitleInput(false);
     // Check if the job title is real before proceeding
@@ -98,12 +103,13 @@ function sendResponse() {
         job_title: jobTitle,
       },
       success: function (response) {
-        displayFeedback(response);
         responses.push({
           question: currentQuestion,
           response: userResponse,
-          feedback: response,
+          feedback: response
         });
+        
+        displayFeedback(response);
       },
       error: function (error) {
         console.error("Error evaluating response:", error);
