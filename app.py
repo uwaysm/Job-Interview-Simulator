@@ -6,6 +6,8 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
+import sqlite3
+
 # Download stopwords
 try:
     nltk.download('stopwords')
@@ -27,16 +29,6 @@ openai.api_key = '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'
 @app.route('/')
 def landing():
     return render_template('landing.html')
-
-# Renders the app
-@app.route('/login')
-def login():
-    return render_template('login.html')
-
-# Renders the app
-@app.route('/register')
-def register():
-    return render_template('register.html')
 
 # Renders the app
 @app.route('/app')
@@ -185,12 +177,9 @@ def generate_questions():
     if not job_title:
         return jsonify({'error': 'Job title is required'}), 400
 
-    if not is_real_job_title(job_title):
-        return jsonify({'error': 'Please provide a real job title'}), 400
-
     # Generate interview questions using the OpenAI API
     questions = generate_interview_questions(job_title)
-
+        
     return jsonify({'questions': questions})
 
 # Route to evaluate a user's response
@@ -223,7 +212,50 @@ def final_decision_route():
 
     # Get the final decision based on the responses and job title
     decision = get_final_decision(responses, job_title)
+
+    # Below is the code to save the current session to the database
+    # Hardcode in userID for now
+    userID = 1 # TODO: Change this to the actual userID once user-authentication system in implemented
+
+    # Connect to the database
+    conn = sqlite3.connect('./instance/database.db')
+    cursor = conn.cursor() # Create a cursor object to execute SQL commands
+
+    # Insert the session history into the database
+    cursor.execute("INSERT INTO sessionHistory (userID, jobTitle, finalDecision) VALUES (?, ?, ?)", 
+              (userID, job_title, decision))
+
+    # Get the sessionID of the current session
+    cursor.execute("SELECT sessionID FROM sessionHistory ORDER BY sessionID DESC LIMIT 1")
+    sessionID = cursor.fetchone()[0] # Fetch the result of the query -> This is the current session number
+
+    # Insert the chat history into the database
+    for response in responses:
+        # Insert the chat history into the chatHistory table
+        cursor.execute("INSERT INTO chatHistory (sessionID, botQuestion, userResponse, botReview) VALUES (?, ?, ?, ?)", 
+                  (sessionID, response['question'], response['response'], response['feedback']))
+    
+    # Commit the changes to the database
+    conn.commit()
+    conn.close()
+    
     return jsonify(decision)
+
+
+####################################################
+# Below is the placeholder page for the chat logs
+# Access it by adding /chat_logs to the URL
+####################################################
+
+@app.route('/chat_logs')
+def chat_logs():
+    conn = sqlite3.connect('./instance/database.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM chatHistory JOIN sessionHistory ON chatHistory.sessionID = sessionHistory.sessionID")
+    logs = c.fetchall()
+    conn.close()
+
+    return render_template('chat_logs.html', logs=logs)
 
 # Start the Flask app
 if __name__ == '__main__':

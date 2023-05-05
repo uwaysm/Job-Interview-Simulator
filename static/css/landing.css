@@ -1,3 +1,22 @@
+/* Below is for the modals on the landing page */
+.popup {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+}
+
+#overlay {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Below is for the default landing page */
 #top {
   margin: 1em auto 6em auto;
 }
@@ -41,6 +60,7 @@
 #job-title {
   color: #3164f4;
   transition: 1s ease-in;
+  white-space: nowrap;
 }
 
 .fade-in {
@@ -61,6 +81,20 @@
   margin: 0.5em;
 }
 
+.infinite-carousel-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+.infinite-carousel-items {
+  display: flex;
+}
+
+.infinite-carousel-item {
+  flex: 0 0 10%;
+  margin: 1em 2em 1em 0;
+}
+
 #interview-image {
   max-width: 500px;
 }
@@ -74,8 +108,14 @@
   height: 20em;
 }
 
-#testimonial-content > * {
+#testimonial-text {
+  height: 5em;
+}
+
+#testimonial-content * {
   text-align: center;
+  display: block;
+  margin: 0;
 }
 
 #testimonial-rating {
@@ -93,12 +133,6 @@
   border-radius: 50%;
   margin: .8em;
   border: 1px #ededed;;
-}
-
-#testimonial-arrows button:hover {
-  background-color: #ededed;
-  color: #3164f4; 
-  transition: 0.4s ease-in;
 }
 
 #footer {
@@ -120,5 +154,15 @@
 @media (max-width: 576px) {
   .content, #footer-links .logo, .footer-legal {
     text-align: center;
+  }
+
+  .popup {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+  }
+
+  .infinite-carousel-item {
+    margin-right: 1em; /* Adjust margin to display more logos when screen is small */
   }
 }

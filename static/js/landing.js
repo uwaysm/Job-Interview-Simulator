@@ -3,7 +3,7 @@ const jobTitles = [
     "Software Engineer", "Data Scientist", "UX Designer",
     "Product Manager", "Data Analyst", "Data Engineer",
     "Marketing Manager", "Office Assitant", "Lawyer",
-    "Accountant", "Sales Manager"
+    "Accountant", "Sales Manager", "Graphic Designer", "Teacher"
 ]; // Add more job titles here
 
 // List of testimonials for the testimonials carousel
@@ -40,10 +40,14 @@ let carouselLength = testimonials.length;
 
 // Function that displays the carousel items from the testimonials array
 function displayCarouselItem() {
-    $("#testimonial-name").html(testimonials[currCarouselIndx].name);
-    $("#testimonial-job").html(testimonials[currCarouselIndx].job);
-    $("#testimonial-text").html(testimonials[currCarouselIndx].testimonial);
-    $("#testimonial-rating").html(testimonials[currCarouselIndx].rating);
+    $("#testimonial-name").html(testimonials[currCarouselIndx].name).hide();
+    $("#testimonial-name").fadeIn(800);
+    $("#testimonial-job").html(testimonials[currCarouselIndx].job).hide();
+    $("#testimonial-job").fadeIn(800);
+    $("#testimonial-text").html(testimonials[currCarouselIndx].testimonial).hide();
+    $("#testimonial-text").fadeIn(800);
+    $("#testimonial-rating").html(testimonials[currCarouselIndx].rating).hide();
+    $("#testimonial-rating").fadeIn(800);
 }
 
 // Function to change the job title every 3 seconds
@@ -65,6 +69,26 @@ function changeTitle() {
 
 // Functions to run when the page loads
 window.onload = () => {
+    // EventListeners for buttons:
+    // Launch app button
+    document
+        .getElementsByClassName("launch-app-button")[0]
+        .addEventListener("click", function () {
+            window.location.href = "/app";
+    });
+    // Launch app button
+    document
+        .getElementsByClassName("launch-app-button")[1]
+        .addEventListener("click", function () {
+            window.location.href = "/app";
+    });
+    // Tutorial button
+    document
+        .getElementById("tutorial-button")
+        .addEventListener("click", function () {
+            window.alert("Tutorial not yet implemented")
+    });
+
     // Carousel variables
     let prevBtn = document.getElementById("prev");
     let nextBtn = document.getElementById("next");
@@ -81,11 +105,76 @@ window.onload = () => {
         displayCarouselItem();
     });
 
-    changeTitle();
-    displayCarouselItem();
+    changeTitle(); // Change the job title every 3 seconds
+    displayCarouselItem(); // Display the carousel items
 
     setInterval(() => {
         currCarouselIndx = (currCarouselIndx + 1) % carouselLength;
         displayCarouselItem();
     }, 4000);
+
+    // Display the login modal when login button is clicked
+    $(".login-button").click(function () {
+        $("#login-modal").fadeIn(600);
+        $("#overlay").fadeIn(600);
+        $("#login-modal").show();
+        $("#overlay").css("display", "block"); // activates overlay
+        
+        // Prevents scrolling when modal is open
+        $("html").css("position", "fixed");
+        $("html").css("overflow-y", "scroll");
+    });
+
+    // Display the sign up modal when sign up button is clicked
+    $(".signup-button").click(function () {
+        $("#signup-modal").fadeIn(600);
+        $("#overlay").fadeIn(600);
+        $("#signup-modal").show();
+        $("#overlay").css("display", "block"); // activates overlay
+
+        // Prevents scrolling when modal is open
+        $("html").css("position", "fixed");
+        $("html").css("overflow-y", "scroll");
+    });
+
+    // Hide the modals when the close button is clicked
+    $(".close-btn").click(function () {
+        $(".popup").hide();
+        $("#overlay").css("display", "none"); // activates overlay
+
+        // Allows scrolling when modal is closed
+        $("html").css("position", "static");
+        $("html").css("overflow-y", "auto");
+    });
+
+    // When overlay is clicked, hide the modals
+    $("#overlay").click(function () {
+        $(".popup").hide();
+        $("#overlay").css("display", "none"); // activates overlay
+
+        // Allows scrolling when modal is closed
+        $("html").css("position", "static");
+        $("html").css("overflow-y", "auto");
+    });
+
+
+    /********************************/
+    // Infinite Carousel
+    // Created with ChatGPT assistance
+    /********************************/
+
+    // Infinite Carousel Variables
+    var infCarouselWidth = $(".infinite-carousel-container").width();
+    var infItemWidth = $(".infinite-carousel-item").width();
+
+    // clone the logos in the carousel and append them to the container
+    $(".infinite-carousel-item").clone().appendTo(".infinite-carousel-items");
+
+    // Move the logos to the left every 1.5 seconds
+    setInterval(function () {
+        // Move the first logo to the end of the carousel
+        $(".infinite-carousel-item").first().appendTo(".infinite-carousel-items");
+        // Reset the position of the logos
+        $(".infinite-carousel-items").css("left", 0);
+    }, 1500);
 };
