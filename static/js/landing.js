@@ -172,13 +172,9 @@ window.onload = () => {
 
     // Move the logos to the left every 1.5 seconds
     setInterval(function () {
-        $(".infinite-carousel-items").animate({
-            left: -infItemWidth
-        }, 1000, "linear", function () {
-            // Move the first logo to the end of the carousel
-            $(".infinite-carousel-item").first().appendTo(".infinite-carousel-items");
-            // Reset the position of the logos
-            $(".infinite-carousel-items").css("left", 0);
-        });
+        // Move the first logo to the end of the carousel
+        $(".infinite-carousel-item").first().appendTo(".infinite-carousel-items");
+        // Reset the position of the logos
+        $(".infinite-carousel-items").css("left", 0);
     }, 1500);
 };
