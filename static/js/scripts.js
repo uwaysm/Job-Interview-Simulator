@@ -185,14 +185,14 @@ $(document).ready(function () {
         data: {
           user_response: userResponse,
           question: currentQuestion,
-          job_title: jobTitle,
+          job_title: jobTitle
         },
         success: function (response) {
           displayFeedback(response);
           responses.push({
             question: currentQuestion,
             response: userResponse,
-            feedback: response,
+            feedback: response
           });
         },
         error: function (error) {
@@ -237,6 +237,8 @@ $(document).ready(function () {
       $("#userInput").prop("disabled", false);
     } else {
       const jobTitle = $("#jobTitle").val();
+      console.log(responses);
+      console.log(JSON.stringify(responses));
       $.ajax({
         url: "/final_decision",
         type: "POST",

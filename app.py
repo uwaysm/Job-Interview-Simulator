@@ -189,21 +189,7 @@ def generate_questions():
 
     # Generate interview questions using the OpenAI API
     questions = generate_interview_questions(job_title)
-
-####################################################
-# Below is the test code for the database
-####################################################
-
-    # Hardcode in userID for now
-    userID = 1
-
-    conn = sqlite3.connect('database.db')
-    c = conn.cursor()
-    c.execute("INSERT INTO sessionHistory (userID, jobTitle) VALUES (?, ?)", (userID, job_title))
-    
-    conn.commit()
-    conn.close()
-
+        
     return jsonify({'questions': questions})
 
 # Route to evaluate a user's response
@@ -220,21 +206,6 @@ def evaluate_response_route():
     # Evaluate the user's response using the OpenAI API
     feedback = get_feedback(user_response, question, job_title, check_genuine_responses)
 
-####################################################
-# Below is the test code for the database
-####################################################
-
-    conn = sqlite3.connect('database.db')
-    c = conn.cursor()
-
-    c.execute("SELECT sessionID FROM sessionHistory ORDER BY sessionID DESC LIMIT 1")
-    sessionID = c.fetchone()[0] # Fetch the result of the query -> This is the current session number
-    c.execute('INSERT INTO chatHistory (sessionID, botQuestion, userResponse, botReview) VALUES (?, ?, ?, ?)', 
-              (sessionID, question, user_response, feedback))
-
-    conn.commit()
-    conn.close()
-
     return jsonify(feedback)
 
 # Route to get the final decision based on user responses
@@ -243,28 +214,47 @@ def final_decision_route():
     job_title = request.form.get('job_title')
     response_data = request.form.get('responses')
 
+    print(response_data)
+
     if not job_title or not response_data:
         return jsonify({'error': 'Job title and responses are required'}), 400
 
     # Parse the responses JSON string
     responses = json.loads(response_data)
 
+    print(responses)
+
     # Get the final decision based on the responses and job title
     decision = get_final_decision(responses, job_title)
 
 ####################################################
 # Below is the test code for the database
-####################################################    
+####################################################
 
+    # Hardcode in userID for now
+    userID = 1
+
+    # Connect to the database
     conn = sqlite3.connect('database.db')
-    c = conn.cursor()
-    
+    c = conn.cursor() # Create a cursor object to execute SQL commands
+
+    # Insert the session history into the database
+    c.execute("INSERT INTO sessionHistory (userID, jobTitle, finalDecision) VALUES (?, ?, ?)", 
+              (userID, job_title, decision))
+
+    # Get the sessionID of the current session
     c.execute("SELECT sessionID FROM sessionHistory ORDER BY sessionID DESC LIMIT 1")
     sessionID = c.fetchone()[0] # Fetch the result of the query -> This is the current session number
 
-    # Add the final decision to the database
-    c.execute('UPDATE sessionHistory SET finalDecision = ? WHERE sessionID = ?', (decision, sessionID))
+    # Insert the chat history into the database
+    for response in responses:
+        # Insert the chat history into the database
+        c.execute("INSERT INTO chatHistory (sessionID, botQuestion, userResponse, botReview) VALUES (?, ?, ?, ?)", 
+                  (sessionID, response['question'], response['response'], response['feedback']))
+        
+        print(response)
 
+    # Commit the changes to the database
     conn.commit()
     conn.close()
     
