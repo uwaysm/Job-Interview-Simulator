@@ -3,7 +3,7 @@ const jobTitles = [
     "Software Engineer", "Data Scientist", "UX Designer",
     "Product Manager", "Data Analyst", "Data Engineer",
     "Marketing Manager", "Office Assitant", "Lawyer",
-    "Accountant", "Sales Manager"
+    "Accountant", "Sales Manager", "Graphic Designer", "Teacher"
 ]; // Add more job titles here
 
 // List of testimonials for the testimonials carousel
@@ -156,4 +156,29 @@ window.onload = () => {
         $("html").css("position", "static");
         $("html").css("overflow-y", "auto");
     });
+
+
+    /********************************/
+    // Infinite Carousel
+    // Created with ChatGPT assistance
+    /********************************/
+
+    // Infinite Carousel Variables
+    var infCarouselWidth = $(".infinite-carousel-container").width();
+    var infItemWidth = $(".infinite-carousel-item").width();
+
+    // clone the logos in the carousel and append them to the container
+    $(".infinite-carousel-item").clone().appendTo(".infinite-carousel-items");
+
+    // Move the logos to the left every 1.5 seconds
+    setInterval(function () {
+        $(".infinite-carousel-items").animate({
+            left: -infItemWidth
+        }, 1000, "linear", function () {
+            // Move the first logo to the end of the carousel
+            $(".infinite-carousel-item").first().appendTo(".infinite-carousel-items");
+            // Reset the position of the logos
+            $(".infinite-carousel-items").css("left", 0);
+        });
+    }, 1500);
 };
