@@ -214,46 +214,37 @@ def final_decision_route():
     job_title = request.form.get('job_title')
     response_data = request.form.get('responses')
 
-    print(response_data)
-
     if not job_title or not response_data:
         return jsonify({'error': 'Job title and responses are required'}), 400
 
     # Parse the responses JSON string
     responses = json.loads(response_data)
 
-    print(responses)
-
     # Get the final decision based on the responses and job title
     decision = get_final_decision(responses, job_title)
 
-####################################################
-# Below is the test code for the database
-####################################################
-
+    # Below is the code to save the current session to the database
     # Hardcode in userID for now
-    userID = 1
+    userID = 1 # TODO: Change this to the actual userID once user-authentication system in implemented
 
     # Connect to the database
     conn = sqlite3.connect('database.db')
-    c = conn.cursor() # Create a cursor object to execute SQL commands
+    cursor = conn.cursor() # Create a cursor object to execute SQL commands
 
     # Insert the session history into the database
-    c.execute("INSERT INTO sessionHistory (userID, jobTitle, finalDecision) VALUES (?, ?, ?)", 
+    cursor.execute("INSERT INTO sessionHistory (userID, jobTitle, finalDecision) VALUES (?, ?, ?)", 
               (userID, job_title, decision))
 
     # Get the sessionID of the current session
-    c.execute("SELECT sessionID FROM sessionHistory ORDER BY sessionID DESC LIMIT 1")
-    sessionID = c.fetchone()[0] # Fetch the result of the query -> This is the current session number
+    cursor.execute("SELECT sessionID FROM sessionHistory ORDER BY sessionID DESC LIMIT 1")
+    sessionID = cursor.fetchone()[0] # Fetch the result of the query -> This is the current session number
 
     # Insert the chat history into the database
     for response in responses:
-        # Insert the chat history into the database
-        c.execute("INSERT INTO chatHistory (sessionID, botQuestion, userResponse, botReview) VALUES (?, ?, ?, ?)", 
+        # Insert the chat history into the chatHistory table
+        cursor.execute("INSERT INTO chatHistory (sessionID, botQuestion, userResponse, botReview) VALUES (?, ?, ?, ?)", 
                   (sessionID, response['question'], response['response'], response['feedback']))
-        
-        print(response)
-
+    
     # Commit the changes to the database
     conn.commit()
     conn.close()
@@ -262,7 +253,8 @@ def final_decision_route():
 
 
 ####################################################
-# Below is the test code for the database
+# Below is the placeholder page for the chat logs
+# Access it by adding \chat_logs to the URL
 ####################################################
 
 @app.route('/chat_logs')

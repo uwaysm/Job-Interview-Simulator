@@ -107,6 +107,11 @@ $(document).ready(function () {
   // Submit the job title and generate interview questions
   function submitJobTitle() {
     const jobTitle = $("#jobTitle").val().trim();
+
+    // Reset the responses and questions arrays
+    responses = [];
+    questions = [];
+    
     if (jobTitle) {
       // Check if the job title is real before proceeding
       $.ajax({
@@ -188,12 +193,13 @@ $(document).ready(function () {
           job_title: jobTitle
         },
         success: function (response) {
-          displayFeedback(response);
           responses.push({
             question: currentQuestion,
             response: userResponse,
             feedback: response
           });
+          
+          displayFeedback(response);
         },
         error: function (error) {
           console.error("Error evaluating response:", error);
@@ -237,8 +243,6 @@ $(document).ready(function () {
       $("#userInput").prop("disabled", false);
     } else {
       const jobTitle = $("#jobTitle").val();
-      console.log(responses);
-      console.log(JSON.stringify(responses));
       $.ajax({
         url: "/final_decision",
         type: "POST",
