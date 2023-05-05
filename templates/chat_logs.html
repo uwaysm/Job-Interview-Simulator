@@ -49,6 +49,15 @@
       <div class="col">
         <input
           class="form-control"
+          id="filterSessionID"
+          type="number"
+          placeholder="Filter by session ID"
+          onchange="filterTable()"
+        />
+      </div>
+      <div class="col">
+        <input
+          class="form-control"
           id="filterDate"
           type="date"
           placeholder="Filter by date"
@@ -105,23 +114,28 @@
         let dateFilter = dateInput.value;
         let ratingInput = document.getElementById("filterRating");
         let ratingFilter = ratingInput.value;
+        let sessionIDInput = document.getElementById("filterSessionID");
+        let sessionIDFilter = sessionIDInput.value;
   
         let table = document.getElementById("chatLogsTable");
         let tr = table.getElementsByTagName("tr");
   
         for (let i = 0; i < tr.length; i++) {
           let jobTitleTd = tr[i].getElementsByTagName("td")[2];
+          let sessionIDTd = tr[i].getElementsByTagName("td")[0];
           let dateTd = tr[i].getElementsByTagName("td")[7];
           let decisionTd = tr[i].getElementsByTagName("td")[6];
   
           if (jobTitleTd && dateTd && decisionTd) {
             let jobTitleTxtValue = jobTitleTd.textContent || jobTitleTd.innerText;
+            let sessionIDTxtValue = sessionIDTd.textContent || sessionIDTd.innerText;
             let dateTxtValue = dateTd.textContent || dateTd.innerText;
             let decisionTxtValue = decisionTd.textContent || decisionTd.innerText;
             let ratingValue = decisionTxtValue.match(/Rating: (\d{1,2})\//);
   
             if (
               jobTitleTxtValue.toUpperCase().indexOf(jobTitleFilter) > -1 &&
+              sessionIDTxtValue.indexOf(sessionIDFilter) > -1 &&
               dateTxtValue.indexOf(dateFilter) > -1 &&
               (ratingValue && ratingValue[1] === ratingFilter || ratingFilter === '')
             ) {
