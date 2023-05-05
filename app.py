@@ -187,14 +187,6 @@ def generate_questions():
     if not job_title:
         return jsonify({'error': 'Job title is required'}), 400
 
-
-####################################################
-# Is the below if statment necessary? This function only gets called when the job title is valid
-####################################################
-
-    if not is_real_job_title(job_title):
-        return jsonify({'error': 'Please provide a real job title'}), 400
-
     # Generate interview questions using the OpenAI API
     questions = generate_interview_questions(job_title)
 
