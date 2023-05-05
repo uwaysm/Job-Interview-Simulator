@@ -60,6 +60,7 @@
 #job-title {
   color: #3164f4;
   transition: 1s ease-in;
+  white-space: nowrap;
 }
 
 .fade-in {
@@ -91,7 +92,7 @@
 
 .infinite-carousel-item {
   flex: 0 0 10%;
-  margin: 1em 3em 1em 0;
+  margin: 1em 2em 1em 0;
 }
 
 #interview-image {
@@ -159,5 +160,9 @@
     width: 100%;
     height: 100%;
     border-radius: 0;
+  }
+
+  .infinite-carousel-item {
+    margin-right: 1em; /* Adjust margin to display more logos when screen is small */
   }
 }
