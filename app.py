@@ -33,7 +33,7 @@ def landing():
 # Renders the app
 @app.route('/app')
 def app_main():
-    return render_template('app.html')
+    return render_template('testapp.html')
 
 
 

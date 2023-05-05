@@ -69,9 +69,7 @@
     pointer-events: none;
     fill: currentColor;
     }
-    .me-2 {
-      margin-right: .5rem !important;
-    }
+
     .form-control{
       height: 10%;
       background-color: #ededed;
@@ -90,7 +88,7 @@
     .input-group-chatbox{
       display: flex; /* Use flexbox */
       align-items: center; /* Center the button vertically */
-      width: 60%;
+      width: 50%;
       position: absolute;
       bottom: 20%;
       left: 50%;
@@ -115,7 +113,6 @@
     strong{
       position: relative;
     }
-
 
   </style>
   <body>
@@ -168,10 +165,10 @@
       <hr />
       <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
-          <label for="jobTitle" class="form-label"></label>
+          <label for="jobTitle" class="form-label">Enter New Job Title:</label>
           <div class="input-group">
-            <button class="btn btn-primary" id="jobTitleSubmit"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#plus"/>
-            </svg>New Job Title</button>
+            <input class="form-control" id="jobTitle" placeholder="Job title"/>
+            <button class="btn btn-primary" id="jobTitleSubmit">Submit</button>
           </div>
         </li>
         <li>
@@ -183,7 +180,6 @@
       <hr />
       <div class="dropdown">
       <div href="#" class="flex align-items-center text-white text-ellipsis text-decoration-none dropdown-toggle" role="button" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-        {{current_user.username}}
       </div>
       <div class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1" style="">
         <a class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#sliders"/></svg>
@@ -197,8 +193,9 @@
     </div>
     </div>
 
-
     <div class="chatbot-container">
+      <div class="chat-container">
+        <ul class="chat-box list-unstyled" id="chatBox"></ul>
       <form class="user-input">
         <div class="input-group-chatbox">
           <input type="text" class="form-control" id="userInput" placeholder="Send a message"/>
@@ -207,6 +204,7 @@
       </form>
     </div>
 
+    
 
 
     <!-- Bootstrap JS -->
