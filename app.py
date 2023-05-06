@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session
 import openai
 import json
 import os
@@ -400,6 +400,9 @@ def login():
         if user_object and bcrypt.check_password_hash(user_object.password, login_form.password.data):
             login_user(user_object)
             flash('Logged in successfully!', 'success')
+
+            session["username"] = login_form.username.data
+
             return redirect(url_for('landing'))
         else:
             flash('Invalid username or password.', 'danger')
