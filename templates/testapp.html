@@ -165,8 +165,8 @@
             <div href="#" class="flex align-items-center text-white text-ellipsis text-decoration-none dropdown-toggle" role="button" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
             </div>
             <div class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1" style="">
-              <a class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#sliders"/></svg>
-                Settings</a>
+              <button id="settingsBtn" class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#sliders"/></svg>
+                Settings</button>
               <a class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#person-circle"/></svg>
                 Profile</a>
               <div class="dropdown-divider"></div>
@@ -197,6 +197,47 @@
       </form>
     </div>
 
+    <div
+      class="modal fade"
+      id="settingsModal"
+      tabindex="-1"
+      aria-labelledby="settingsModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <!-- Add your settings options here --><label for="checkForRealJobTitle">Check for Real Job Title:</label>
+            <br>
+            <input type="checkbox" id="checkForRealJobTitle" checked />
+            <!-- Add your settings options here --><label for="checkForRealJobTitle">Check for is Genuine Response:</label><input type="checkbox" id="checkforGenuineResponse" checked />
+
+            <!-- Add your settings options here -->
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" id="saveSettingsBtn">
+              Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     
 
 

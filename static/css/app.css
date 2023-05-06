@@ -43,6 +43,7 @@
   background-color: #007bff;
   max-width: 70%;
   margin-left: auto;
+  right: 0;
 }
 
 .user-message::after {
