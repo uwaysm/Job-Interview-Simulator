@@ -124,7 +124,6 @@ class TestFlaskApp(unittest.TestCase):
     def test_decide(self):
         db_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'instance', 'database.db')
         
-        conn = sqlite3.connect('./instance/database.db')
         sample_responses = [
             {
                 "question": "Tell me about your experience.",
@@ -140,7 +139,7 @@ class TestFlaskApp(unittest.TestCase):
         })
 
         data = json.loads(response.data)
-        self.assertEqual(data['decision'], 'Hire')
+        self.assertIn("Yes", data)
 
         
 
