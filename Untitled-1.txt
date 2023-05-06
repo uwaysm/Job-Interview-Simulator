@@ -1,0 +1,498 @@
+<!DOCTYPE html>\n
+<html lang="en">
+  \n\n<head>
+    \n
+    <meta charset="UTF-8" />
+    \n
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    \n
+    <title>GetHired.ai</title>
+    \n\n
+    <!-- Latest compiled and minified CSS -->
+    \n
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    \n\n
+    <!-- Latest compiled JavaScript -->
+    \n
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    \n\n
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    \n\n
+    <script src="../static/js/landing.js"></script>
+    \n\n
+    <link href="../static/css/login.css" rel="stylesheet" type="text/css" />
+    \n\n
+    <link href="../static/css/landing.css" rel="stylesheet" type="text/css" />
+    \n
+    <link rel="stylesheet" href="../static/css/style.css" />
+    \n</head
+  >\n\n
+  <body>
+    \n
+    <!-- Flash messages -->\n \n \n\n\n
+    <!-- Below is the login modal -->\n
+    <div id="overlay"></div>
+    \n
+    <div id="login-modal" class="popup">
+      \n
+      <div class="close-btn" aria-label="Close">&times;</div>
+      \n
+      <div class="form">
+        \n
+        <h2>Welcome Back</h2>
+        \n
+        <form method="POST" action="/login">
+          \n \n
+          <div class="form-element">
+            \n <label for="username-login">Username</label>\n
+            <input
+              class="form-element__input"
+              id="username-login"
+              maxlength="20"
+              minlength="4"
+              name="username"
+              placeholder="Enter your Username"
+              required
+              type="text"
+              value="testuser"
+            />\n
+          </div>
+          \n
+          <div class="form-element">
+            \n <label for="password-login">Password</label>\n
+            <input
+              class="form-element__input"
+              id="password-logi"
+              maxlength="20"
+              minlength="8"
+              name="password"
+              placeholder="Enter your Password"
+              required
+              type="password"
+              value=""
+            />\n
+          </div>
+          \n
+          <div class="form-element">
+            \n
+            <button id="btn">
+              <input
+                id="btn"
+                name="submit"
+                type="submit"
+                value="Log in"
+              /></button
+            >\n
+          </div>
+          \n
+        </form>
+        \n
+        <div class="form-element2">
+          \n <button class="signup-button">Register</button>\n
+        </div>
+        \n
+        <div class="form-element">
+          \n <a href="#">Forgot your password?</a>\n
+        </div>
+        \n
+      </div>
+      \n
+    </div>
+    \n\n
+    <!-- Below is the signup modal -->\n
+    <div id="signup-modal" class="popup">
+      \n
+      <div class="close-btn" aria-label="Close">&times;</div>
+      \n
+      <div class="form">
+        \n
+        <h2>Hi, Stranger!</h2>
+        \n
+        <form method="POST" action="/register">
+          \n \n
+          <div class="form-element">
+            \n <label for="username-signup">Username</label>\n
+            <input
+              class="form-element__input"
+              id="username-signup"
+              maxlength="20"
+              minlength="4"
+              name="username"
+              placeholder="Enter your Username"
+              required
+              type="text"
+              value="testuser"
+            />\n
+          </div>
+          \n
+          <div class="form-element">
+            \n <label for="password-signup">Password</label>\n
+            <input
+              class="form-element__input"
+              id="password-signup"
+              maxlength="20"
+              minlength="8"
+              name="password"
+              placeholder="Enter your Password"
+              required
+              type="password"
+              value=""
+            />\n
+          </div>
+          \n
+          <div class="form-element">
+            \n <label for="re-password-signup">Confirm your Password</label>\n
+            <input
+              class="form-element__input"
+              id="password"
+              name="confirm_password"
+              placeholder="Confirm your Password"
+              required
+              type="password"
+              value=""
+            />\n
+          </div>
+          \n
+          <div class="form-element">
+            \n
+            <button id="btn">
+              <input
+                id="btn"
+                name="submit"
+                type="submit"
+                value="Sign Up"
+              /></button
+            >\n
+          </div>
+          \n
+        </form>
+        \n
+      </div>
+      \n
+    </div>
+    \n\n
+    <!-- Below is the default landing page -->\n
+    <div id="top" class="container-fluid">
+      \n
+      <div class="row">
+        \n
+        <div class="col-3">
+          \n
+          <h1 class="vertical-center logo">\n <u>GetHired.ai</u>\n</h1>
+          \n
+        </div>
+        \n\n
+        <div id="login" class="col-9">
+          \n
+          <div id="login-buttons" class="vertical-center">
+            \n <button type="button" class="login-button btn">Login</button>\n
+            <button type="button" class="signup-button btn btn-primary">
+              \n Sign Up\n</button
+            >\n
+          </div>
+          \n
+        </div>
+        \n
+      </div>
+      \n
+    </div>
+    \n\n\n
+    <div id="main" class="container-fluid">
+      \n
+      <div id="introduction" class="container-fluid">
+        \n
+        <div class="column-center">
+          \n
+          <div id="intro-header" class="content">
+            \n
+            <h1>
+              The Best Way to Nail Your Next \n <br />\n
+              <span id="job-title" class="fade-in show"></span> \n <br />\n
+              Interview\n
+            </h1>
+            \n
+          </div>
+          \n
+          <div id="intro-content" class="content p-content">
+            \n
+            <p>
+              \n Navigating the job market can be challenging, but GetHired.ai
+              is\n here to assist you in acing your interviews and landing your
+              dream\n job. Our AI-powered job interview chatbot is designed to
+              provide you\n with personalized guidance, helping you boost your
+              confidence and\n enhance your interview skills.\n
+            </p>
+            \n
+          </div>
+          \n
+        </div>
+        \n\n
+        <div id="intro-button" class="content">
+          \n
+          <button type="button" class="btn btn-primary launch-app-button">
+            Launch App</button
+          >\n
+          <button id="tutorial-button" type="button" class="btn btn-light">
+            See How It Works</button
+          >\n
+        </div>
+        \n\n
+        <div class="infinite-carousel-container">
+          \n
+          <p><b>Proudly Endorsed By</b></p>
+          \n
+          <div class="infinite-carousel-items">
+            \n
+            <div class="infinite-carousel-item">
+              \n
+              <img
+                class="vertical-center"
+                src="../static/images/logos/amazon.png"
+                width="100%"
+                alt="Amazon Logo"
+              />\n
+            </div>
+            \n
+            <div class="infinite-carousel-item">
+              \n
+              <img
+                class="vertical-center"
+                src="../static/images/logos/google.png"
+                width="100%"
+                alt="Google Logo"
+              />\n
+            </div>
+            \n
+            <div class="infinite-carousel-item">
+              \n
+              <img
+                class="vertical-center"
+                src="../static/images/logos/gradaustralia.png"
+                width="100%"
+                alt="gradaustralia Logo"
+              />\n
+            </div>
+            \n
+            <div class="infinite-carousel-item">
+              \n
+              <img
+                class="vertical-center"
+                src="../static/images/logos/LinkedIn.png"
+                width="100%"
+                alt="LinkedIn Logo"
+              />\n
+            </div>
+            \n
+            <div class="infinite-carousel-item">
+              \n
+              <img
+                class="vertical-center"
+                src="../static/images/logos/Seek.png"
+                width="100%"
+                alt="Seek Logo"
+              />\n
+            </div>
+            \n
+            <div class="infinite-carousel-item">
+              \n
+              <img
+                class="vertical-center"
+                src="../static/images/logos/UWA.png"
+                width="100%"
+                alt="UWA Logo"
+              />\n
+            </div>
+            \n
+            <!-- Add more items -->\n
+          </div>
+          \n
+        </div>
+        \n\n
+        <div class="content">
+          \n
+          <!-- source: https://pngtree.com/freepng/meeting-of-people-face-to-face-for-consultation-job-interview-concept-design_5442387.html?sce=sol_pin -->\n
+          <img
+            id="interview-image"
+            src="../static/images/InterviewIllustration.png"
+            alt="Two people in an interview"
+            width="60%"
+          />\n
+        </div>
+        \n\n
+      </div>
+      \n\n
+      <div id="about-us" class="container-fluid">
+        \n
+        <div class="column-center">
+          \n
+          <div id="about-header" class="content">
+            \n
+            <h1 class="h1-content">About Us</h1>
+            \n
+          </div>
+          \n
+          <div id="about-content" class="content p-content">
+            \n
+            <p>
+              \n GetHired.ai was founded by a group of students from the
+              University of Western Australia, \n who recognized the necessity
+              for an intuitive interview preparation tool.\n
+            </p>
+            \n
+            <p>
+              \n We are a team of aspiring developers who strongly believe that
+              everyone should have access \n to the resources needed to ace
+              their next interview and achieve their career aspirations.\n
+            </p>
+            \n
+          </div>
+          \n
+        </div>
+        \n
+      </div>
+      \n\n
+      <div id="our-purpose" class="container-fluid">
+        \n
+        <div class="column-center">
+          \n
+          <div id="purpose-header" class="content">
+            \n
+            <h1 class="h1-content">Our Purpose</h1>
+            \n
+          </div>
+          \n
+          <div id="purpose-content" class="content p-content">
+            \n
+            <p>
+              \n We understand that preparing for interviews are daunting. That
+              is why we created GetHired.ai, now you can practice your interview
+              skills with our AI-powered chatbot.\n
+            </p>
+            \n
+            <p>
+              \n Our purpose is to provide fellow students struggling with job
+              interviews with a platform to practice and hone their skills so
+              they can land their dream job.\n
+            </p>
+            \n
+          </div>
+          \n
+        </div>
+        \n
+      </div>
+      \n\n
+      <div id="testimonial" class="container-fluid">
+        \n
+        <div id="testimonial-carousel" class="row">
+          \n
+          <div id="testimonial-description" class="col-md-4 column-center">
+            \n
+            <h1 class="h1-content">
+              Don\'t just take our world for it, check how GetHired.io helped
+              real students
+            </h1>
+            \n
+            <div id="testimonial-arrows">
+              \n <button id="prev">&#60;</button>\n
+              <button id="next">&#62;</button>\n
+            </div>
+            \n
+          </div>
+          \n
+          <div id="testimonial-content" class="col-md-7 column-center">
+            \n
+            <div class="vertical-center">
+              \n
+              <h3 id="testimonial-text">\n\n</h3>
+              \n
+              <p id="testimonial-name">\n \n</p>
+              \n
+              <p id="testimonial-job">\n \n</p>
+              \n
+              <p id="testimonial-rating">\n \n</p>
+              \n
+            </div>
+            \n
+          </div>
+          \n
+        </div>
+        \n
+      </div>
+      \n\n
+      <div id="epilogue" class="container-fluid">
+        \n
+        <div class="column-center">
+          \n
+          <div id="epilogue-header" class="content">
+            \n
+            <h1 class="h1-content">Ready to Get Hired?</h1>
+            \n
+          </div>
+          \n
+          <div id="epilogue-button">
+            \n
+            <button type="button" class="btn btn-primary launch-app-button">
+              Launch App</button
+            >\n
+          </div>
+          \n
+        </div>
+        \n
+      </div>
+      \n
+    </div>
+    \n\n
+    <div id="footer" class="container-fluid">
+      \n
+      <hr />
+      \n
+      <div id="footer-links" class="row">
+        \n
+        <div class="col-sm-4">
+          \n
+          <h1 class="logo">GetHired.ai</h1>
+          \n
+          <p class="footer-legal">2023 @ UWA CITS3403</p>
+          \n
+          <p class="footer-legal">All rights reserved.</p>
+          \n
+        </div>
+        \n
+        <div class="col-sm-2">
+          \n
+          <p class="footer-content vertical-center">Link1</p>
+          \n
+        </div>
+        \n
+        <div class="col-sm-2">
+          \n
+          <p class="footer-content vertical-center">Link2</p>
+          \n
+        </div>
+        \n
+        <div class="col-sm-2">
+          \n
+          <p class="footer-content vertical-center">Link3</p>
+          \n
+        </div>
+        \n
+        <div class="col-sm-2">
+          \n
+          <p class="footer-content vertical-center">Link4</p>
+          \n
+        </div>
+        \n
+      </div>
+      \n
+    </div>
+    \n\n
+    <script>
+      \n        setTimeout(function() {\n          let flashMessage = document.getElementById(\'flash-message\');\n          if (flashMessage) {\n              flashMessage.style.opacity = "0";\n              setTimeout(function() {\n                  flashMessage.style.display = "none";\n              }, 1000);\n          }\n      }, 3000);\n
+    </script>
+    \n
+  </body>
+  \n\n
+</html>
