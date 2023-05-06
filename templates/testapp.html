@@ -21,7 +21,7 @@
   </head>
   <style>
     .sidebar {
-      position: relative;
+      position: absolute;
       width: 220px;
       background-color: #f8f9fa;
       height: 100vh;
@@ -113,7 +113,6 @@
     strong{
       position: relative;
     }
-
   </style>
   <body>
 
@@ -158,44 +157,57 @@
       </symbol>
       </svg>
 
-    <div
-      class="sidebar d-flex flex-column flex-shrink-0 p-3 text-white bg-dark"
-    >
-      <span class="fs-4"><strong>GetHired.ai</strong></span>
-      <hr />
-      <ul class="nav nav-pills flex-column mb-auto">
-        <li class="nav-item">
-          <label for="jobTitle" class="form-label">Enter New Job Title:</label>
-          <div class="input-group">
-            <input class="form-control" id="jobTitle" placeholder="Job title"/>
-            <button class="btn btn-primary" id="jobTitleSubmit">Submit</button>
+    
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-2 p-0">
+          <div class="sidebar d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
+            <span class="fs-4"><strong>GetHired.ai</strong></span>
+            <hr />
+            <ul class="nav nav-pills flex-column mb-auto">
+              <li class="nav-item">
+                <label for="jobTitle" class="form-label">Enter New Job Title:</label>
+                <div class="input-group">
+                  <input class="form-control" id="jobTitle" placeholder="Job title"/>
+                  <button class="btn btn-primary" id="jobTitleSubmit">Submit</button>
+                </div>
+              </li>
+              <li>
+                <a href="#" class="nav-link text-white"><svg class="bi me-2" width="15" height="16"><use xlink:href="#chat-left-dots"/></svg>
+                  Chat History</a>
+              </li>
+            </ul>
+            <!-- placeholder for user icon -->
+            <hr />
+            <div class="dropdown">
+            <div href="#" class="flex align-items-center text-white text-ellipsis text-decoration-none dropdown-toggle" role="button" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+            </div>
+            <div class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1" style="">
+              <a class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#sliders"/></svg>
+                Settings</a>
+              <a class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#person-circle"/></svg>
+                Profile</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2" viewBox="0 0 16 16"><use xlink:href="#box-arrow-in-right"/></svg>
+                Sign out</a>
+              </div>
+            </div>
           </div>
-        </li>
-        <li>
-          <a href="#" class="nav-link text-white"><svg class="bi me-2" width="15" height="16"><use xlink:href="#chat-left-dots"/></svg>
-            Chat History</a>
-        </li>
-      </ul>
-      <!-- placeholder for user icon -->
-      <hr />
-      <div class="dropdown">
-      <div href="#" class="flex align-items-center text-white text-ellipsis text-decoration-none dropdown-toggle" role="button" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-      </div>
-      <div class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1" style="">
-        <a class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#sliders"/></svg>
-          Settings</a>
-        <a class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#person-circle"/></svg>
-          Profile</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2" viewBox="0 0 16 16"><use xlink:href="#box-arrow-in-right"/></svg>
-          Sign out</a>
         </div>
-    </div>
+        <div class="col-md-9">
+          <div class="row mt-5">
+            <div class="col-md-12">
+              <div class="chat-container">
+                <ul class="chat-box list-unstyled" id="chatBox"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="chatbot-container">
-      <div class="chat-container">
-        <ul class="chat-box list-unstyled" id="chatBox"></ul>
       <form class="user-input">
         <div class="input-group-chatbox">
           <input type="text" class="form-control" id="userInput" placeholder="Send a message"/>

@@ -1,8 +1,5 @@
 .chat-container {
-  background-color: #f8f8f8;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  height: 400px;
+  height: 700px;
   overflow-y: scroll;
   padding: 15px;
 }
