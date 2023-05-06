@@ -35,6 +35,21 @@
 {% endwith %}
 
     <!-- Below is the login modal -->
+    {% if show_login_modal %}
+    <!-- Show login modal when -->
+    <script>
+        $(document).ready(function () {
+            $("#login-modal").fadeIn(600);
+            $("#overlay").fadeIn(600);
+            $("#login-modal").show();
+            $("#overlay").css("display", "block"); // activates overlay
+            
+            // Prevents scrolling when modal is open
+            $("html").css("position", "fixed");
+            $("html").css("overflow-y", "scroll");
+        });
+    </script>
+    {% endif %}
     <div id="overlay"></div>
     <div id="login-modal" class="popup">
         <div class="close-btn" aria-label="Close">&times;</div>
@@ -102,9 +117,9 @@
 
             <div id="login" class="col-9">
                 {% if current_user.is_authenticated %}
-                <form action="/logout" method="POST" id="login-buttons" class="vertical-center">
-                    <p>Welcome Back {{current_user.username}}</p>
-                    <button type="submit" class="btn btn-primary">Logout</button>
+                <form action="/logout" method="POST" id="login-buttons">
+                    <p style="display: inline;">Hello, <b>{{current_user.username}}!</b></p>
+                    <button style="margin-left: 2em;" type="submit" class="btn btn-primary">Logout</button>
                 </form>
                 {% else %}
                 <div id="login-buttons" class="vertical-center">

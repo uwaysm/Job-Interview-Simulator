@@ -427,8 +427,11 @@ def register():
         db.session.commit()
         flash('Your account has been created! You are now able to log in.', 'success')
 
-        # TODO: change this to open sign in modal
-        return redirect(url_for('login'))
+        # Show the login modal after successful registration
+        return render_template("landing.html", 
+                               show_login_modal=True, 
+                               register_form=register_form, 
+                               login_form=login_form)
 
     # If the form is not valid, render the registration template
     return render_template('landing.html', register_form=register_form, login_form=login_form)
