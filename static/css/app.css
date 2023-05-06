@@ -6,24 +6,53 @@
 
 .chat-box {
   padding: 0;
+  list-style: none;
 }
 
 .bot-message,
 .user-message {
-  display: block;
+  display: inline-block;
   margin-bottom: 10px;
   word-wrap: break-word;
+  position: relative;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 .bot-message {
   color: #333;
+  background-color: #f1f1f1;
+  max-width: 70%;
+  margin-right: auto;
 }
 
-.user {
-  color: #007bff;
-  text-align: right;
+.bot-message::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 8px 8px;
+  border-color: transparent transparent #f1f1f1;
+  left: 15px;
+  top: -8px;
 }
 
-.break {
-  height: 10px;
+.user-message {
+  color: #fff;
+  background-color: #007bff;
+  max-width: 70%;
+  margin-left: auto;
+}
+
+.user-message::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 8px 8px 0;
+  border-color: #007bff transparent transparent;
+  right: 15px;
+  bottom: -8px;
 }

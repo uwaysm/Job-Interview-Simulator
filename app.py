@@ -28,7 +28,7 @@ openai.api_key = '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'
 # Main route, renders the landing page
 @app.route('/')
 def landing():
-    return render_template('landing.html')
+    return render_template('testapp.html')
 
 # Renders the app
 @app.route('/app')
