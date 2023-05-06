@@ -254,7 +254,7 @@ def chat_logs():
     c.execute("SELECT * FROM chatHistory JOIN sessionHistory ON chatHistory.sessionID = sessionHistory.sessionID")
     logs = c.fetchall()
     conn.close()
-
+    
     return render_template('chat_logs.html', logs=logs)
 
 # Start the Flask app
