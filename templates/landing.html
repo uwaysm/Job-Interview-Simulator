@@ -101,12 +101,19 @@
             </div>
 
             <div id="login" class="col-9">
+                {% if current_user.is_authenticated %}
+                <form action="/logout" method="POST" id="login-buttons" class="vertical-center">
+                    <p>Welcome Back {{current_user.username}}</p>
+                    <button type="submit" class="btn btn-primary">Logout</button>
+                </form>
+                {% else %}
                 <div id="login-buttons" class="vertical-center">
                     <button type="button" class="login-button btn">Login</button>
                     <button type="button" class="signup-button btn btn-primary">
                         Sign Up
                     </button>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>

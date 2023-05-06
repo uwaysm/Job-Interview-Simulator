@@ -400,7 +400,7 @@ def login():
         if user_object and bcrypt.check_password_hash(user_object.password, login_form.password.data):
             login_user(user_object)
             flash('Logged in successfully!', 'success')
-            return redirect(url_for('app_main'))
+            return redirect(url_for('landing'))
         else:
             flash('Invalid username or password.', 'danger')
             return render_template('landing.html', register_form=register_form, login_form=login_form)
