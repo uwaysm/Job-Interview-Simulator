@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session
 import openai
 import json
 import os
@@ -400,7 +400,10 @@ def login():
         if user_object and bcrypt.check_password_hash(user_object.password, login_form.password.data):
             login_user(user_object)
             flash('Logged in successfully!', 'success')
-            return redirect(url_for('app_main'))
+
+            session["username"] = login_form.username.data
+
+            return redirect(url_for('landing'))
         else:
             flash('Invalid username or password.', 'danger')
             return render_template('landing.html', register_form=register_form, login_form=login_form)
@@ -427,8 +430,11 @@ def register():
         db.session.commit()
         flash('Your account has been created! You are now able to log in.', 'success')
 
-        # TODO: change this to open sign in modal
-        return redirect(url_for('login'))
+        # Show the login modal after successful registration
+        return render_template("landing.html", 
+                               show_login_modal=True, 
+                               register_form=register_form, 
+                               login_form=login_form)
 
     # If the form is not valid, render the registration template
     return render_template('landing.html', register_form=register_form, login_form=login_form)
