@@ -32,7 +32,7 @@
 {% endwith %}
 
 <form action="/logout" method="POST" class="position-absolute top-0 start-0">
-  <span>Welcome {{ session["username"] }} </span>
+  <span>Welcome {{ current_user.username }} </span>
   <button type="submit" class="btn btn-primary mt-2 ms-2">Logout</button>
 </form>
 

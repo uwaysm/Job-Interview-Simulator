@@ -250,30 +250,32 @@ def final_decision_route():
     decision = get_final_decision(responses, job_title)
 
     # Below is the code to save the current session to the database
-    # Hardcode in userID for now
-    userID = 1 # TODO: Change this to the actual userID once user-authentication system in implemented
+    if current_user.is_authenticated:
+        # Only save chat logs if the user is logged in
 
-    # Connect to the database
-    conn = sqlite3.connect('./instance/database.db')
-    cursor = conn.cursor() # Create a cursor object to execute SQL commands
+        userID = current_user.id # Get the userID of the current user
 
-    # Insert the session history into the database
-    cursor.execute("INSERT INTO sessionHistory (userID, jobTitle, finalDecision) VALUES (?, ?, ?)", 
-              (userID, job_title, decision))
+        # Connect to the database
+        conn = sqlite3.connect('./instance/database.db')
+        cursor = conn.cursor() # Create a cursor object to execute SQL commands
 
-    # Get the sessionID of the current session
-    cursor.execute("SELECT sessionID FROM sessionHistory ORDER BY sessionID DESC LIMIT 1")
-    sessionID = cursor.fetchone()[0] # Fetch the result of the query -> This is the current session number
+        # Insert the session history into the database
+        cursor.execute("INSERT INTO sessionHistory (userID, jobTitle, finalDecision) VALUES (?, ?, ?)", 
+                (userID, job_title, decision))
 
-    # Insert the chat history into the database
-    for response in responses:
-        # Insert the chat history into the chatHistory table
-        cursor.execute("INSERT INTO chatHistory (sessionID, botQuestion, userResponse, botReview) VALUES (?, ?, ?, ?)", 
-                  (sessionID, response['question'], response['response'], response['feedback']))
-    
-    # Commit the changes to the database
-    conn.commit()
-    conn.close()
+        # Get the sessionID of the current session
+        cursor.execute("SELECT sessionID FROM sessionHistory ORDER BY sessionID DESC LIMIT 1")
+        sessionID = cursor.fetchone()[0] # Fetch the result of the query -> This is the current session number
+
+        # Insert the chat history into the database
+        for response in responses:
+            # Insert the chat history into the chatHistory table
+            cursor.execute("INSERT INTO chatHistory (sessionID, botQuestion, userResponse, botReview) VALUES (?, ?, ?, ?)", 
+                    (sessionID, response['question'], response['response'], response['feedback']))
+        
+        # Commit the changes to the database
+        conn.commit()
+        conn.close()
     
     return jsonify(decision)
 
@@ -286,7 +288,13 @@ def final_decision_route():
 def chat_logs():
     conn = sqlite3.connect('./instance/database.db')
     c = conn.cursor()
-    c.execute("SELECT * FROM chatHistory JOIN sessionHistory ON chatHistory.sessionID = sessionHistory.sessionID")
+
+    # Only show the chat logs of the current user. If in guest mode, don't show any chat logs
+    if current_user.is_authenticated:
+        c.execute("SELECT * FROM chatHistory JOIN sessionHistory ON chatHistory.sessionID = sessionHistory.sessionID WHERE sessionHistory.userID = ?", 
+                  (current_user.id,))
+        
+
     logs = c.fetchall()
     conn.close()
     
@@ -401,8 +409,6 @@ def login():
             login_user(user_object)
             flash('Logged in successfully!', 'success')
 
-            session["username"] = login_form.username.data
-
             return redirect(url_for('landing'))
         else:
             flash('Invalid username or password.', 'danger')
@@ -438,9 +444,6 @@ def register():
 
     # If the form is not valid, render the registration template
     return render_template('landing.html', register_form=register_form, login_form=login_form)
-
-
-
 
 
 @app.route('/logout', methods=['GET', 'POST'])
