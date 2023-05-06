@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/css/style.css" />
+    <link href="../static/css/login.css" rel="stylesheet" type="text/css" />
+    <title>Login</title>
+  </head>
+  <body>
+    <div class="popup">
+      <div class="close-btn">&times;</div>
+      <div class="form">
+        <h2>Welcome Back</h2>
+        <form method="POST" action="">
+          {{ form.hidden_tag() }}
+          <div class="form-element">
+            <label for="email">Username</label>
+            {{ form.username(class="form-element__input", id="email") }}
+          </div>
+          <div class="form-element">
+            <label for="password">Password</label>
+            {{ form.password(class="form-element__input", id="password") }}
+          </div>
+          <div class="form-element">
+            {{ form.submit(class="btn", id="loginBtn", value="Log in") }}
+          </div>
+        </form>
+        <div class="form-element2">
+          <button id="registerBtn">Register</button>
+        </div>
+        <div class="form-element">
+          <a href="#">Forgot your password?</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
