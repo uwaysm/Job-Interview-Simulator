@@ -20,6 +20,22 @@
     <link rel="stylesheet" href="../static/css/style.css" />
   </head>
   <body>
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" id="flash-message">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<form action="/logout" method="POST" class="position-absolute top-0 start-0">
+  <span>Welcome {{current_user.username}} </span>
+  <button type="submit" class="btn btn-primary mt-2 ms-2">Logout</button>
+</form>
+
     <div class="container">
       <h1 class="text-center mt-5">Interview Chatbot</h1>
       <div class="row mt-4">
@@ -99,5 +115,17 @@
         </div>
       </div>
     </div>
+    <script>
+      setTimeout(function() {
+        let flashMessage = document.getElementById('flash-message');
+        if (flashMessage) {
+            flashMessage.style.opacity = "0";
+            setTimeout(function() {
+                flashMessage.style.display = "none";
+            }, 1000);
+        }
+    }, 3000);
+    </script>
   </body>
+  
 </html>

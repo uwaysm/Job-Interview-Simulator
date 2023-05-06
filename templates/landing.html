@@ -26,19 +26,13 @@
     <!-- Flash messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-      {% for category, message in messages %}
-        {% if category == 'success' %}
-          <div class="alert alert-success" role="alert">
-            {{ message }}
-          </div>
-        {% elif category == 'error' %}
-            <div class="alert alert-danger" role="alert">
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" id="flash-message">
                 {{ message }}
             </div>
-        {% endif %}
-      {% endfor %}
+        {% endfor %}
     {% endif %}
-  {% endwith %}
+{% endwith %}
 
     <!-- Below is the login modal -->
     <div id="overlay"></div>
@@ -59,7 +53,7 @@
             placeholder="Enter your Password") }}
             </div>
             <div class="form-element">
-                <button>{{ login_form.submit(id="loginBtn", value="Log in", ) }}</button>
+                <button id="btn">{{ login_form.submit(id="btn", value="Log in", ) }}</button>
             </div>
         </form>
             <div class="form-element2">
@@ -91,7 +85,7 @@
               {{ register_form.confirm_password(class="form-element__input", id="password", placeholder="Confirm your Password") }}
             </div>
             <div class="form-element">
-                <button>{{ register_form.submit(value="Sign Up") }}</button>
+                <button id="btn">{{ register_form.submit(id="btn", value="Sign Up") }}</button>
             </div>
         </form>
         </div>
@@ -271,6 +265,18 @@
             </div>
         </div>
     </div>
+
+    <script>
+        setTimeout(function() {
+          let flashMessage = document.getElementById('flash-message');
+          if (flashMessage) {
+              flashMessage.style.opacity = "0";
+              setTimeout(function() {
+                  flashMessage.style.display = "none";
+              }, 1000);
+          }
+      }, 3000);
+      </script>
 </body>
 
 </html>

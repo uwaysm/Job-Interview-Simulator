@@ -257,7 +257,7 @@ def final_decision_route():
 db = SQLAlchemy()
 bcrypt = Bcrypt(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-# TODO: change this to a more secure secret key
+# TODO: change this to a more secure secret key and add it to a .env file
 app.config['SECRET_KEY'] = 'mysecretkey'
 db.init_app(app)
 
@@ -267,8 +267,6 @@ login_manager.login_view = 'login'  # type: ignore
 login_manager.init_app(app)
 
 # loads a user from the database given their id
-
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -343,8 +341,7 @@ class LoginForm(FlaskForm):
 
     submit = SubmitField('Log In')
 
-    
-#FIXME: if you input a non existant user the message will both be success and error
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -360,11 +357,12 @@ def login():
             flash('Logged in successfully!', 'success')
             return redirect(url_for('app_main'))
         else:
-            flash('Invalid username or password.', 'error')
+            flash('Invalid username or password.', 'danger')
+            return render_template('landing.html', register_form=register_form, login_form=login_form)
     return render_template('landing.html', register_form=register_form, login_form=login_form)
 
 
-# TODO: change register route to work with the frontend
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     register_form = RegisterForm()
@@ -372,26 +370,29 @@ def register():
 
     if register_form.validate_on_submit():
         # Check if the entered username already exists in the database
-        existing_user = User.query.filter_by(
-            username=register_form.username.data).first()
+        existing_user = User.query.filter_by(username=register_form.username.data).first()
         if existing_user:
             # Display an error message to the user
-            flash('Username already exists. Please choose a different one.')
-            return redirect(url_for('register'))
+            flash('Username already exists. Please choose a different one.', 'danger')
+            return render_template('landing.html', register_form=register_form, login_form=login_form)
 
         # Hash the password and create a new user record and add to database
-        hashed_password = bcrypt.generate_password_hash(
-            register_form.password.data).decode('utf-8')
+        hashed_password = bcrypt.generate_password_hash(register_form.password.data).decode('utf-8')
         new_user = User(username=register_form.username.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
-        flash('Your account has been created! You are now able to log in.')
+        flash('Your account has been created! You are now able to log in.', 'success')
         
-        #FIXME: change this to open sign in modal
+        #TODO: change this to open sign in modal
         return redirect(url_for('login'))
 
     # If the form is not valid, render the registration template
     return render_template('landing.html', register_form=register_form, login_form=login_form)
+
+@app.route('/logout', methods=['GET', 'POST'])
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 
 
 # Start the Flask app
