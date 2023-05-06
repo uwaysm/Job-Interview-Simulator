@@ -208,7 +208,7 @@ def generate_questions():
 
     # Generate interview questions using the OpenAI API
     questions = generate_interview_questions(job_title)
-        
+
     return jsonify({'questions': questions})
 
 # Route to evaluate a user's response
@@ -247,8 +247,130 @@ def final_decision_route():
 
     # Get the final decision based on the responses and job title
     decision = get_final_decision(responses, job_title)
+    return jsonify(decision)
 
-    # Below is the code to save the current session to the database
+
+# ========================================================================= #
+# ========================== USER AUTHENTICATION ========================== #
+# ========================================================================= #
+
+
+db = SQLAlchemy()
+bcrypt = Bcrypt(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+# TODO: change this to a more secure secret key and add it to a .env file
+app.config['SECRET_KEY'] = 'mysecretkey'
+db.init_app(app)
+
+
+login_manager = LoginManager()
+login_manager.login_view = 'login'  # type: ignore
+login_manager.init_app(app)
+
+# loads a user from the database given their id
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+# creates the database tables
+with app.app_context():
+    db.create_all()
+
+
+"""Represents a user in the application.
+
+This class inherits from SQLAlchemy's `db.Model` and Flask-Login's `UserMixin`.
+It defines a database table `users` with columns `id`, `username`, and `password`.
+
+Attributes:
+    id (int): A unique identifier for the user. This is a primary key in the database.
+    username (str): The user's unique username. This is a required field and cannot be
+        null or empty. The maximum length of the username is 20 characters.
+    password (str): The user's password. This is a required field and cannot be null or
+        empty. The password is stored in the database as a hash with a length of 60
+        characters.
+
+"""
+
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    password = db.Column(db.String(60), nullable=False)
+
+
+"""Defines a Flask form for user registration.
+
+This form contains fields for username, password, and confirmation of password.
+Each field is validated using various validators from the WTForms library.
+If all fields are valid, the user can submit the form to sign up.
+
+Attributes:
+    username (StringField): A field for the user's desired username. It is required
+        and must be between 4 and 20 characters long.
+    password (PasswordField): A field for the user's desired password. It is required
+        and must be between 8 and 20 characters long.
+    confirm_password (PasswordField): A field for confirming the user's password.
+        It is required and must match the value of the password field.
+    submit (SubmitField): A button to submit the form and sign up.
+
+"""
+
+
+class RegisterForm(FlaskForm):
+    username = StringField('username', validators=[
+                           InputRequired(), Length(min=4, max=20)])
+    password = PasswordField('password', validators=[
+                             InputRequired(), Length(min=8, max=20)])
+    confirm_password = PasswordField('confirm_password', validators=[
+                                     InputRequired(), EqualTo('password')])
+    submit = SubmitField('Sign Up')
+
+    def validate_username(self, username):
+        user_object = User.query.filter_by(username=username.data).first()
+        if user_object:
+            raise ValidationError(
+                'Username already exists. Please choose a different one.')
+
+
+class LoginForm(FlaskForm):
+    username = StringField('username', validators=[
+                           InputRequired(), Length(min=4, max=20)])
+    password = PasswordField('password', validators=[
+                             InputRequired(), Length(min=8, max=20)])
+
+    submit = SubmitField('Log In')
+
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    register_form = RegisterForm()
+    login_form = LoginForm()
+
+    if login_form.validate_on_submit():
+        # checks if the user actually exists
+        user_object = User.query.filter_by(username=login_form.username.data).first()
+        # take the user-supplied password, hash it, and compare it to the hashed password in the database
+        if user_object and bcrypt.check_password_hash(user_object.password, login_form.password.data):
+            login_user(user_object)
+            flash('Logged in successfully!', 'success')
+            return redirect(url_for('app_main'))
+        else:
+            flash('Invalid username or password.', 'danger')
+            return render_template('landing.html', register_form=register_form, login_form=login_form)
+    return render_template('landing.html', register_form=register_form, login_form=login_form)
+
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    register_form = RegisterForm()
+    login_form = LoginForm()
+
+
+ # Below is the code to save the current session to the database
     # Hardcode in userID for now
     userID = 1 # TODO: Change this to the actual userID once user-authentication system in implemented
 
@@ -256,14 +378,13 @@ def final_decision_route():
     conn = sqlite3.connect('./instance/database.db')
     cursor = conn.cursor() # Create a cursor object to execute SQL commands
 
-    # Insert the session history into the database
+# Insert the session history into the database
     cursor.execute("INSERT INTO sessionHistory (userID, jobTitle, finalDecision) VALUES (?, ?, ?)", 
               (userID, job_title, decision))
 
     # Get the sessionID of the current session
     cursor.execute("SELECT sessionID FROM sessionHistory ORDER BY sessionID DESC LIMIT 1")
     sessionID = cursor.fetchone()[0] # Fetch the result of the query -> This is the current session number
-
     # Insert the chat history into the database
     for response in responses:
         # Insert the chat history into the chatHistory table
@@ -275,6 +396,33 @@ def final_decision_route():
     conn.close()
     
     return jsonify(decision)
+
+    if register_form.validate_on_submit():
+        # Check if the entered username already exists in the database
+        existing_user = User.query.filter_by(username=register_form.username.data).first()
+        if existing_user:
+            # Display an error message to the user
+            flash('Username already exists. Please choose a different one.', 'danger')
+            return render_template('landing.html', register_form=register_form, login_form=login_form)
+
+        # Hash the password and create a new user record and add to database
+        hashed_password = bcrypt.generate_password_hash(register_form.password.data).decode('utf-8')
+        new_user = User(username=register_form.username.data, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+        flash('Your account has been created! You are now able to log in.', 'success')
+        
+        #TODO: change this to open sign in modal
+        return redirect(url_for('login'))
+
+    # If the form is not valid, render the registration template
+    return render_template('landing.html', register_form=register_form, login_form=login_form)
+
+@app.route('/logout', methods=['GET', 'POST'])
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
 
 # Start the Flask app
 if __name__ == '__main__':
