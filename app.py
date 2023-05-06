@@ -234,6 +234,7 @@ def evaluate_response_route():
 # Route to get the final decision based on user responses
 
 
+# Route to get the final decision based on user responses
 @app.route('/final_decision', methods=['POST'])
 def final_decision_route():
     job_title = request.form.get('job_title')
@@ -247,8 +248,34 @@ def final_decision_route():
 
     # Get the final decision based on the responses and job title
     decision = get_final_decision(responses, job_title)
-    return jsonify(decision)
 
+    # Below is the code to save the current session to the database
+    # Hardcode in userID for now
+    userID = 1 # TODO: Change this to the actual userID once user-authentication system in implemented
+
+    # Connect to the database
+    conn = sqlite3.connect('./instance/database.db')
+    cursor = conn.cursor() # Create a cursor object to execute SQL commands
+
+    # Insert the session history into the database
+    cursor.execute("INSERT INTO sessionHistory (userID, jobTitle, finalDecision) VALUES (?, ?, ?)", 
+              (userID, job_title, decision))
+
+    # Get the sessionID of the current session
+    cursor.execute("SELECT sessionID FROM sessionHistory ORDER BY sessionID DESC LIMIT 1")
+    sessionID = cursor.fetchone()[0] # Fetch the result of the query -> This is the current session number
+
+    # Insert the chat history into the database
+    for response in responses:
+        # Insert the chat history into the chatHistory table
+        cursor.execute("INSERT INTO chatHistory (sessionID, botQuestion, userResponse, botReview) VALUES (?, ?, ?, ?)", 
+                  (sessionID, response['question'], response['response'], response['feedback']))
+    
+    # Commit the changes to the database
+    conn.commit()
+    conn.close()
+    
+    return jsonify(decision)
 
 # ========================================================================= #
 # ========================== USER AUTHENTICATION ========================== #
@@ -268,6 +295,8 @@ login_manager.login_view = 'login'  # type: ignore
 login_manager.init_app(app)
 
 # loads a user from the database given their id
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -343,7 +372,6 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Log In')
 
 
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     register_form = RegisterForm()
@@ -351,7 +379,8 @@ def login():
 
     if login_form.validate_on_submit():
         # checks if the user actually exists
-        user_object = User.query.filter_by(username=login_form.username.data).first()
+        user_object = User.query.filter_by(
+            username=login_form.username.data).first()
         # take the user-supplied password, hash it, and compare it to the hashed password in the database
         if user_object and bcrypt.check_password_hash(user_object.password, login_form.password.data):
             login_user(user_object)
@@ -363,39 +392,10 @@ def login():
     return render_template('landing.html', register_form=register_form, login_form=login_form)
 
 
-
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     register_form = RegisterForm()
     login_form = LoginForm()
-
-
- # Below is the code to save the current session to the database
-    # Hardcode in userID for now
-    userID = 1 # TODO: Change this to the actual userID once user-authentication system in implemented
-
-    # Connect to the database
-    conn = sqlite3.connect('./instance/database.db')
-    cursor = conn.cursor() # Create a cursor object to execute SQL commands
-
-# Insert the session history into the database
-    cursor.execute("INSERT INTO sessionHistory (userID, jobTitle, finalDecision) VALUES (?, ?, ?)", 
-              (userID, job_title, decision))
-
-    # Get the sessionID of the current session
-    cursor.execute("SELECT sessionID FROM sessionHistory ORDER BY sessionID DESC LIMIT 1")
-    sessionID = cursor.fetchone()[0] # Fetch the result of the query -> This is the current session number
-    # Insert the chat history into the database
-    for response in responses:
-        # Insert the chat history into the chatHistory table
-        cursor.execute("INSERT INTO chatHistory (sessionID, botQuestion, userResponse, botReview) VALUES (?, ?, ?, ?)", 
-                  (sessionID, response['question'], response['response'], response['feedback']))
-    
-    # Commit the changes to the database
-    conn.commit()
-    conn.close()
-    
-    return jsonify(decision)
 
     if register_form.validate_on_submit():
         # Check if the entered username already exists in the database
@@ -411,17 +411,22 @@ def register():
         db.session.add(new_user)
         db.session.commit()
         flash('Your account has been created! You are now able to log in.', 'success')
-        
-        #TODO: change this to open sign in modal
+
+        # TODO: change this to open sign in modal
         return redirect(url_for('login'))
 
     # If the form is not valid, render the registration template
     return render_template('landing.html', register_form=register_form, login_form=login_form)
 
+
+
+
+
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
 
 
 # Start the Flask app
