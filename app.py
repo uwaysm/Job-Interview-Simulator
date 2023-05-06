@@ -277,6 +277,21 @@ def final_decision_route():
     
     return jsonify(decision)
 
+####################################################
+# Below is the placeholder page for the chat logs
+# Access it by adding /chat_logs to the URL
+####################################################
+
+@app.route('/chat_logs')
+def chat_logs():
+    conn = sqlite3.connect('./instance/database.db')
+    c = conn.cursor()
+    c.execute("SELECT * FROM chatHistory JOIN sessionHistory ON chatHistory.sessionID = sessionHistory.sessionID")
+    logs = c.fetchall()
+    conn.close()
+    
+    return render_template('chat_logs.html', logs=logs)
+
 # ========================================================================= #
 # ========================== USER AUTHENTICATION ========================== #
 # ========================================================================= #
