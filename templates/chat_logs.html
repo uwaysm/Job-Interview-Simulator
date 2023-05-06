@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat Logs</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 20px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th, td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      tr:hover {
+        background-color: #f5f5f5;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Chat Logs</h1>
+    <div class="form-row mb-3">
+      <div class="col">
+        <input
+          class="form-control"
+          id="filterJobTitle"
+          type="text"
+          placeholder="Filter by job title"
+          onkeyup="filterTable()"
+        />
+      </div>
+      <div class="col">
+        <input
+          class="form-control"
+          id="filterSessionID"
+          type="number"
+          placeholder="Filter by session ID"
+          onchange="filterTable()"
+        />
+      </div>
+      <div class="col">
+        <input
+          class="form-control"
+          id="filterDate"
+          type="date"
+          placeholder="Filter by date"
+          onchange="filterTable()"
+        />
+      </div>
+      <div class="col">
+        <input
+          class="form-control"
+          id="filterRating"
+          type="number"
+          min="0"
+          max="10"
+          step="1"
+          placeholder="Filter by rating"
+          onkeyup="filterTable()"
+        />
+      </div>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Session ID</th>
+          <th>User ID</th>
+          <th>Job Title</th>
+          <th>Question</th>
+          <th>Answer</th>
+          <th>Review</th>
+          <th>Final Decision</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody id="chatLogsTable">
+        {% for log in logs %}
+        <tr>
+          <td>{{ log[1] }}</td>
+          <td>{{ log[6] }}</td>
+          <td>{{ log[7] }}</td>
+          <td>{{ log[2] }}</td>
+          <td>{{ log[3] }}</td>
+          <td>{{ log[4] }}</td>
+          <td>{{ log[8] }}</td>
+          <td>{{ log[9] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <script>
+      function filterTable() {
+        let jobTitleInput = document.getElementById("filterJobTitle");
+        let jobTitleFilter = jobTitleInput.value.toUpperCase();
+        let dateInput = document.getElementById("filterDate");
+        let dateFilter = dateInput.value;
+        let ratingInput = document.getElementById("filterRating");
+        let ratingFilter = ratingInput.value;
+        let sessionIDInput = document.getElementById("filterSessionID");
+        let sessionIDFilter = sessionIDInput.value;
+  
+        let table = document.getElementById("chatLogsTable");
+        let tr = table.getElementsByTagName("tr");
+  
+        for (let i = 0; i < tr.length; i++) {
+          let jobTitleTd = tr[i].getElementsByTagName("td")[2];
+          let sessionIDTd = tr[i].getElementsByTagName("td")[0];
+          let dateTd = tr[i].getElementsByTagName("td")[7];
+          let decisionTd = tr[i].getElementsByTagName("td")[6];
+  
+          if (jobTitleTd && dateTd && decisionTd) {
+            let jobTitleTxtValue = jobTitleTd.textContent || jobTitleTd.innerText;
+            let sessionIDTxtValue = sessionIDTd.textContent || sessionIDTd.innerText;
+            let dateTxtValue = dateTd.textContent || dateTd.innerText;
+            let decisionTxtValue = decisionTd.textContent || decisionTd.innerText;
+            let ratingValue = decisionTxtValue.match(/Rating: (\d{1,2})\//);
+  
+            if (
+              jobTitleTxtValue.toUpperCase().indexOf(jobTitleFilter) > -1 &&
+              sessionIDTxtValue.indexOf(sessionIDFilter) > -1 &&
+              dateTxtValue.indexOf(dateFilter) > -1 &&
+              (ratingValue && ratingValue[1] === ratingFilter || ratingFilter === '')
+            ) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }
+        }
+      }
+    </script>
+  </body>
+  </html>
+  
