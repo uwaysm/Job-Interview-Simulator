@@ -1,7 +1,8 @@
 .chat-container {
-  height: 700px;
+  height: 850px;
   overflow-y: scroll;
   padding: 15px;
+  padding-left: 220px;
 }
 
 .chat-box {
@@ -40,7 +41,9 @@
   height: 10px;
 }
 
-
+.chat {
+  padding-left: 220px;
+}
 
 .sidebar {
   position: absolute;
