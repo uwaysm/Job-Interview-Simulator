@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session
 import openai
 import json
 import os
@@ -6,6 +6,7 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 import sqlite3
+import secrets
 
 # ============= IMPORTS FOR USER AUTH ============= #
 from flask import Flask, redirect, render_template, url_for, flash
@@ -250,30 +251,32 @@ def final_decision_route():
     decision = get_final_decision(responses, job_title)
 
     # Below is the code to save the current session to the database
-    # Hardcode in userID for now
-    userID = 1 # TODO: Change this to the actual userID once user-authentication system in implemented
+    if current_user.is_authenticated:
+        # Only save chat logs if the user is logged in
 
-    # Connect to the database
-    conn = sqlite3.connect('./instance/database.db')
-    cursor = conn.cursor() # Create a cursor object to execute SQL commands
+        userID = current_user.id # Get the userID of the current user
 
-    # Insert the session history into the database
-    cursor.execute("INSERT INTO sessionHistory (userID, jobTitle, finalDecision) VALUES (?, ?, ?)", 
-              (userID, job_title, decision))
+        # Connect to the database
+        conn = sqlite3.connect('./instance/database.db')
+        cursor = conn.cursor() # Create a cursor object to execute SQL commands
 
-    # Get the sessionID of the current session
-    cursor.execute("SELECT sessionID FROM sessionHistory ORDER BY sessionID DESC LIMIT 1")
-    sessionID = cursor.fetchone()[0] # Fetch the result of the query -> This is the current session number
+        # Insert the session history into the database
+        cursor.execute("INSERT INTO sessionHistory (userID, jobTitle, finalDecision) VALUES (?, ?, ?)", 
+                (userID, job_title, decision))
 
-    # Insert the chat history into the database
-    for response in responses:
-        # Insert the chat history into the chatHistory table
-        cursor.execute("INSERT INTO chatHistory (sessionID, botQuestion, userResponse, botReview) VALUES (?, ?, ?, ?)", 
-                  (sessionID, response['question'], response['response'], response['feedback']))
-    
-    # Commit the changes to the database
-    conn.commit()
-    conn.close()
+        # Get the sessionID of the current session
+        cursor.execute("SELECT sessionID FROM sessionHistory ORDER BY sessionID DESC LIMIT 1")
+        sessionID = cursor.fetchone()[0] # Fetch the result of the query -> This is the current session number
+
+        # Insert the chat history into the database
+        for response in responses:
+            # Insert the chat history into the chatHistory table
+            cursor.execute("INSERT INTO chatHistory (sessionID, botQuestion, userResponse, botReview) VALUES (?, ?, ?, ?)", 
+                    (sessionID, response['question'], response['response'], response['feedback']))
+        
+        # Commit the changes to the database
+        conn.commit()
+        conn.close()
     
     return jsonify(decision)
 
@@ -286,7 +289,13 @@ def final_decision_route():
 def chat_logs():
     conn = sqlite3.connect('./instance/database.db')
     c = conn.cursor()
-    c.execute("SELECT * FROM chatHistory JOIN sessionHistory ON chatHistory.sessionID = sessionHistory.sessionID")
+
+    # Only show the chat logs of the current user. If in guest mode, don't show any chat logs
+    if current_user.is_authenticated:
+        c.execute("SELECT * FROM chatHistory JOIN sessionHistory ON chatHistory.sessionID = sessionHistory.sessionID WHERE sessionHistory.userID = ?", 
+                  (current_user.id,))
+        
+
     logs = c.fetchall()
     conn.close()
     
@@ -296,12 +305,13 @@ def chat_logs():
 # ========================== USER AUTHENTICATION ========================== #
 # ========================================================================= #
 
-
+#generate secret key
+secret_key = secrets.token_hex(16)
 db = SQLAlchemy()
 bcrypt = Bcrypt(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-# TODO: change this to a more secure secret key and add it to a .env file
-app.config['SECRET_KEY'] = 'mysecretkey'
+# TODO: add this to a config.py file
+app.config['SECRET_KEY'] = secret_key
 db.init_app(app)
 
 
@@ -400,7 +410,8 @@ def login():
         if user_object and bcrypt.check_password_hash(user_object.password, login_form.password.data):
             login_user(user_object)
             flash('Logged in successfully!', 'success')
-            return redirect(url_for('app_main'))
+
+            return redirect(url_for('landing'))
         else:
             flash('Invalid username or password.', 'danger')
             return render_template('landing.html', register_form=register_form, login_form=login_form)
@@ -413,28 +424,24 @@ def register():
     login_form = LoginForm()
 
     if register_form.validate_on_submit():
-        # Check if the entered username already exists in the database
-        existing_user = User.query.filter_by(username=register_form.username.data).first()
-        if existing_user:
-            # Display an error message to the user
-            flash('Username already exists. Please choose a different one.', 'danger')
-            return render_template('landing.html', register_form=register_form, login_form=login_form)
-
         # Hash the password and create a new user record and add to database
         hashed_password = bcrypt.generate_password_hash(register_form.password.data).decode('utf-8')
         new_user = User(username=register_form.username.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
         flash('Your account has been created! You are now able to log in.', 'success')
+    else:
+        #validation failed
+        flash('Username already exists. Please choose a different one.', 'danger')
 
-        # TODO: change this to open sign in modal
-        return redirect(url_for('login'))
+        # Show the login modal after successful registration
+        return render_template("landing.html", 
+                               show_login_modal=True, 
+                               register_form=register_form, 
+                               login_form=login_form)
 
     # If the form is not valid, render the registration template
     return render_template('landing.html', register_form=register_form, login_form=login_form)
-
-
-
 
 
 @app.route('/logout', methods=['GET', 'POST'])
