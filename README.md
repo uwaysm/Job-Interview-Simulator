@@ -1,8 +1,21 @@
 # README.md
 
-## Interview Simulator
+# Job Interview Simulator Web Application
 
-This Interview Simulator is a Flask web app that uses OpenAI's GPT-4 to generate interview questions for a specific job title, evaluate user responses, and provide feedback.
+This web application is a Job Interview Simulator that helps users practice their interview skills. Users can enter a job title and the AI-powered system will generate relevant interview questions. Users can then respond to these questions and receive feedback on their responses, as well as a final decision on whether they would be accepted for the job.
+
+## Architecture
+
+The application is built using the Flask web framework and is powered by OpenAI's GPT-4 API. It has the following primary components:
+
+1. **Flask**: A lightweight web framework used to develop the web application.
+2. **SQLite**: A lightweight, serverless database used to store user data and chat history.
+3. **OpenAI API**: The GPT-4 API is used to generate interview questions, evaluate responses, and provide feedback to the user.
+4. **Flask-Login**: A Flask extension that handles user authentication and management.
+5. **Flask-WTF**: A Flask extension for handling forms.
+6. **Flask-Bcrypt**: A Flask extension for hashing passwords.
+7. **Flask-SQLAlchemy**: A Flask extension that provides a simple interface for using SQLAlchemy with Flask.
+
 
 ### Requirements
 
@@ -29,32 +42,70 @@ cd job-interview-simulator
 pip install -r requirements.txt
 ```
 
-### Running the Application
+4. Set your OpenAI API key in the environment variable `OPENAI_API_KEY` or replace the placeholder value in the line `OPENAI_API_KEY = 'your_api_key_here'` with your actual API key.
 
-1. Set the Flask app environment variable:
+## How to Launch the Web Application
 
-- For Windows:
-```
-set FLASK_APP=app.py
-```
-- For macOS and Linux:
-```
-export FLASK_APP=app.py
-```
+1. Run the following command in your terminal or command prompt to start the web application: `python app.py`
 
+2. The application will start, and you can access it at `http://127.0.0.1:5000/` in your web browser.
 
-2. Run the application:
-```
-flask run
-```
-
-3. Open a web browser and navigate to `http://127.0.0.1:5000/` to access the app.
 
 ### Usage
 
 - Enter a job title, and the app will generate 5 interview questions for the role.
 - Respond to each question, and the app will evaluate your response and provide feedback.
 - After answering all the questions, the app will provide a final decision on your performance.
+
+# Unit Tests
+
+The unit tests for the Job Interview Simulator web application cover the following features:
+
+## 1. User Registration, Login, and Logout
+
+- Test successful user registration with a unique username and password.
+- Test unsuccessful user registration with an existing username.
+- Test successful user login and logout.
+- Test unsuccessful user login with the wrong password.
+- Test unsuccessful user login with a nonexistent username.
+
+## 2. Job Title Validation
+
+- Test the validation of real job titles.
+- Test the validation of job titles with no input.
+
+## 3. Interview Question Generation
+
+- Test successful interview question generation based on a job title.
+- Test unsuccessful interview question generation with no input.
+
+## 4. Response Evaluation
+
+- Test successful evaluation of user responses with scores and feedback.
+- Test unsuccessful evaluation of user responses with no input.
+
+## 5. Final Decision Making
+
+- Test the final decision-making process based on user responses.
+- Test the final decision-making process with no input.
+
+You can find the corresponding test methods in the `TestFlaskApp` class in the `test_app.py` file.
+
+## How to run the unit tests
+
+### Prerequisites
+
+Before you begin, make sure you have completed the steps to set up and run the web application locally. Additionally, ensure you have the following Python packages installed:
+
+- unittest
+
+## Step 1: Run the tests
+
+Open a terminal or command prompt, navigate to the project directory, and run the following command to execute the unit tests:
+
+```bash
+python -m unittest test_app.py
+```
 
 # Credits / Acknowledgements
 
