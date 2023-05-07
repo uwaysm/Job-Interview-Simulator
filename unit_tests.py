@@ -48,10 +48,10 @@ class TestFlaskApp(unittest.TestCase):
 
 
 
-    # def test_register_user_existing_username(self):
-    #     self.register_user('testuser', 'testpassword')
-    #     response = self.register_user('testuser', 'testpassword2')
-    #     self.assertIn(b'Username already exists.', response.data)
+    def test_register_user_existing_username(self):
+        self.register_user('testuser', 'testpassword')
+        response = self.register_user('testuser', 'testpassword2')
+        self.assertIn(b'Username already exists.', response.data)
 
     def test_login_logout(self):
         self.register_user('testuser', 'testpassword')
