@@ -414,7 +414,13 @@ def login():
             return redirect(url_for('landing'))
         else:
             flash('Invalid username or password.', 'danger')
-            return render_template('landing.html', register_form=register_form, login_form=login_form)
+
+            # When failed login, show the login modal again
+            return render_template('landing.html', 
+                                   show_login_modal = True,
+                                   register_form=register_form, 
+                                   login_form=login_form)
+
     return render_template('landing.html', register_form=register_form, login_form=login_form)
 
 
@@ -434,14 +440,17 @@ def register():
         #validation failed
         flash('Username already exists. Please choose a different one.', 'danger')
 
-        # Show the login modal after successful registration
-        return render_template("landing.html", 
-                               show_login_modal=True, 
+        # Show the registration modal again after failed registration
+        return render_template("landing.html",
+                               show_signup_modal=True,
                                register_form=register_form, 
                                login_form=login_form)
 
-    # If the form is not valid, render the registration template
-    return render_template('landing.html', register_form=register_form, login_form=login_form)
+    # If the form is valid, render the login modal
+    return render_template('landing.html', 
+                           show_login_modal=True, 
+                           register_form=register_form, 
+                           login_form=login_form)
 
 
 @app.route('/logout', methods=['GET', 'POST'])

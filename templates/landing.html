@@ -34,7 +34,6 @@
     {% endif %}
 {% endwith %}
 
-    <!-- Below is the login modal -->
     {% if show_login_modal %}
     <!-- Show login modal when -->
     <script>
@@ -50,6 +49,24 @@
         });
     </script>
     {% endif %}
+
+    {% if show_signup_modal %}
+    <!-- Show signup modal when -->
+    <script>
+        $(document).ready(function () {
+            $("#signup-modal").fadeIn(600);
+            $("#overlay").fadeIn(600);
+            $("#signup-modal").show();
+            $("#overlay").css("display", "block"); // activates overlay
+
+            // Prevents scrolling when modal is open
+            $("html").css("position", "fixed");
+            $("html").css("overflow-y", "scroll");
+        });
+    </script>
+    {% endif %}
+
+    <!-- Below is the login modal -->
     <div id="overlay"></div>
     <div id="login-modal" class="popup">
         <div class="close-btn" aria-label="Close">&times;</div>
