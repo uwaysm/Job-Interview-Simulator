@@ -6,6 +6,7 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 import sqlite3
+import secrets
 
 # ============= IMPORTS FOR USER AUTH ============= #
 from flask import Flask, redirect, render_template, url_for, flash
@@ -304,12 +305,13 @@ def chat_logs():
 # ========================== USER AUTHENTICATION ========================== #
 # ========================================================================= #
 
-
+#generate secret key
+secret_key = secrets.token_hex(16)
 db = SQLAlchemy()
 bcrypt = Bcrypt(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-# TODO: change this to a more secure secret key and add it to a .env file
-app.config['SECRET_KEY'] = 'mysecretkey'
+# TODO: add this to a config.py file
+app.config['SECRET_KEY'] = secret_key
 db.init_app(app)
 
 
@@ -422,19 +424,15 @@ def register():
     login_form = LoginForm()
 
     if register_form.validate_on_submit():
-        # Check if the entered username already exists in the database
-        existing_user = User.query.filter_by(username=register_form.username.data).first()
-        if existing_user:
-            # Display an error message to the user
-            flash('Username already exists. Please choose a different one.', 'danger')
-            return render_template('landing.html', register_form=register_form, login_form=login_form)
-
         # Hash the password and create a new user record and add to database
         hashed_password = bcrypt.generate_password_hash(register_form.password.data).decode('utf-8')
         new_user = User(username=register_form.username.data, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
         flash('Your account has been created! You are now able to log in.', 'success')
+    else:
+        #validation failed
+        flash('Username already exists. Please choose a different one.', 'danger')
 
         # Show the login modal after successful registration
         return render_template("landing.html", 
