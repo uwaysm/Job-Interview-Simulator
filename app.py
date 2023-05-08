@@ -35,6 +35,12 @@ def landing():
 def app_main():
     return render_template('testapp.html')
 
+@app.route('/chat_logs')
+def chat_history_main():
+    return render_template('chat_logs.html')
+
+
+
 
 
 # Function to check if a job title is real
