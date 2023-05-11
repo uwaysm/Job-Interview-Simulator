@@ -1,32 +1,185 @@
 .chat-container {
-  background-color: #f8f8f8;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  height: 400px;
+  height: 700px;
   overflow-y: scroll;
-  padding: 15px;
+  padding-left: 220px;
 }
 
 .chat-box {
   padding: 0;
+  list-style: none;
 }
 
-.bot-message,
-.user-message {
+.bot,
+.user,
+.question, .final {
   display: block;
   margin-bottom: 10px;
+  padding: 14px;
+  margin: 8px 14px;
+  max-width: 70%;
   word-wrap: break-word;
+  clear: both
 }
 
-.bot-message {
+.bot {
+  font-family: Arial, sans-serif;
   color: #333;
+  background: #d7d9db;
+  border-radius: 0 16px 16px 16px;
+  float: left;
+}
+
+.final {
+  font-family: Arial, sans-serif;
+  color: #050505;
+  background: #c0cedb;
+  border-radius: 0 16px 16px 16px;
+  float: left;
+}
+
+.question{
+  font-family: Arial, sans-serif;
+  color: #ffffff;
+  background: #3a3c3e;
+  border-radius: 0 16px 16px 16px;
+  float: left;
 }
 
 .user {
-  color: #007bff;
-  text-align: right;
+  font-family: Arial, sans-serif;
+  color: #ffffff;
+  background: #007bff;
+  border-radius: 16px 16px 0 16px;
+  float: right;
 }
 
 .break {
   height: 10px;
+}
+
+.chat {
+  padding-left: 220px;
+}
+
+.sidebar {
+  position: absolute;
+  width: 220px;
+  background-color: #f8f9fa;
+  height: 100vh;
+}
+
+.sidebar h4 {
+  font-size: 5%;
+  font-weight: bold;
+  margin-bottom: 5%;
+}
+
+.sidebar ul {
+  margin-top: 10%;
+}
+
+.sidebar li {
+  margin-bottom: 5%;
+}
+
+.sidebar a {
+  color: #333;
+  font-size: 100%;
+  text-decoration: none;
+}
+
+.sidebar a:hover {
+  color: #007bff;
+}
+
+.chatbot-container {
+  position: relative;
+}
+
+.user-input {
+  position: fixed;
+  bottom: 0;
+  left: 280px;
+  right: 0;
+  padding: 0 20px 20px;
+}
+
+#userInput.locked{
+  height: 10%;
+  border-radius: .5rem; 
+  padding: 10px; 
+  border-color: grey;
+  background: transparent;
+  outline: none;
+  border: none;
+}
+.bi {
+vertical-align: -.125em;
+pointer-events: none;
+fill: currentColor;
+}
+
+.job-control{
+  width: 50%;
+  background-color: #dbdbdb;
+  border-radius: .5rem; /* Add rounded corners */
+  outline: none;
+  border: none;
+}
+.job-control:focus{
+  background-color: #dbdbdb;
+  box-shadow: none;
+}
+
+#jobTitleSubmit {
+  padding: 6px 12px;
+}
+
+.form-control{
+  height: 10%;
+  background-color: #dbdbdb;
+  border-radius: .5rem; /* Add rounded corners */
+  padding: 10px; /* Add some padding */
+  border-color: grey;
+  background: transparent;
+  outline: none;
+  border: none;
+}
+
+.form-control:focus{
+  background-color: #dbdbdb;
+  box-shadow: none;
+}
+
+.form-control:disabled{
+  height: 10%;
+  border-radius: .5rem; 
+  padding: 10px; 
+  border-color: grey;
+  background: transparent;
+  outline: none;
+  border: none;
+}
+
+.input-group-chatbox{
+  display: flex; /* Use flexbox */
+  align-items: center; /* Center the button vertically */
+  width: 50%;
+  position: absolute;
+  bottom: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: .5rem;
+  background-color: #dbdbdb;
+}
+.input-group-chatbox button {
+  width: 50px;
+}
+#sendBtn{
+  font-size: 1.25rem;
+  color: black;
+  background: transparent;
+  border: none;
+  outline: none;
+  box-shadow: none;
 }

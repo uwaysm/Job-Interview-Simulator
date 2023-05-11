@@ -5,6 +5,20 @@ let questionIndex = 0;
 let questions = [];
 let responses = [];
 
+window.onload = () =>{
+  document
+        .getElementsByClassName("chat-history-button")[0]
+        .addEventListener("click", function () {
+            window.location.href = "/chat_logs";
+  });
+  document
+        .getElementsByClassName("launch-app-button")[0]
+        .addEventListener("click", function () {
+            window.location.href = "/app";
+  });
+}
+
+
 // ------------------------------
 // Functions
 // ------------------------------
@@ -110,7 +124,7 @@ function displayNextQuestion() {
 
   if (questionIndex < questions.length) {
     const question = questions[questionIndex];
-    appendMessage(question, "bot");
+    appendMessage(question, "question");
     questionIndex++;
     $("#userInput").val("");
 
@@ -124,8 +138,7 @@ function displayNextQuestion() {
       data: { job_title: jobTitle, responses: JSON.stringify(responses) },
       success: function (response) {
         appendMessage(`${response}`, "bot");
-        appendMessage("", "bot");
-        appendMessage("Thank you for completing the interview!", "bot");
+        appendMessage("Thank you for completing the interview!", "final");
 
         var duration = 5 * 1000;
         var animationEnd = Date.now() + duration;
@@ -164,7 +177,7 @@ function displayNextQuestion() {
         }, 250);
         appendMessage(
           "Enter a job title if you would like another interview.",
-          "bot"
+          "final"
         );
       },
       error: function (error) {
@@ -193,8 +206,10 @@ function displayFeedback(feedback) {
 function appendMessage(message, sender) {
   const liElement = $("<li>").addClass(sender).text(message);
   $("#chatBox").append(liElement);
-  $("#chatBox").scrollTop($("#chatBox")[0].scrollHeight);
+
+  $(".chat-container").scrollTop($(".chat-container")[0].scrollHeight);
 }
+  
 // ------------------------------
 // Event Listeners
 // ------------------------------
