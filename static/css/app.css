@@ -10,7 +10,8 @@
 }
 
 .bot,
-.user {
+.user,
+.question {
   display: block;
   margin-bottom: 10px;
   padding: 14px;
@@ -24,6 +25,14 @@
   font-family: Arial, sans-serif;
   color: #333;
   background: #d7d9db;
+  border-radius: 0 16px 16px 16px;
+  float: left;
+}
+
+.question{
+  font-family: Arial, sans-serif;
+  color: #ffffff;
+  background: #3a3c3e;
   border-radius: 0 16px 16px 16px;
   float: left;
 }

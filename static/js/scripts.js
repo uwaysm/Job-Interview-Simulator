@@ -119,7 +119,7 @@ function displayNextQuestion() {
 
   if (questionIndex < questions.length) {
     const question = questions[questionIndex];
-    appendMessage(question, "bot");
+    appendMessage(question, "question");
     questionIndex++;
     $("#userInput").val("");
 
@@ -133,7 +133,6 @@ function displayNextQuestion() {
       data: { job_title: jobTitle, responses: JSON.stringify(responses) },
       success: function (response) {
         appendMessage(`${response}`, "bot");
-        appendMessage("", "bot");
         appendMessage("Thank you for completing the interview!", "bot");
 
         var duration = 5 * 1000;
