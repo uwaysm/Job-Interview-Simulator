@@ -11,7 +11,7 @@
 
 .bot,
 .user,
-.question {
+.question, .final {
   display: block;
   margin-bottom: 10px;
   padding: 14px;
@@ -25,6 +25,14 @@
   font-family: Arial, sans-serif;
   color: #333;
   background: #d7d9db;
+  border-radius: 0 16px 16px 16px;
+  float: left;
+}
+
+.final {
+  font-family: Arial, sans-serif;
+  color: #050505;
+  background: #c0cedb;
   border-radius: 0 16px 16px 16px;
   float: left;
 }
