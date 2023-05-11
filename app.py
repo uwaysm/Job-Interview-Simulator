@@ -2,9 +2,7 @@ from flask import Flask, render_template, request, jsonify, session
 import openai
 import json
 import os
-import nltk
-from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
+
 import sqlite3
 import secrets
 
@@ -18,17 +16,6 @@ from flask_wtf import FlaskForm
 from wtforms import PasswordField, StringField, SubmitField, ValidationError
 from wtforms.validators import EqualTo, InputRequired, Length
 
-
-# Download stopwords
-try:
-    nltk.download('stopwords')
-except FileExistsError:
-    pass
-
-try:
-    nltk.download('punkt')
-except FileExistsError:
-    pass
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -71,17 +58,6 @@ def is_real_job_title(job_title):
     answer = response.choices[0].text.strip().lower()
     return 'yes' in answer
 
-# Function to extract keywords from a text
-
-
-def extract_keywords(text):
-    stop_words = set(stopwords.words('english'))
-    word_tokens = word_tokenize(text)
-
-    keywords = [word.lower() for word in word_tokens if word.isalpha()
-                and word.lower() not in stop_words]
-
-    return keywords
 
 # Function to get the final decision based on responses and the job title
 
@@ -132,14 +108,6 @@ def generate_interview_questions(job_title):
 
 
 def is_genuine_response(user_response, question):
-    question_keywords = extract_keywords(question)
-    response_keywords = extract_keywords(user_response)
-
-    common_keywords = set(question_keywords).intersection(
-        set(response_keywords))
-
-    if len(common_keywords) > 0:
-        return True
 
     # Create a prompt to analyze the response
     prompt = f'Analyze the following response to the question "{question}":\n{user_response}\nIs this a genuine response or a troll response?'
@@ -175,7 +143,7 @@ def get_feedback(user_response, question, job_title, check_genuine_responses=Tru
     response = openai.Completion.create(
         engine="text-davinci-003",
         prompt=prompt,
-        max_tokens=300,
+        max_tokens=100,
         n=1,
         stop=None,
         temperature=0.7,
@@ -462,4 +430,4 @@ def logout():
 
 # Start the Flask app
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
