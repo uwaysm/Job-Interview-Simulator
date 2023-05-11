@@ -84,6 +84,10 @@
                 <button class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2" viewBox="0 0 16 16"><use xlink:href="#box-arrow-in-right"/></svg>
                   Sign out</button>
               </form>
+              {% else %}
+              <form action="/login" method="POST" id="login-buttons">
+                <button class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2" viewBox="0 0 16 16"><use xlink:href="#box-arrow-in-right"/></svg>
+                  Sign in</button>
               {% endif %}
               </div>
             </div>
