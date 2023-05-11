@@ -23,23 +23,71 @@
 </head>
 
 <body>
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" id="flash-message">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+    {% if show_login_modal %}
+    <!-- Show login modal when -->
+    <script>
+        $(document).ready(function () {
+            $("#login-modal").fadeIn(600);
+            $("#overlay").fadeIn(600);
+            $("#login-modal").show();
+            $("#overlay").css("display", "block"); // activates overlay
+            
+            // Prevents scrolling when modal is open
+            $("html").css("position", "fixed");
+            $("html").css("overflow-y", "scroll");
+        });
+    </script>
+    {% endif %}
+
+    {% if show_signup_modal %}
+    <!-- Show signup modal when -->
+    <script>
+        $(document).ready(function () {
+            $("#signup-modal").fadeIn(600);
+            $("#overlay").fadeIn(600);
+            $("#signup-modal").show();
+            $("#overlay").css("display", "block"); // activates overlay
+
+            // Prevents scrolling when modal is open
+            $("html").css("position", "fixed");
+            $("html").css("overflow-y", "scroll");
+        });
+    </script>
+    {% endif %}
+
     <!-- Below is the login modal -->
     <div id="overlay"></div>
     <div id="login-modal" class="popup">
         <div class="close-btn" aria-label="Close">&times;</div>
         <div class="form">
             <h2>Welcome Back</h2>
+            <form method="POST" action="/login">
+            {{ login_form.hidden_tag() }}
             <div class="form-element">
                 <label for="username-login">Username</label>
-                <input type="text" id="username-login" placeholder="Enter your Username">
+                {{ login_form.username(class="form-element__input", id="username-login",
+            placeholder="Enter your Username") }}
             </div>
             <div class="form-element">
                 <label for="password-login">Password</label>
-                <input type="password" id="password-login" placeholder="Enter your Password">
+                {{ login_form.password(class="form-element__input", id="password-logi",
+            placeholder="Enter your Password") }}
             </div>
             <div class="form-element">
-                <button>Log in</button>
+                <button id="btn">{{ login_form.submit(id="btn", value="Log in", ) }}</button>
             </div>
+        </form>
             <div class="form-element2">
               <button class="signup-button">Register</button>
             </div>
@@ -54,25 +102,24 @@
         <div class="close-btn" aria-label="Close">&times;</div>
         <div class="form">
             <h2>Hi, Stranger!</h2>
+            <form method="POST" action="/register">
+            {{ register_form.hidden_tag() }}
             <div class="form-element">
                 <label for="username-signup">Username</label>
-                <input type="text" id="username-signup" placeholder="Enter your Username">
+                {{ register_form.username(class="form-element__input", id="username-signup", placeholder="Enter your Username") }}
             </div>
             <div class="form-element">
                 <label for="password-signup">Password</label>
-                <input type="password" id="password-signup" placeholder="Enter your Password">
+                {{ register_form.password(class="form-element__input", id="password-signup", placeholder="Enter your Password") }}
             </div>
             <div class="form-element">
-              <label for="re-password-signup">Re-Enter Password</label>
-              <input type="password" id="re-password-signup" placeholder="Re-nter your Password">
+              <label for="re-password-signup">Confirm your Password</label>
+              {{ register_form.confirm_password(class="form-element__input", id="password", placeholder="Confirm your Password") }}
             </div>
             <div class="form-element">
-              <label for="email-signup">Email</label>
-              <input type="text" id="email-signup" placeholder="Enter your email">
+                <button id="btn">{{ register_form.submit(id="btn", value="Sign Up") }}</button>
             </div>
-            <div class="form-element">
-                <button>Sign Up</button>
-            </div>
+        </form>
         </div>
     </div>
 
@@ -86,12 +133,19 @@
             </div>
 
             <div id="login" class="col-9">
+                {% if current_user.is_authenticated %}
+                <form action="/logout" method="POST" id="login-buttons">
+                    <p style="display: inline;">Hello, <b>{{current_user.username}}!</b></p>
+                    <button style="margin-left: 2em;" type="submit" class="btn btn-primary">Logout</button>
+                </form>
+                {% else %}
                 <div id="login-buttons" class="vertical-center">
                     <button type="button" class="login-button btn">Login</button>
                     <button type="button" class="signup-button btn btn-primary">
                         Sign Up
                     </button>
                 </div>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -252,6 +306,18 @@
             </div>
         </div>
     </div>
+
+    <script>
+        setTimeout(function() {
+          let flashMessage = document.getElementById('flash-message');
+          if (flashMessage) {
+              flashMessage.style.opacity = "0";
+              setTimeout(function() {
+                  flashMessage.style.display = "none";
+              }, 1000);
+          }
+      }, 3000);
+      </script>
 </body>
 
 </html>
