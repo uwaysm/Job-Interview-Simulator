@@ -29,6 +29,14 @@ function startRecognition() {
   };
 }
 
+window.onload = () => {
+  document
+      .getElementsByClassName("chat-history-button")[0]
+      .addEventListener("click", function () {
+          window.location.href = "/chat_logs";
+  });
+}
+
 // Accepts a boolean "enable" as an argument and enables or disables the "jobTitle" input field and "jobTitleSubmit" button accordingly.
 function toggleJobTitleInput(enable) {
   $("#jobTitle").prop("disabled", !enable);
