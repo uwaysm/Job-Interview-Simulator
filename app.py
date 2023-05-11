@@ -37,7 +37,7 @@ def landing():
 
 @app.route('/app')
 def app_main():
-    return render_template('testapp.html')
+    return render_template('app.html')
 
 
 # Function to check if a job title is real
