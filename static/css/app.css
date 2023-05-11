@@ -1,7 +1,6 @@
 .chat-container {
-  height: 850px;
+  height: 700px;
   overflow-y: scroll;
-  padding: 15px;
   padding-left: 220px;
 }
 

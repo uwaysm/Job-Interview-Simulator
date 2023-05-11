@@ -124,6 +124,8 @@ function sendResponse() {
       },
     });
   }
+
+  $("#chatbox").scrollTop($("#chatbox").height());
 }
 
 // Removes the "locked" class from the elements, enables input fields and buttons, and displays the next question in the "questions" array.
@@ -182,6 +184,7 @@ function displayFeedback(feedback) {
   const breakElement = $("<li>").addClass("break");
   $("#chatBox").append(breakElement);
   displayNextQuestion();
+  $("#chatbox").scrollTop($("#chatbox").height());
 }
 
 //  Accepts "message" and "sender" as arguments, creates a new list item element with the sender's class and message text,
@@ -189,8 +192,7 @@ function displayFeedback(feedback) {
 function appendMessage(message, sender) {
   const liElement = $("<li>").addClass(sender).text(message);
   $("#chatBox").append(liElement);
-  $("#chatBox").scrollTop($("#chatBox")[0].scrollHeight);
-}
+  
 // ------------------------------
 // Event Listeners
 // ------------------------------
