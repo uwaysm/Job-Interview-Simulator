@@ -5,37 +5,9 @@ let questionIndex = 0;
 let questions = [];
 let responses = [];
 
-const SpeechRecognition =
-  window.SpeechRecognition || window.webkitSpeechRecognition;
-
-let recognition;
-
 // ------------------------------
 // Functions
 // ------------------------------
-
-//  Starts speech recognition and sets the "micBtn" button to disabled. When recognition ends, it re-enables the "micBtn" button.
-function startRecognition() {
-  if ($("#sendBtn").prop("disabled")) {
-    return;
-  }
-
-  $("#micBtn").prop("disabled", true);
-
-  recognition.start();
-
-  recognition.onend = function () {
-    $("#micBtn").prop("disabled", false);
-  };
-}
-
-window.onload = () => {
-  document
-      .getElementsByClassName("chat-history-button")[0]
-      .addEventListener("click", function () {
-          window.location.href = "/chat_logs";
-  });
-}
 
 // Accepts a boolean "enable" as an argument and enables or disables the "jobTitle" input field and "jobTitleSubmit" button accordingly.
 function toggleJobTitleInput(enable) {
@@ -52,7 +24,7 @@ function submitJobTitle() {
   // Reset the responses and questions arrays
   responses = [];
   questions = [];
-  
+
   if (jobTitle) {
     toggleJobTitleInput(false);
     // Check if the job title is real before proceeding
@@ -93,7 +65,6 @@ function sendResponse() {
   if (userResponse) {
     $("#sendBtn").prop("disabled", true);
     $("#userInput").prop("disabled", true);
-    $("#micBtn").prop("disabled", true);
 
     const currentQuestion = questions[questionIndex - 1];
     const jobTitle = $("#jobTitle").val();
@@ -114,9 +85,9 @@ function sendResponse() {
         responses.push({
           question: currentQuestion,
           response: userResponse,
-          feedback: response
+          feedback: response,
         });
-        
+
         displayFeedback(response);
       },
       error: function (error) {
@@ -124,8 +95,6 @@ function sendResponse() {
       },
     });
   }
-
-  $("#chatbox").scrollTop($("#chatbox").height());
 }
 
 // Removes the "locked" class from the elements, enables input fields and buttons, and displays the next question in the "questions" array.
@@ -134,11 +103,9 @@ function displayNextQuestion() {
   // Remove the 'locked' class from the elements
   $("#sendBtn").removeClass("locked");
   $("#userInput").removeClass("locked");
-  $("#micBtn").removeClass("locked");
 
   $("#sendBtn").prop("disabled", false);
   $("#userInput").prop("disabled", false);
-  $("#micBtn").prop("disabled", false);
   $("#userInput").focus();
 
   if (questionIndex < questions.length) {
@@ -159,6 +126,42 @@ function displayNextQuestion() {
         appendMessage(`${response}`, "bot");
         appendMessage("", "bot");
         appendMessage("Thank you for completing the interview!", "bot");
+
+        var duration = 5 * 1000;
+        var animationEnd = Date.now() + duration;
+        var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+        function randomInRange(min, max) {
+          return Math.random() * (max - min) + min;
+        }
+
+        var interval = setInterval(function () {
+          var timeLeft = animationEnd - Date.now();
+
+          if (timeLeft <= 0) {
+            return clearInterval(interval);
+          }
+
+          var particleCount = 50 * (timeLeft / duration);
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+          });
+          // since particles fall down, start a bit higher than random
+          confetti(
+            Object.assign({}, defaults, {
+              particleCount,
+              origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+            })
+          );
+          confetti(
+            Object.assign({}, defaults, {
+              particleCount,
+              origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+            })
+          );
+        }, 250);
         appendMessage(
           "Enter a job title if you would like another interview.",
           "bot"
@@ -171,7 +174,6 @@ function displayNextQuestion() {
 
     $("#sendBtn").prop("disabled", true);
     $("#userInput").prop("disabled", true);
-    $("#micBtn").prop("disabled", true);
 
     toggleJobTitleInput(true);
   }
@@ -184,7 +186,6 @@ function displayFeedback(feedback) {
   const breakElement = $("<li>").addClass("break");
   $("#chatBox").append(breakElement);
   displayNextQuestion();
-  $("#chatbox").scrollTop($("#chatbox").height());
 }
 
 //  Accepts "message" and "sender" as arguments, creates a new list item element with the sender's class and message text,
@@ -192,7 +193,8 @@ function displayFeedback(feedback) {
 function appendMessage(message, sender) {
   const liElement = $("<li>").addClass(sender).text(message);
   $("#chatBox").append(liElement);
-  
+  $("#chatBox").scrollTop($("#chatBox")[0].scrollHeight);
+}
 // ------------------------------
 // Event Listeners
 // ------------------------------
@@ -211,20 +213,9 @@ $(document).ready(function () {
   });
 
   //  Closes the settings modal when the save settings button is clicked. (Note: Settings changes should be saved here.)
-  $("#micBtn").addClass("locked");
   $("#sendBtn").addClass("locked");
   $("#userInput").addClass("locked");
   $("#userInput").prop("disabled", true);
-
-  // When the "micBtn" button is pressed, if it's locked, it shows an alert asking to enter a job title first.
-  // If speech recognition is supported, it calls the startRecognition function.
-  $("#micBtn").on("mousedown", function () {
-    if ($(this).hasClass("locked")) {
-      alert("Enter a job title first.");
-    } else if (recognition) {
-      startRecognition();
-    }
-  });
 
   // When the "sendBtn" button is pressed, if it's locked, it shows an alert asking to enter a job title first.
   // If not locked, it calls the sendResponse function.
@@ -240,39 +231,6 @@ $(document).ready(function () {
   $("#userInput").on("mousedown", function () {
     if ($(this).hasClass("locked")) {
       alert("Enter a job title first.");
-    }
-  });
-
-  // If speech recognition is supported, it calls the startRecognition function when the "micBtn" button is clicked.
-  if (!SpeechRecognition) {
-    console.error("Speech recognition is not supported in your browser.");
-    $("#micBtn").prop("disabled", true);
-  } else {
-    recognition = new SpeechRecognition();
-    recognition.lang = "en-US";
-    recognition.interimResults = false;
-    recognition.maxAlternatives = 1;
-
-    recognition.onresult = function (event) {
-      const speechResult = event.results[0][0].transcript;
-      $("#userInput").val(speechResult);
-    };
-
-    recognition.onerror = function (event) {
-      console.error("Error during speech recognition:", event.error);
-      if (event.error === "not-allowed") {
-        alert(
-          "Access to the microphone was denied. Please allow access to the microphone to use the voice input feature."
-        );
-      } else {
-        alert("An error occurred during speech recognition: " + event.error);
-      }
-    };
-  }
-
-  $("#micBtn").on("click", function () {
-    if (recognition) {
-      startRecognition();
     }
   });
 
