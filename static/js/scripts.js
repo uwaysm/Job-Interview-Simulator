@@ -139,7 +139,7 @@ function displayNextQuestion() {
       data: { job_title: jobTitle, responses: JSON.stringify(responses) },
       success: function (response) {
         appendMessage(`${response}`, "bot");
-        appendMessage("Thank you for completing the interview!", "bot");
+        appendMessage("Thank you for completing the interview!", "final");
 
         var duration = 5 * 1000;
         var animationEnd = Date.now() + duration;
@@ -178,7 +178,7 @@ function displayNextQuestion() {
         }, 250);
         appendMessage(
           "Enter a job title if you would like another interview.",
-          "bot"
+          "final"
         );
       },
       error: function (error) {
