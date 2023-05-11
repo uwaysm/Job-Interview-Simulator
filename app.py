@@ -99,10 +99,15 @@ def generate_interview_questions(job_title):
         stop=None,
         temperature=0.7,
     )
-
     # Process the response and return the list of questions
     questions = response.choices[0].text.strip().split("\n")
-    return questions
+    
+    # Remove question numbers
+    questions_lst = []
+    for i in questions:
+        questions_lst.append(i[3:])
+
+    return questions_lst
 
 # Function to check if a user response is genuine
 
