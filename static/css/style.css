@@ -1,7 +1,10 @@
 /* Below is the common CSS for consistent styling over different pages */
 
+/* Font */
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Roboto&display=swap');
+
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
   background-color: #ededed;
 }
 

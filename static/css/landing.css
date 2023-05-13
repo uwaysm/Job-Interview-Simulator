@@ -59,6 +59,7 @@
 
 #job-title {
   color: #3164f4;
+  font-family: 'Lobster', cursive;
   transition: 1s ease-in;
   white-space: nowrap;
 }
@@ -152,6 +153,15 @@
 
 /* CSS for when screen width drops below 576px */
 @media (max-width: 576px) {
+  #top, #main, #footer {
+    width: 100%;
+  }
+
+  .p-content {
+    width: 90%;
+    text-align: left;
+  }
+
   .content, #footer-links .logo, .footer-legal {
     text-align: center;
   }
@@ -164,5 +174,9 @@
 
   .infinite-carousel-item {
     margin-right: 1em; /* Adjust margin to display more logos when screen is small */
+  }
+
+  .infinite-carousel-item > img {
+    width: 50px;
   }
 }
