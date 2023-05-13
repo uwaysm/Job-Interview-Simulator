@@ -157,16 +157,6 @@ window.onload = () => {
         $("html").css("overflow-y", "auto");
     });
 
-
-    /********************************/
-    // Infinite Carousel
-    // Created with ChatGPT assistance
-    /********************************/
-
-    // Infinite Carousel Variables
-    var infCarouselWidth = $(".infinite-carousel-container").width();
-    var infItemWidth = $(".infinite-carousel-item").width();
-
     // clone the logos in the carousel and append them to the container
     $(".infinite-carousel-item").clone().appendTo(".infinite-carousel-items");
 
