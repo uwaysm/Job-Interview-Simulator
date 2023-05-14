@@ -1,13 +1,11 @@
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, redirect, render_template, request, jsonify, session, url_for, flash
 import openai
 import json
 import os
-
 import sqlite3
 import secrets
 
 # ============= IMPORTS FOR USER AUTH ============= #
-from flask import Flask, redirect, render_template, url_for, flash
 from flask_bcrypt import Bcrypt
 from flask_login import (LoginManager, UserMixin, current_user, login_required,
                          login_user, logout_user)
@@ -24,8 +22,6 @@ app = Flask(__name__)
 openai.api_key = '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'
 
 # Main route, renders the landing page
-
-
 @app.route('/')
 def landing():
     register_form = RegisterForm()
@@ -33,8 +29,6 @@ def landing():
     return render_template('landing.html', register_form=register_form, login_form=login_form)
 
 # Renders the app
-
-
 @app.route('/app')
 def app_main():
     return render_template('app.html')
@@ -60,8 +54,6 @@ def is_real_job_title(job_title):
 
 
 # Function to get the final decision based on responses and the job title
-
-
 def get_final_decision(responses, job_title):
     # Create the prompt for the OpenAI API
     prompt = f"Based on the following responses to the questions for the job title '{job_title}', provide a rating (1 to 10) and determine if the candidate is likely to be accepted for the job:\n"
@@ -85,8 +77,6 @@ def get_final_decision(responses, job_title):
     return decision
 
 # Function to generate interview questions for a job title
-
-
 def generate_interview_questions(job_title):
     prompt = f"Pretend that you are an interviewer at a famous and high end company. Generate 5 interview questions that you would ask in an interview for the job title: {job_title}"
 
@@ -110,8 +100,6 @@ def generate_interview_questions(job_title):
     return questions_lst
 
 # Function to check if a user response is genuine
-
-
 def is_genuine_response(user_response, question):
 
     # Create a prompt to analyze the response
@@ -132,8 +120,6 @@ def is_genuine_response(user_response, question):
     return 'genuine' in answer
 
 # Function to get feedback on a user's response
-
-
 def get_feedback(user_response, question, job_title, check_genuine_responses=True):
     if check_genuine_responses:
         genuine = is_genuine_response(user_response, question)
@@ -160,8 +146,6 @@ def get_feedback(user_response, question, job_title, check_genuine_responses=Tru
     return feedback
 
 # Route to check if a job title is real
-
-
 @app.route('/is_real_job_title', methods=['POST'])
 def is_real_job_title_route():
     job_title = request.form.get('job_title')
@@ -186,8 +170,6 @@ def generate_questions():
     return jsonify({'questions': questions})
 
 # Route to evaluate a user's response
-
-
 @app.route('/evaluate_response', methods=['POST'])
 def evaluate_response_route():
     check_genuine_responses = request.form.get(
@@ -204,9 +186,6 @@ def evaluate_response_route():
                             job_title, check_genuine_responses)
 
     return jsonify(feedback)
-
-# Route to get the final decision based on user responses
-
 
 # Route to get the final decision based on user responses
 @app.route('/final_decision', methods=['POST'])
@@ -267,7 +246,6 @@ def chat_logs():
     if current_user.is_authenticated:
         c.execute("SELECT * FROM chatHistory JOIN sessionHistory ON chatHistory.sessionID = sessionHistory.sessionID WHERE sessionHistory.userID = ?", 
                   (current_user.id,))
-        
 
     logs = c.fetchall()
     conn.close()
@@ -320,7 +298,6 @@ Attributes:
 
 """
 
-
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
@@ -344,7 +321,6 @@ Attributes:
 
 """
 
-
 class RegisterForm(FlaskForm):
     username = StringField('username', validators=[
                            InputRequired(), Length(min=4, max=20)])
@@ -360,7 +336,6 @@ class RegisterForm(FlaskForm):
             raise ValidationError(
                 'Username already exists. Please choose a different one.')
 
-
 class LoginForm(FlaskForm):
     username = StringField('username', validators=[
                            InputRequired(), Length(min=4, max=20)])
@@ -368,7 +343,6 @@ class LoginForm(FlaskForm):
                              InputRequired(), Length(min=8, max=20)])
 
     submit = SubmitField('Log In')
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -395,7 +369,6 @@ def login():
                                    login_form=login_form)
 
     return render_template('landing.html', register_form=register_form, login_form=login_form)
-
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -425,13 +398,12 @@ def register():
                            register_form=register_form, 
                            login_form=login_form)
 
-
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     logout_user()
     return redirect(url_for('login'))
 
-
+# ========================================================================= #
 
 # Start the Flask app
 if __name__ == '__main__':
