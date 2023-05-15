@@ -74,24 +74,33 @@
                       <input class="form-control" id="filterRating" type="number" min="0" max="10" step="1" placeholder="Filter by rating" onkeyup="filterTable()"/>
                   </div>
               </li>
-              <li>
-                <button class="nav-link text-white launch-app-button"><svg class="bi me-2" width="15" height="16"><use xlink:href="#chat-left-dots"/></svg>
-                  Chat App</button>
+              <li class="nav-item">
+                <button type="button" class="btn btn-primary app-button">Chat App</button>
               </li>
             </ul>
             <hr />
             <div class="dropdown">
             <div href="#" class="flex align-items-center text-white text-ellipsis text-decoration-none dropdown-toggle" role="button" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+              {% if current_user.is_authenticated %}
               <strong>{{ current_user.username}}</strong>
+              {% else %}
+              <strong>Guest</strong>
+              {% endif %}
             </div>
             <div class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1" style="">
               <button id="settingsBtn" class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#sliders"/></svg>
                 Settings</button>
-              <a class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#person-circle"/></svg>
-                Profile</a>
               <div class="dropdown-divider"></div>
-              <button class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2" viewBox="0 0 16 16"><use xlink:href="#box-arrow-in-right"/></svg>
-                Sign out</button>
+              {% if current_user.is_authenticated %}
+              <form action="/logout" method="POST" id="login-buttons">
+                <button class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2" viewBox="0 0 16 16"><use xlink:href="#box-arrow-in-right"/></svg>
+                  Sign out</button>
+              </form>
+              {% else %}
+              <form action="/login" method="POST" id="login-buttons">
+                <button class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2" viewBox="0 0 16 16"><use xlink:href="#box-arrow-in-right"/></svg>
+                  Sign in</button>
+              {% endif %}
               </div>
             </div>
           </div>
