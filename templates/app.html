@@ -80,8 +80,11 @@
             <div class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
               <button id="settingsBtn" class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#sliders"/></svg>
                 Settings</button>
-              <button class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#back-to-home"/></svg>
-                Home</button>
+              <form action="/" method="GET">
+                <button class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2"><use xlink:href="#back-to-home"/></svg>
+                  Home
+                </button>
+              </form>
               <div class="dropdown-divider"></div>
               {% if current_user.is_authenticated %}
               <form action="/logout" method="POST" id="login-buttons">
