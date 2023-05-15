@@ -140,7 +140,46 @@
           </div>
         </div>
       </div>
-    </div> 
+    </div>
+
+    <div
+      class="modal fade"
+      id="settingsModal"
+      tabindex="-1"
+      aria-labelledby="settingsModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <label for="checkForRealJobTitle">Check for Real Job Title:</label><input type="checkbox" id="checkForRealJobTitle" checked />
+            <br>
+            <label for="checkForRealJobTitle">Check for is Genuine Response:</label><input type="checkbox" id="checkforGenuineResponse" checked />
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button type="button" class="btn btn-primary" id="saveSettingsBtn">
+              Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script>
       function filterTable() {
