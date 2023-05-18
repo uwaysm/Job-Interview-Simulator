@@ -187,6 +187,28 @@ def evaluate_response_route():
 
     return jsonify(feedback)
 
+# Add the session history of current user to the database
+def add_session_to_database(userID, job_title, responses, decision, conn):
+    # Connect to the database
+    cursor = conn.cursor() # Create a cursor object to execute SQL commands
+
+    # Insert the session history into the database
+    cursor.execute("INSERT INTO sessionHistory (userID, jobTitle, finalDecision) VALUES (?, ?, ?)", 
+            (userID, job_title, decision))
+
+    # Get the sessionID of the current session
+    cursor.execute("SELECT sessionID FROM sessionHistory ORDER BY sessionID DESC LIMIT 1")
+    sessionID = cursor.fetchone()[0] # Fetch the result of the query -> This is the current session number
+
+    # Insert the chat history into the database
+    for response in responses:
+        # Insert the chat history into the chatHistory table
+        cursor.execute("INSERT INTO chatHistory (sessionID, botQuestion, userResponse, botReview) VALUES (?, ?, ?, ?)", 
+                (sessionID, response['question'], response['response'], response['feedback']))
+    
+    # Commit the changes to the database
+    conn.commit()
+
 # Route to get the final decision based on user responses
 @app.route('/final_decision', methods=['POST'])
 def final_decision_route():
@@ -205,38 +227,14 @@ def final_decision_route():
     # Below is the code to save the current session to the database
     if current_user.is_authenticated:
         # Only save chat logs if the user is logged in
-
         userID = current_user.id # Get the userID of the current user
-
-        # Connect to the database
-        conn = sqlite3.connect('./instance/database.db')
-        cursor = conn.cursor() # Create a cursor object to execute SQL commands
-
-        # Insert the session history into the database
-        cursor.execute("INSERT INTO sessionHistory (userID, jobTitle, finalDecision) VALUES (?, ?, ?)", 
-                (userID, job_title, decision))
-
-        # Get the sessionID of the current session
-        cursor.execute("SELECT sessionID FROM sessionHistory ORDER BY sessionID DESC LIMIT 1")
-        sessionID = cursor.fetchone()[0] # Fetch the result of the query -> This is the current session number
-
-        # Insert the chat history into the database
-        for response in responses:
-            # Insert the chat history into the chatHistory table
-            cursor.execute("INSERT INTO chatHistory (sessionID, botQuestion, userResponse, botReview) VALUES (?, ?, ?, ?)", 
-                    (sessionID, response['question'], response['response'], response['feedback']))
-        
-        # Commit the changes to the database
-        conn.commit()
-        conn.close()
+        conn = sqlite3.connect('./instance/database.db') # Connect to the database
+        add_session_to_database(userID, job_title, responses, decision, conn)
+        conn.close() # Close the connection to the database
     
     return jsonify(decision)
 
-####################################################
-# Below is the placeholder page for the chat logs
-# Access it by adding /chat_logs to the URL
-####################################################
-
+# Route to show the current user's previous sessions (chat history)
 @app.route('/chat_logs')
 def chat_logs():
     conn = sqlite3.connect('./instance/database.db')
