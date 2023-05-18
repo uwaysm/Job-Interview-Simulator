@@ -64,8 +64,8 @@
 .sidebar {
   position: absolute;
   width: 220px;
-  background-color: #f8f9fa;
   height: 100vh;
+  transition: transform 0.8s ease-out;
 }
 
 .sidebar h4 {
@@ -182,4 +182,35 @@ fill: currentColor;
   border: none;
   outline: none;
   box-shadow: none;
+}
+.openbtn{
+  display: none;
+}
+@media (max-width: 576px){
+  .sidebar {
+    transform: translateX(-100%);
+  }
+  .chat-container {
+    height: 550px;
+    padding-left: 0;
+  }
+  .user-input,
+  .input-group-chatbox {
+    width: 80%; /* Adjust the width as per your preference */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    bottom: 50%;
+  }
+
+  .user-input {
+    bottom: 0;
+  }
+  .input-group-chatbox button {
+    width: 30%; /* Adjust the width as per your preference */
+  }
+  .openbtn{
+    display: block; /* Change display to block for vertical positioning */
+    margin-bottom: 10px;
+    height: 10%;
+  }
 }

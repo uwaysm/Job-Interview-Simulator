@@ -51,6 +51,7 @@
     
     <div class="container-fluid">
       <div class="row">
+        <button class="openbtn" onclick="openNav()">☰ Toggle Sidepanel</button>  
         <div class="col p-0 sidebar">
           <div class="sidebar d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
             <span class="fs-4" class="landing-page-button"><strong>GetHired.ai</strong></span>
@@ -171,6 +172,12 @@
       integrity =
         "sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM";
       crossorigin = "anonymous";
+    </script>
+    <script>
+      function openNav() {
+        document.getElementsByClassName("sidebar").style.transform = "translateX(100%)";
+        document.getElementsByClassName("sidebar").style.transform = "transform 0.8s ease-in";;
+        }
     </script>
   </body>
 </html>
