@@ -33,7 +33,6 @@ def landing():
 def app_main():
     return render_template('app.html')
 
-
 # Function to check if a job title is real
 def is_real_job_title(job_title):
     prompt = f"Is '{job_title}' a real job title?"
@@ -51,7 +50,6 @@ def is_real_job_title(job_title):
     # Process the response and return True if the answer contains 'yes'
     answer = response.choices[0].text.strip().lower()
     return 'yes' in answer
-
 
 # Function to get the final decision based on responses and the job title
 def get_final_decision(responses, job_title):
@@ -156,7 +154,6 @@ def is_real_job_title_route():
 
     return jsonify({'is_real': is_real})
 
-
 # Route to generate interview questions
 @app.route('/generate_questions', methods=['POST'])
 def generate_questions():
@@ -188,26 +185,23 @@ def evaluate_response_route():
     return jsonify(feedback)
 
 # Add the session history of current user to the database
-def add_session_to_database(userID, job_title, responses, decision, conn):
-    # Connect to the database
-    cursor = conn.cursor() # Create a cursor object to execute SQL commands
-
-    # Insert the session history into the database
-    cursor.execute("INSERT INTO sessionHistory (userID, jobTitle, finalDecision) VALUES (?, ?, ?)", 
-            (userID, job_title, decision))
+def add_session_to_database(userID, job_title, responses, decision, this_session):
+    # Create a new session history instance
+    session_history = SessionHistory(userID=userID, jobTitle=job_title, finalDecision=decision)
+    this_session.add(session_history)
+    this_session.commit()
 
     # Get the sessionID of the current session
-    cursor.execute("SELECT sessionID FROM sessionHistory ORDER BY sessionID DESC LIMIT 1")
-    sessionID = cursor.fetchone()[0] # Fetch the result of the query -> This is the current session number
+    sessionID = this_session.query(SessionHistory.sessionID).order_by(SessionHistory.sessionID.desc()).first()[0]
 
     # Insert the chat history into the database
+    chat_history = []
     for response in responses:
-        # Insert the chat history into the chatHistory table
-        cursor.execute("INSERT INTO chatHistory (sessionID, botQuestion, userResponse, botReview) VALUES (?, ?, ?, ?)", 
-                (sessionID, response['question'], response['response'], response['feedback']))
-    
-    # Commit the changes to the database
-    conn.commit()
+        chat = ChatHistory(sessionID=sessionID, botQuestion=response['question'], userResponse=response['response'], botReview=response['feedback'])
+        chat_history.append(chat)
+
+    this_session.add_all(chat_history)
+    this_session.commit()
 
 # Route to get the final decision based on user responses
 @app.route('/final_decision', methods=['POST'])
@@ -228,9 +222,7 @@ def final_decision_route():
     if current_user.is_authenticated:
         # Only save chat logs if the user is logged in
         userID = current_user.id # Get the userID of the current user
-        conn = sqlite3.connect('./instance/database.db') # Connect to the database
-        add_session_to_database(userID, job_title, responses, decision, conn)
-        conn.close() # Close the connection to the database
+        add_session_to_database(userID, job_title, responses, decision, db_session)
     
     return jsonify(decision)
 
@@ -257,12 +249,11 @@ def chat_logs():
 #generate secret key
 secret_key = secrets.token_hex(16)
 db = SQLAlchemy()
+db_session = db.session # session is used to add data to the database
 bcrypt = Bcrypt(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-# TODO: add this to a config.py file
 app.config['SECRET_KEY'] = secret_key
 db.init_app(app)
-
 
 login_manager = LoginManager()
 login_manager.login_view = 'login'  # type: ignore
@@ -270,36 +261,9 @@ login_manager.init_app(app)
 
 # loads a user from the database given their id
 
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
-
-# creates the database tables
-with app.app_context():
-    db.create_all()
-
-
-"""Represents a user in the application.
-
-This class inherits from SQLAlchemy's `db.Model` and Flask-Login's `UserMixin`.
-It defines a database table `users` with columns `id`, `username`, and `password`.
-
-Attributes:
-    id (int): A unique identifier for the user. This is a primary key in the database.
-    username (str): The user's unique username. This is a required field and cannot be
-        null or empty. The maximum length of the username is 20 characters.
-    password (str): The user's password. This is a required field and cannot be null or
-        empty. The password is stored in the database as a hash with a length of 60
-        characters.
-
-"""
-
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
-    password = db.Column(db.String(60), nullable=False)
 
 
 """Defines a Flask form for user registration.
@@ -318,7 +282,6 @@ Attributes:
     submit (SubmitField): A button to submit the form and sign up.
 
 """
-
 class RegisterForm(FlaskForm):
     username = StringField('username', validators=[
                            InputRequired(), Length(min=4, max=20)])
@@ -400,6 +363,54 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+# ========================================================================= #
+# ============================ Database Tables ============================ #
+# ========================================================================= #
+
+"""Represents a user in the application.
+
+This class inherits from SQLAlchemy's `db.Model` and Flask-Login's `UserMixin`.
+It defines a database table `users` with columns `id`, `username`, and `password`.
+
+Attributes:
+    id (int): A unique identifier for the user. This is a primary key in the database.
+    username (str): The user's unique username. This is a required field and cannot be
+        null or empty. The maximum length of the username is 20 characters.
+    password (str): The user's password. This is a required field and cannot be null or
+        empty. The password is stored in the database as a hash with a length of 60
+        characters.
+
+"""
+class User(db.Model, UserMixin):
+    __tablename__ = 'users'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    password = db.Column(db.String(60), nullable=False)
+
+# Represents the chatHistory table in the application.
+class ChatHistory(db.Model):
+    __tablename__ = 'chatHistory'
+    chatID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    sessionID = db.Column(db.Integer, db.ForeignKey('sessionHistory.sessionID'), nullable=False)
+    botQuestion = db.Column(db.String, nullable=False)
+    userResponse = db.Column(db.String, nullable=False)
+    botReview = db.Column(db.String, nullable=False)
+
+# Represents the sessionHistory table in the application.
+class SessionHistory(db.Model):
+    __tablename__ = 'sessionHistory'
+    sessionID = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    userID = db.Column(db.Integer, nullable=False)
+    jobTitle = db.Column(db.String, nullable=False)
+    finalDecision = db.Column(db.String)
+    timestamp = db.Column(db.TIMESTAMP, server_default=db.text('CURRENT_TIMESTAMP'))
+
+    chats = db.relationship('ChatHistory', backref='session')
+
+# creates the database tables -> only needs to be run once
+with app.app_context():
+    db.create_all()
 
 # ========================================================================= #
 
