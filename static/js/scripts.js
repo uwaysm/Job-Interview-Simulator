@@ -12,6 +12,12 @@ window.onload = () => {
             window.location.href = "/chat_logs";
     });
 }
+
+function openNav() {
+  var sidebar = document.getElementsByClassName("sidebar")[0]; // Select the first element in the collection
+  sidebar.style.transform = "translateX(100%)";
+  sidebar.style.transition = "transform 0.8s ease-in";
+}
 // ------------------------------
 // Functions
 // ------------------------------

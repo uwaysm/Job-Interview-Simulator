@@ -209,9 +209,24 @@ fill: currentColor;
     width: 30%; /* Adjust the width as per your preference */
   }
   .openbtn{
-    display: block; /* Change display to block for vertical positioning */
-    margin-bottom: 10px; /* Add some spacing between the button and the bottom of the chat container */
-    height: 10%; /* Adjust height as per your preference */
+    display: block;
+    color: white;
+    margin-top: 2%;
+    background: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+  }
+  .top-row{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5%;
+    background-color: #212529;
+  }
+  .center-text {
+    margin-left: 10px; /* Add desired spacing */
   }
 
 }

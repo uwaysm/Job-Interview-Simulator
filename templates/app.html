@@ -46,12 +46,17 @@
       <symbol id="back-to-home" viewBox="0 0 16 16">
         <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.707 1.5ZM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5 5 5Z"/>
       </symbol>
+      <symbol id="list" viewBox="0 0 16 16">
+        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+      </symbol>
     </svg>
 
     
     <div class="container-fluid">
       <div class="row">
-        <button class="openbtn" onclick="openNav()">☰ Toggle Sidepanel</button> // TODO: Remove this button
+        <div class="top-row">
+          <button class="openbtn" onclick="openNav()"><svg class="bi me-2" width="20" height="20" fill="white"><use xlink:href="#list"/></svg></button>
+        </div>
         <div class="col p-0 sidebar">
           <div class="sidebar d-flex flex-column flex-shrink-0 p-3 text-white bg-dark">
             <span class="fs-4" class="landing-page-button"><strong>GetHired.ai</strong></span>
@@ -174,10 +179,6 @@
       crossorigin = "anonymous";
     </script>
     <script>
-      function openNav() {
-        document.getElementsByClassName("sidebar").style.transform = "translateX(100%)";
-        document.getElementsByClassName("sidebar").style.transform = "transform 0.8s ease-in";;
-        }
     </script>
   </body>
 </html>
