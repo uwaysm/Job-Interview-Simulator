@@ -211,7 +211,7 @@ fill: currentColor;
   .openbtn{
     display: block; /* Change display to block for vertical positioning */
     margin-bottom: 10px; /* Add some spacing between the button and the bottom of the chat container */
-    height: 10%;
+    height: 10%; /* Adjust height as per your preference */
   }
 
 }
