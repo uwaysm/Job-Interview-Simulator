@@ -1,5 +1,5 @@
 .chat-container {
-  height: 700px;
+  height: 90vh;
   overflow-y: scroll;
   padding-left: 220px;
 }
@@ -166,7 +166,7 @@ fill: currentColor;
   align-items: center; /* Center the button vertically */
   width: 50%;
   position: absolute;
-  bottom: 20%;
+  bottom: 10px;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: .5rem;
@@ -203,7 +203,7 @@ fill: currentColor;
   .user-input,
   .input-group-chatbox {
     position: fixed;
-    width: 80%; /* Adjust the width as per your preference */
+    width: 90%; /* Adjust the width as per your preference */
     left: 50%;
     transform: translate(-50%, -50%);
     bottom: 20px;
