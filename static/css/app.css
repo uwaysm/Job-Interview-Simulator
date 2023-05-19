@@ -186,20 +186,27 @@ fill: currentColor;
 .openbtn{
   display: none;
 }
+.closebtn{
+  display: none;
+}
 @media (max-width: 576px){
   .sidebar {
+    width: 250px;
     transform: translateX(-100%);
   }
   .chat-container {
-    height: 550px;
+    position: absolute;
+    height: calc(75% + 50px); /* Adjust the distance from the bottom as needed */
+    top: 5%;
     padding-left: 0;
   }
   .user-input,
   .input-group-chatbox {
+    position: fixed;
     width: 80%; /* Adjust the width as per your preference */
     left: 50%;
     transform: translate(-50%, -50%);
-    bottom: 50%;
+    bottom: 20px;
   }
 
   .user-input {
@@ -228,5 +235,18 @@ fill: currentColor;
   .center-text {
     margin-left: 10px; /* Add desired spacing */
   }
+  .closebtn{
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: white;
+    margin-top: 2%;
+    background: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+  }
+  
 
 }
