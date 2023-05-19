@@ -46,10 +46,57 @@ pip install -r requirements.txt
 
 ## How to Launch the Web Application
 
-1. Run the following command in your terminal or command prompt to start the web application: `python app.py`
+# Job Interview Flask Application
 
-2. The application will start, and you can access it at `http://127.0.0.1:5000/` in your web browser.
+This is a Flask web application that uses OpenAI's GPT-3 model to aid in the job interview process.
 
+## Pre-requisites
+
+1. Python 3.7 or later
+2. pip
+3. virtualenv
+
+## Setup
+
+Follow the instructions below to setup a virtual environment and run the application.
+
+1. Clone the repository:
+
+```
+git clone https://github.com/uwaysm/Job-Interview-Simulator
+cd Job-Interview-Simulator
+```
+
+2. Create a virtual environment:
+
+```
+python -m venv env
+```
+
+3. Activate the virtual environment:
+- On Windows:
+```
+.\env\Scripts\activate
+```
+
+- On Unix or MacOS:
+```
+source env/bin/activate
+```
+4. Install the necessary Python packages:
+
+```
+pip install -r requirements.txt
+```
+
+5. Run the application:
+```
+python app.py
+```
+
+6. Open a web browser and enter the following URL to access the application:
+
+`http://localhost:5001/`
 
 ### Usage
 
