@@ -68,7 +68,6 @@ cd Job-Interview-Simulator
 ```
 
 2. Create a virtual environment:
-
 ```
 python -m venv env
 ```
