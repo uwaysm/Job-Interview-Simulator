@@ -2,6 +2,11 @@
   height: 90vh;
   overflow-y: scroll;
   padding-left: 220px;
+  width: 100%;
+}
+
+#chatbot-ready-message {
+  font-size: larger;
 }
 
 .chat-box {
@@ -22,7 +27,6 @@
 }
 
 .bot {
-  font-family: Arial, sans-serif;
   color: #333;
   background: #d7d9db;
   border-radius: 0 16px 16px 16px;
@@ -30,7 +34,6 @@
 }
 
 .final {
-  font-family: Arial, sans-serif;
   color: #050505;
   background: #c0cedb;
   border-radius: 0 16px 16px 16px;
@@ -38,7 +41,6 @@
 }
 
 .question{
-  font-family: Arial, sans-serif;
   color: #ffffff;
   background: #3a3c3e;
   border-radius: 0 16px 16px 16px;
@@ -46,7 +48,6 @@
 }
 
 .user {
-  font-family: Arial, sans-serif;
   color: #ffffff;
   background: #007bff;
   border-radius: 16px 16px 0 16px;
@@ -113,9 +114,9 @@
   border: none;
 }
 .bi {
-vertical-align: -.125em;
-pointer-events: none;
-fill: currentColor;
+  vertical-align: -.125em;
+  pointer-events: none;
+  fill: currentColor;
 }
 
 .job-control{
