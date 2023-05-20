@@ -17,16 +17,14 @@ window.onload = () => {
 // ------------------------------
 
 function openNav() {
-  var sidebar = document.getElementsByClassName("sidebar")[0]; // Select the first element in the collection
-  sidebar.style.transform = "translateX(100%)";
-  sidebar.style.transition = "transform 0.8s ease-in";
+  let sidebar = document.getElementsByClassName("sidebar")[0]; // Select the first element in the collection
+  sidebar.style.display = "block";
   sidebar.style.zIndex = "1";
 }
 
 function closeNav() {
-  var sidebar = document.getElementsByClassName("sidebar")[0]; // Select the first element in the collection
-  sidebar.style.transform = "translateX(-100%)";
-  sidebar.style.transition = "transform 0.8s ease-out";
+  let sidebar = document.getElementsByClassName("sidebar")[0]; // Select the first element in the collection
+  sidebar.style.display = "none";
 }
 
 

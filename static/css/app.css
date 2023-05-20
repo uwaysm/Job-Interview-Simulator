@@ -191,19 +191,19 @@ fill: currentColor;
 }
 @media (max-width: 576px){
   .sidebar {
-    width: 250px;
-    transform: translateX(-100%);
+    width: 80%;
+    display: none;
   }
   .chat-container {
     position: absolute;
-    height: calc(75% + 50px); /* Adjust the distance from the bottom as needed */
+    height: calc(75% + 50px);
     top: 5%;
     padding-left: 0;
   }
   .user-input,
   .input-group-chatbox {
     position: fixed;
-    width: 90%; /* Adjust the width as per your preference */
+    width: 90%;
     left: 50%;
     transform: translate(-50%, -50%);
     bottom: 20px;
@@ -213,7 +213,7 @@ fill: currentColor;
     bottom: 0;
   }
   .input-group-chatbox button {
-    width: 30%; /* Adjust the width as per your preference */
+    width: 30%;
   }
   .openbtn{
     display: block;
@@ -233,7 +233,7 @@ fill: currentColor;
     background-color: #212529;
   }
   .center-text {
-    margin-left: 10px; /* Add desired spacing */
+    margin-left: 10px;
   }
   .closebtn{
     display: block;
