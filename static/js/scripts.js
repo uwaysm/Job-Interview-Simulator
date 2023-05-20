@@ -12,6 +12,9 @@ window.onload = () => {
             window.location.href = "/chat_logs";
     });
 }
+// ------------------------------
+// Functions
+// ------------------------------
 
 function openNav() {
   var sidebar = document.getElementsByClassName("sidebar")[0]; // Select the first element in the collection
@@ -27,9 +30,9 @@ function closeNav() {
 }
 
 
-// ------------------------------
-// Functions
-// ------------------------------
+
+
+
 
 // Accepts a boolean "enable" as an argument and enables or disables the "jobTitle" input field and "jobTitleSubmit" button accordingly.
 function toggleJobTitleInput(enable) {
