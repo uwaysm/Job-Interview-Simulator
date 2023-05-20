@@ -96,6 +96,10 @@
   margin: 1em 2em 1em 0;
 }
 
+.infinite-carousel-item > img, #interview-image {
+  width: 70%;
+}
+
 #interview-image {
   max-width: 500px;
 }

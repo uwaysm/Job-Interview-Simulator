@@ -1,8 +1,15 @@
 .chat-container {
-  height: 90vh;
   overflow-y: scroll;
   padding-left: 220px;
   width: 100%;
+}
+
+.chat-container-app {
+  height: 80vh;
+}
+
+.chat-container-history {
+  height: 95vh;
 }
 
 #chatbot-ready-message {
@@ -199,7 +206,7 @@
   .sidebar {
     width: 250px;
   }
-  .chat-container {
+  .chat-container-app, .chat-container-history {
     position: absolute;
     height: calc(75% + 50px);
     top: 5%;
