@@ -17,20 +17,24 @@ window.onload = () => {
 // ------------------------------
 
 function openNav() {
-  let sidebar = document.getElementsByClassName("sidebar")[0]; // Select the first element in the collection
-  sidebar.style.display = "block";
+  var sidebar = document.getElementsByClassName("sidebar")[0]; // Select the first element in the collection
+  sidebar.style.transform= "translateX(100%)";
+  sidebar.style.transition= "transform 0.3s ease-in";
   sidebar.style.zIndex = "1";
 }
 
 function closeNav() {
-  let sidebar = document.getElementsByClassName("sidebar")[0]; // Select the first element in the collection
-  sidebar.style.display = "none";
+  var sidebar = document.getElementsByClassName("sidebar")[0]; // Select the first element in the collection
+  sidebar.style.transform= "translateX(-100%)";
+  sidebar.style.transition= "transform 0.3s ease-out";
 }
 
 // Function that shows side bar again when window is resized
 $(window).resize(function () {
   if ($(window).width() > 576) {
-    $(".sidebar").show();
+    $(".sidebar").css({ transform: "translateX(0)"});
+  } else {
+    $(".sidebar").css({ transform: "translateX(-100%)"});
   }
 });
 
