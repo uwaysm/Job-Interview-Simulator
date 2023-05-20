@@ -249,7 +249,7 @@ def chat_logs():
 
     logs = c.fetchall()
     conn.close()
-    
+
     return render_template('chat_logs.html', logs=logs)
 
 # ========================================================================= #

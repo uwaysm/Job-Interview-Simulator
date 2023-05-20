@@ -161,6 +161,11 @@
   border: none;
 }
 
+.input-group {
+  background-color: #dbdbdb;
+  border-radius: 0.5em;
+}
+
 .input-group-chatbox{
   display: flex; /* Use flexbox */
   align-items: center; /* Center the button vertically */
