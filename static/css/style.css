@@ -39,6 +39,21 @@ the vertically stacked children
   border: solid black 1px;
 }
 
+.underline-orange{
+  text-decoration: underline 0.15em #F4C131;
+  transition: text-decoration-color 300ms;
+}
+
+.underline-orange:hover{
+  text-decoration: underline 0.15em #3164f4;
+}
+
+.highlight-orange {
+  border-radius: 20px;
+  color: #3164f4;
+  font-family: 'Lobster', cursive;
+  background-color: #F4C131;
+}
 
 /* For trouble shooting purposes */
 /*

@@ -57,6 +57,13 @@
   text-align: center;
 }
 
+#intro-header div {
+  background-color: #F4C131;
+  border-radius: 20px;
+  margin: auto;
+  width: 80%;
+}
+
 #job-title {
   color: #3164f4;
   font-size: larger;
@@ -82,9 +89,21 @@
   margin: 0.5em;
 }
 
+#about-header, #purpose-header {
+  font-family: 'Lobster', cursive;
+  color: #3164f4;
+  width: 18em;
+  background-color: #F4C131;
+  border-radius: 20px;
+}
+
 .infinite-carousel-container {
   width: 100%;
   overflow: hidden;
+}
+
+.infinite-carousel-container p {
+  font-family: 'Lobster', cursive;
 }
 
 .infinite-carousel-items {

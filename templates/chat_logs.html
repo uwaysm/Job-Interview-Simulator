@@ -157,7 +157,7 @@
               {% set id_rating = id_rating_raw|replace(' ', '-') %}
               {% if loop.index == 1 or loop.index % 5 == 1 %}
                 <li class="{{ id_date}} {{ id_jobTitle }} {{ id_rating}} user">
-                  I want to apply for a <b>{{ log[7] }}</b> job!
+                  I want to apply for a <span style="color: #F4C131;"><b>{{ log[7] }}</b></span> job!
                   <br>
                   <i>{{ log[9] }}</i>
                 </li> <!-- log[7] == Job Title / log[9] == date -->
