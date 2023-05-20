@@ -79,12 +79,10 @@
           <span class="fs-4" class="landing-page-button"><strong>GetHired.ai</strong></span>
           <hr />
           <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
+            <li class="nav-item" id="jobSearch">
               <label for="jobTitle" class="form-label">Enter New Job Title:</label>
-              <div class="input-group">
-                <input class="job-control" id="jobTitle" placeholder="Job title" />
-                <button class="btn btn-primary" id="jobTitleSubmit">Submit</button>
-              </div>
+              <input class="job-control" id="jobTitle" placeholder="Job title" />
+              <button class="btn btn-primary" id="jobTitleSubmit">Submit</button>
             </li>
             {% if current_user.is_authenticated %}
             <li>
