@@ -219,12 +219,22 @@
         log.style.display = "block"; // Reset display property
 
         // Get the date, job title and rating from the class list of the list items
-        const date = log.classList[0].replace("id_", "").replace("-", " ").match(/^(\d{4}) (\d{2}-\d{2})/)[0];
+        let date_string = log.classList[0].replace("id_", "").replace("-", " ");
+        let regex = /\d{4} (\d{2})-(\d{2})-\d{2}:\d{2}:\d{2}/; // Regex to match the date
+        let date_regex = regex.exec(date_string);
+        let date = ""
+        if (date_regex) {
+          // convert date so it matches dateFilter format -> YYYY-MM-DD
+          let year = date_regex[0].substring(0, 4);
+          let month = date_regex[1];
+          let day = date_regex[2];
+          date = year + "-" + month + "-" + day;
+        }
         const jobTitle = log.classList[1].replace("id_", "").replace("-", " ").toLocaleLowerCase();
         const rating = log.classList[2].replace("id_", "").replace("-", " ").match(/Rating:\s(\d+)/);
 
         console.log("Date " + date, "Job " + jobTitle, "rating " + rating)
-        if (dateFilter && date.indexOf(dateFilter) == -1) {
+        if (dateFilter && date != dateFilter) {
           log.style.display = "none";
         }
         if (jobTitleFilter && !jobTitle.includes(jobTitleFilter)) {
