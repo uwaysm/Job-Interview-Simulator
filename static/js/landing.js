@@ -82,12 +82,6 @@ window.onload = () => {
         .addEventListener("click", function () {
             window.location.href = "/app";
     });
-    // Tutorial button
-    document
-        .getElementById("tutorial-button")
-        .addEventListener("click", function () {
-            window.alert("Tutorial not yet implemented")
-    });
 
     // Carousel variables
     let prevBtn = document.getElementById("prev");
@@ -132,6 +126,18 @@ window.onload = () => {
         $("#signup-modal").show();
         $("#overlay").css("display", "block"); // activates overlay
 
+        // Prevents scrolling when modal is open
+        $("html").css("position", "fixed");
+        $("html").css("overflow-y", "scroll");
+    });
+
+    // Display the login modal when login button is clicked
+    $("#tutorial-button").click(function () {
+        $("#video-modal").fadeIn(600);
+        $("#overlay").fadeIn(600);
+        $("#video-modal").show();
+        $("#overlay").css("display", "block"); // activates overlay
+        
         // Prevents scrolling when modal is open
         $("html").css("position", "fixed");
         $("html").css("overflow-y", "scroll");

@@ -144,6 +144,11 @@
   margin: 10em auto 1em auto;
 }
 
+#footer a {
+  text-decoration: none;
+  color: black;
+}
+
 .footer-legal {
   font-size: small;
   margin: 0;
@@ -153,6 +158,25 @@
   text-align: center;
   font-size: small;
   margin: 0;
+}
+
+#video-modal {
+  width: 70%;
+}
+
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio (9 / 16 * 100) */
+  width: 100%;
+  overflow: hidden;
+}
+
+.video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 /* CSS for when screen width drops below 576px */
@@ -174,11 +198,11 @@
     text-align: left;
   }
 
-  .content, #footer-links .logo, .footer-legal {
+  .content, #footer * {
     text-align: center;
   }
 
-  .popup {
+  .popup, #video-modal {
     width: 100%;
     height: 100%;
     border-radius: 0;

@@ -113,12 +113,6 @@
               {% endif %}
             </div>
             <div class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-              <button id="settingsBtn" class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor"
-                  class="bi me-2">
-                  <use xlink:href="#sliders" />
-                </svg>
-                Settings
-              </button>
               <form action="/" method="GET">
                 <button class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2">
                     <use xlink:href="#back-to-home" />
@@ -142,7 +136,7 @@
                     <use xlink:href="#box-arrow-in-right" />
                   </svg>
                   Sign in</button>
-                {% endif %}
+              {% endif %}
             </div>
           </div>
         </div>
@@ -176,32 +170,6 @@
               {% endif %}
             {% endfor %}
           </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <label for="checkForRealJobTitle">Check for Real Job Title:</label><input type="checkbox"
-            id="checkForRealJobTitle" checked />
-          <br>
-          <label for="checkForRealJobTitle">Check for is Genuine Response:</label><input type="checkbox"
-            id="checkforGenuineResponse" checked />
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-            Close
-          </button>
-          <button type="button" class="btn btn-primary" id="saveSettingsBtn">
-            Save changes
-          </button>
         </div>
       </div>
     </div>
