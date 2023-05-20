@@ -191,8 +191,7 @@
 
 @media (max-width: 576px){
   .sidebar {
-    width: 80%;
-    display: none;
+    width: 250px;
   }
   .chat-container {
     position: absolute;
