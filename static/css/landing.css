@@ -144,6 +144,11 @@
   margin: 10em auto 1em auto;
 }
 
+#footer a {
+  text-decoration: none;
+  color: black;
+}
+
 .footer-legal {
   font-size: small;
   margin: 0;
@@ -174,7 +179,6 @@
   height: 100%;
 }
 
-
 /* CSS for when screen width drops below 576px */
 @media (max-width: 576px) {
   #top, #main, #footer {
@@ -194,7 +198,7 @@
     text-align: left;
   }
 
-  .content, #footer-links .logo, .footer-legal {
+  .content, #footer * {
     text-align: center;
   }
 
