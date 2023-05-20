@@ -59,9 +59,9 @@
 
 #job-title {
   color: #3164f4;
+  font-size: larger;
   font-family: 'Lobster', cursive;
   transition: 1s ease-in;
-  white-space: nowrap;
 }
 
 .fade-in {
@@ -157,6 +157,14 @@
     width: 100%;
   }
 
+  #top {
+    margin-bottom: 4em;
+  }
+
+  #current-username {
+    font-size: small;
+  }
+
   .p-content {
     width: 90%;
     text-align: left;
@@ -177,6 +185,6 @@
   }
 
   .infinite-carousel-item > img {
-    width: 80%;
+    width: 100%;
   }
 }

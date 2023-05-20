@@ -126,8 +126,8 @@
             <div id="login" class="col-9">
                 {% if current_user.is_authenticated %}
                 <form action="/logout" method="POST" id="login-buttons">
-                    <p style="display: inline;">Hello, <b>{{current_user.username}}!</b></p>
-                    <button style="margin-left: 2em;" type="submit" class="btn btn-primary">Logout</button>
+                    <p id="current-username" style="display: inline;">Hello, <b>{{current_user.username}}!</b></p>
+                    <button id="logout-button" style="margin-left: 10px; height: 38px;" type="submit" class="btn btn-primary">Logout</button>
                 </form>
                 {% else %}
                 <div id="login-buttons" class="vertical-center">
@@ -248,12 +248,12 @@
                         <h3 id="testimonial-text">
 
                         </h3>
-                        <p id="testimonial-name">
+                        <b><p id="testimonial-name">
     
-                        </p>
-                        <p id="testimonial-job">
+                        </p></b>
+                        <i><p id="testimonial-job">
     
-                        </p>
+                        </p></i>
                         <p id="testimonial-rating">
     
                         </p>
@@ -281,18 +281,6 @@
                 <h1 class="logo">GetHired.ai</h1>
                 <p class="footer-legal">2023 @ UWA CITS3403</p>
                 <p class="footer-legal">All rights reserved.</p>
-            </div>
-            <div class="col-sm-2">
-                <p class="footer-content vertical-center">Link1</p>
-            </div>
-            <div class="col-sm-2">
-                <p class="footer-content vertical-center">Link2</p>
-            </div>
-            <div class="col-sm-2">
-                <p class="footer-content vertical-center">Link3</p>
-            </div>
-            <div class="col-sm-2">
-                <p class="footer-content vertical-center">Link4</p>
             </div>
         </div>
     </div>
