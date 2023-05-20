@@ -65,7 +65,6 @@
   position: absolute;
   width: 220px;
   height: 100vh;
-  transition: transform 0.8s ease-out;
 }
 
 .sidebar h4 {
@@ -183,12 +182,7 @@ fill: currentColor;
   outline: none;
   box-shadow: none;
 }
-.openbtn{
-  display: none;
-}
-.closebtn{
-  display: none;
-}
+
 @media (max-width: 576px){
   .sidebar {
     width: 80%;
@@ -247,6 +241,10 @@ fill: currentColor;
     outline: none;
     box-shadow: none;
   }
-  
+}
 
+@media (min-width: 576px){
+  .top-row, .closebtn, .openbtn{
+    display: none;
+  }
 }

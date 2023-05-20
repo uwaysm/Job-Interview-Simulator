@@ -27,8 +27,12 @@ function closeNav() {
   sidebar.style.display = "none";
 }
 
-
-
+// Function that shows side bar again when window is resized
+$(window).resize(function () {
+  if ($(window).width() > 576) {
+    $(".sidebar").show();
+  }
+});
 
 
 
