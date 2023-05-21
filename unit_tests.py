@@ -1,15 +1,15 @@
 import json
 import unittest
 import os
-from unittest.mock import patch, MagicMock
-from sqlalchemy.orm import Session
+from unittest.mock import patch
 from flask_bcrypt import Bcrypt
-from app import app, db, User, ChatHistory, SessionHistory, get_feedback, add_session_to_database
+from app import app, db, User, ChatHistory, SessionHistory, add_session_to_database
 
 os.environ['DATABASE_URL'] = 'sqlite://'
 
 class TestFlaskApp(unittest.TestCase):
 
+    # Set up the application context and create the database
     def setUp(self):
         self.app_context = app.app_context()
         self.app_context.push()
@@ -19,20 +19,25 @@ class TestFlaskApp(unittest.TestCase):
         self.bcrypt = Bcrypt(app)
         db.create_all()
 
+    # Tear down the application context and remove the database
     def tearDown(self):
         db.session.remove()
         db.drop_all()
         self.app_context.pop()
         
+    # Helper function to register a user
     def register_user(self, username, password):
         return self.app.post('/register', data=dict(username=username, password=password, confirm_password=password), follow_redirects=True)
 
+    # Helper function to login a user
     def login_user(self, username, password):
         return self.app.post('/login', data=dict(username=username, password=password), follow_redirects=True)
 
+    # Helper function to logout a user
     def logout_user(self):
         return self.app.get('/logout', follow_redirects=True)
 
+    # Helper function to add a session to the database
     def test_register_user(self):
         response = self.register_user('testuser', 'testpassword')
         self.assertIn(b'Your account has been created!', response.data)
@@ -43,11 +48,13 @@ class TestFlaskApp(unittest.TestCase):
             self.assertIsNotNone(user)
             self.assertTrue(self.bcrypt.check_password_hash(user.password, 'testpassword'))
 
+    # Test cases for user registration
     def test_register_user_existing_username(self):
         self.register_user('testuser', 'testpassword')
         response = self.register_user('testuser', 'testpassword2')
         self.assertIn(b'Username already exists.', response.data)
 
+    # Test cases for user login correct password
     def test_login_logout(self):
         self.register_user('testuser', 'testpassword')
         response = self.login_user('testuser', 'testpassword')
@@ -55,11 +62,13 @@ class TestFlaskApp(unittest.TestCase):
         response = self.logout_user()
         self.assertIn(b'GetHired.ai', response.data)
 
+    # Test cases for user login wrong password
     def test_login_wrong_password(self):
         self.register_user('testuser', 'testpassword')
         response = self.login_user('testuser', 'wrongpassword')
         self.assertIn(b'Invalid username or password.', response.data)
 
+    # Test cases for user login nonexistent user
     def test_login_nonexistent_user(self):
         response = self.login_user('nonexistent', 'testpassword')
         self.assertIn(b'Invalid username or password.', response.data)
@@ -72,6 +81,7 @@ class TestFlaskApp(unittest.TestCase):
         data = json.loads(response.data)
         self.assertTrue(data['is_real'])
 
+    # Test cases for invalid job title
     @patch('app.is_real_job_title')
     def test_is_real_job_title_invalid(self, mock_is_real_job_title):
         mock_is_real_job_title.return_value = False
@@ -79,6 +89,7 @@ class TestFlaskApp(unittest.TestCase):
         data = json.loads(response.data)
         self.assertFalse(data['is_real'])
 
+    # Test cases for no input
     @patch('app.is_real_job_title')
     def test_is_real_job_title_no_input(self, mock_is_real_job_title):
         response = self.app.post('/is_real_job_title', data=dict(job_title=''))
@@ -93,6 +104,7 @@ class TestFlaskApp(unittest.TestCase):
         data = json.loads(response.data)
         self.assertEqual(data['questions'], ['Question 1', 'Question 2', 'Question 3'])
 
+    # Test cases for no input
     @patch('app.generate_interview_questions')
     def test_generate_interview_questions_no_input(self, mock_generate_interview_questions):
         response = self.app.post('/generate_questions', data=dict(job_title=''))
@@ -114,6 +126,7 @@ class TestFlaskApp(unittest.TestCase):
         self.assertEqual(data['score'], 0.75)
         self.assertEqual(data['feedback'], 'Good answer!')
 
+    # Test cases for no input
     @patch('app.evaluate_response_route')
     def test_evaluate_response_no_input(self, mock_evaluate_response):
         response = self.app.post('/evaluate_response', data=dict(response=''))

@@ -227,11 +227,6 @@ def final_decision_route():
     
     return jsonify(decision)
 
-####################################################
-# Below is the page for the chat history
-# Only show the chat history of the current user
-####################################################
-
 # Route to show the current user's previous sessions (chat history)
 @app.route('/chat_logs')
 def chat_logs():
