@@ -69,12 +69,12 @@
             <form method="POST" action="/login">
             {{ login_form.hidden_tag() }}
             <div class="form-element">
-                <label for="username-login">Username</label>
+                <label>Username</label>
                 {{ login_form.username(class="form-element__input", id="username-login",
             placeholder="Enter your Username") }}
             </div>
             <div class="form-element">
-                <label for="password-login">Password</label>
+                <label>Password</label>
                 {{ login_form.password(class="form-element__input", id="password-login",
             placeholder="Enter your Password") }}
             </div>
@@ -96,19 +96,19 @@
             <form method="POST" action="/register">
             {{ register_form.hidden_tag() }}
             <div class="form-element">
-                <label for="username-signup">Username</label>
+                <label>Username</label>
                 {{ register_form.username(class="form-element__input", id="username-signup", placeholder="Enter your Username") }}
             </div>
             <div class="form-element">
-                <label for="password-signup">Password</label>
+                <label>Password</label>
                 {{ register_form.password(class="form-element__input", id="password-signup", placeholder="Enter your Password") }}
             </div>
             <div class="form-element">
-              <label for="re-password-signup">Confirm your Password</label>
+              <label>Confirm your Password</label>
               {{ register_form.confirm_password(class="form-element__input", id="re-password-signup", placeholder="Confirm your Password") }}
             </div>
             <div class="form-element">
-                <button id="btn">{{ register_form.submit(id="btn", value="Sign Up") }}</button>
+                <button>{{ register_form.submit(id="btn", value="Sign Up") }}</button>
             </div>
             </form>
         </div>
@@ -119,7 +119,7 @@
         <div class="close-btn">&times;</div>
         <div class="video-container">
             <video controls>
-              <source src="../static/videos/GetHired.ai Demo - Made with Clipchamp.mp4" type="video/mp4">
+              <source src="../static/videos/GetHired.ai%20Demo%20-%20Made%20with%20Clipchamp.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
           </div>          
@@ -136,7 +136,7 @@
 
             <div id="login" class="col-9">
                 {% if current_user.is_authenticated %}
-                <form action="/logout" method="POST" id="login-buttons">
+                <form action="/logout" method="POST" id="logout-buttons">
                     <p id="current-username" style="display: inline;">Hello, <b>{{current_user.username}}!</b></p>
                     <button id="logout-button" style="margin-left: 10px; height: 38px;" type="submit" class="btn btn-primary">Logout</button>
                 </form>
@@ -158,7 +158,7 @@
                 <div id="intro-header" class="content">
                     <h1>The Best Way to Nail Your Next</h1>
                     <div>
-                        <h1><span id="job-title" class="fade-in show"></span></h1>
+                        <h1><span id="job-title" class="fade-in show">Job Title</span></h1>
                     </div>
                     <h1>Interview</h1>
                 </div>
@@ -179,7 +179,7 @@
             </div>
 
             <div class="infinite-carousel-container">
-                <p></p><b>Proudly Endorsed By</b></p>
+                <b>Proudly Endorsed By</b>
                 <div class="infinite-carousel-items">
                     <div class="infinite-carousel-item">
                         <img class="vertical-center" src="../static/images/logos/amazon.png" alt="Amazon Logo">
@@ -311,17 +311,6 @@
         </div>
     </div>
 
-    <script>
-        setTimeout(function() {
-          let flashMessage = document.getElementById('flash-message');
-          if (flashMessage) {
-              flashMessage.style.opacity = "0";
-              setTimeout(function() {
-                  flashMessage.style.display = "none";
-              }, 1000);
-          }
-      }, 3000);
-      </script>
 </body>
 
 </html>

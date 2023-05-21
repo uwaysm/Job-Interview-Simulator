@@ -49,7 +49,7 @@
   font-weight: bolder;
 }
 
-#login-buttons {
+#login-buttons, #logout-buttons {
   float: right;
 }
 

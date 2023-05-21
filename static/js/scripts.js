@@ -27,17 +27,19 @@ $(window).resize(function () {
   }
 });
 
-
-
 // Accepts a boolean "enable" as an argument and enables or disables the "jobTitle" input field and "jobTitleSubmit" button accordingly.
 function toggleJobTitleInput(enable) {
   $("#jobTitle").prop("disabled", !enable);
   $("#jobTitleSubmit").prop("disabled", !enable);
 }
 
-//  Validates the entered job title by making an AJAX request to the "/is_real_job_title" endpoint.
-// If it's a valid job title, it disables the job title input and submits the job title to the "/generate_questions" endpoint to receive a list of questions.
-// The questions are then stored in the "questions" array, and the first question is displayed.
+/**
+ * Validates the entered job title by making an AJAX request to the "/is_real_job_title" endpoint.
+ * If the job title is valid, it disables the job title input and submits the job title to the "/generate_questions" endpoint.
+ * The received list of questions is stored in the "questions" array, and the first question is displayed.
+ * If there are any errors during the process, they are logged in the console.
+ */
+
 function submitJobTitle() {
   const jobTitle = $("#jobTitle").val().trim();
 
@@ -79,6 +81,37 @@ function submitJobTitle() {
   }
 }
 
+// Simulate loading effect by looping dots in the message box
+
+function textloader(element) {
+  element.textContent = "";
+
+  loadInterval = setInterval(() => {
+    element.textContent += ".";
+    if (element.textContent === "....") {
+      element.textContent = "";
+    }
+  }, 300);
+}
+
+// Simulate Typing Text,
+
+function typeText(element, text) {
+  let index = 0;
+
+  return new Promise(resolve => {
+    let interval = setInterval(() => {
+      if (index < text.length) {
+        element.innerHTML += text.charAt(index);
+        index++;
+      } else {
+        clearInterval(interval);
+        resolve();
+      }
+    }, 20);
+  });
+}
+
 /**
  * Takes the user's input from the "userInput" field, appends it to the chat box, and sends it for evaluation.
  * The user's response is stored along with the question and feedback in the "responses" array.
@@ -98,6 +131,11 @@ function sendResponse() {
 
     $("#userInput").val("");
 
+    // Create a temporary "bot" message with loading effect
+    const tempBotResponse = $("<li>").addClass("bot");
+    $("#chatBox").append(tempBotResponse);
+    textloader(tempBotResponse[0]);
+
     $.ajax({
       url: "/evaluate_response",
       type: "POST",
@@ -112,7 +150,8 @@ function sendResponse() {
           response: userResponse,
           feedback: response,
         });
-
+        // Clear the temporary "bot" message
+        tempBotResponse.remove();
         displayFeedback(response);
       },
       error: function (error) {
@@ -127,7 +166,7 @@ function sendResponse() {
  * If there are more questions, the next question is appended to the chat box.
  * If there are no more questions, a final decision is sent and displayed.
  * Confetti animation is triggered upon completion of the interview.
- * 
+ *
  * If another interview is desired, the user can enter a job title.
  */
 
@@ -142,7 +181,7 @@ function displayNextQuestion() {
 
   if (questionIndex < questions.length) {
     const question = questions[questionIndex];
-    appendMessage(question, "question");
+    appendMessage(question, "question", true)
     questionIndex++;
     $("#userInput").val("");
 
@@ -210,45 +249,23 @@ function displayNextQuestion() {
   }
 }
 
-//Simulate loading
+/**
+ * Displays feedback in the chat box with typing animation.
+ * Clears the load interval and appends a line break element.
+ * Proceeds to display the next question.
+ *
+ * @param {string} feedback - The feedback message to be displayed.
+ */
 
-function textloader(element) {
-  element.textContent = '';
-
-  loadInterval = setInterval(() => {
-    element.textContent += '.';
-    if(element.textContent === '....') {
-      element.textContent = '';
-    }
-  }, 300);
-}
-
-//Simulate Typing Text
-
-function typeText(element, text) {
-  let index = 0;
-
-  let interval = setInterval(() => {
-    if(index < text.length) {
-      element.innerHTML += text.charAt(index);
-      index++
-    } else {
-      clearInterval(interval);
-    }
-  }, 20)
-}
-
-
-
-//  Accepts "feedback" as an argument, appends the feedback message to the chat box, and calls the displayNextQuestion function.
 function displayFeedback(feedback) {
-  appendMessage(feedback, "bot");
-
-  const breakElement = $("<li>").addClass("break");
-  $("#chatBox").append(breakElement);
-  displayNextQuestion();
+  appendMessage(feedback, "bot", true) // Use typing animation for feedback
+    .then(() => {
+      clearInterval(loadInterval);
+      const breakElement = $("<li>").addClass("break");
+      $("#chatBox").append(breakElement);
+      displayNextQuestion();
+    });
 }
-
 /**
  * Appends a message to the chat box.
  *
@@ -263,15 +280,15 @@ function appendMessage(message, sender, typed = false) {
 
   if (sender === "bot") {
     if (typed) {
-      typeText(liElement[0], message); // Simulate typing
+      return typeText(liElement[0], message); // Return the promise
     } else {
       liElement.text(message);
     }
   } else {
     liElement.text(message);
   }
-  
-  $(".chat-container").scrollTop($(".chat-container")[0].scrollHeight);  // Scroll to bottom
+
+  $(".chat-container").scrollTop($(".chat-container")[0].scrollHeight); // Scroll to bottom
 }
 
 // ------------------------------

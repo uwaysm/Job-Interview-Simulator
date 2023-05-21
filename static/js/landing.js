@@ -67,6 +67,16 @@ function changeTitle() {
     setInterval(displayNextItem, 3000);
 }
 
+setTimeout(function() {
+    let flashMessage = document.getElementById('flash-message');
+    if (flashMessage) {
+        flashMessage.style.opacity = "0";
+        setTimeout(function() {
+            flashMessage.style.display = "none";
+        }, 1000);
+    }
+}, 3000);
+
 // Functions to run when the page loads
 window.onload = () => {
     // EventListeners for buttons:
