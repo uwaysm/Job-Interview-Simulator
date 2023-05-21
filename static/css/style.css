@@ -55,6 +55,11 @@ the vertically stacked children
   background-color: #F4C131;
 }
 
+.cursive-blue {
+  font-family: 'Lobster', cursive;
+  color: #3164f4;
+}
+
 /* For trouble shooting purposes */
 /*
 div {

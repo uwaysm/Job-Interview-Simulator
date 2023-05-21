@@ -125,20 +125,22 @@
 
 .image-container {
   display: flex;
+  justify-content: space-between;
 }
 
 .chat-bubble {
   display: none;
   width: 10%;
   opacity: 40%;
+  max-width: 100px;
 }
 
 #chat-bubble-1 {
-  margin-bottom: 25%;
+  margin-bottom: 18em;
 }
 
-#chat-bubble-2 {
-  margin-bottom: 40%;
+#chat-bubble-2{
+  margin-bottom: 14em;
 }
 
 #testimonial-description {

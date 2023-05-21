@@ -22,7 +22,7 @@ const testimonials = [
     },
     {
         name: "Jason",
-        job: "CEO @ SomeRandomStartUp",
+        job: "CEO @ Bitcoin",
         testimonial: "I was able to get a job at my dream company thanks to GetHired.ai!",
         rating: "&starf;&starf;&starf;&starf;&starf;"
     },
@@ -174,24 +174,21 @@ window.onload = () => {
         $(".infinite-carousel-items").css("left", 0);
     }, 1500);
 
+    // Show the chat bubbles when the user scrolls to them
     $(window).scroll(function() {
         var scrollPos = $(window).scrollTop();
         
         // Calculate the position where the divs should appear/disappear
-        let bubble1 = $('#chat-bubble-1').offset().top - $(window).height() + 400;
-        let bubble2 = $('#chat-bubble-2').offset().top - $(window).height() + 400;
+        let bubble1 = $('#chat-bubble-1').offset().top - $(window).height() + 1300;
+        let bubble2 = $('#chat-bubble-2').offset().top - $(window).height() + 1300;
 
         // Show or hide the divs based on the scroll position
         if (scrollPos >= bubble1) {
             $('#chat-bubble-1').fadeIn();
-        } else {
-            $('#chat-bubble-1').fadeOut();
-        }
-    
+        } 
+
         if (scrollPos >= bubble2) {
             $('#chat-bubble-2').fadeIn();
-        } else {
-            $('#chat-bubble-2').fadeOut();
         }
     });
 };
