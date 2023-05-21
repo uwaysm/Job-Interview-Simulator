@@ -1,9 +1,10 @@
 import json
 import unittest
 import os
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
+from sqlalchemy.orm import Session
 from flask_bcrypt import Bcrypt
-from app import app, db, User, get_feedback, add_session_to_database
+from app import app, db, User, ChatHistory, SessionHistory, get_feedback, add_session_to_database
 
 os.environ['DATABASE_URL'] = 'sqlite://'
 
@@ -136,41 +137,60 @@ class TestFlaskApp(unittest.TestCase):
         data = json.loads(response.data)
         self.assertIsNotNone(data) # Check that the final decision is not None (i.e. it was calculated)
 
+    # Test cases for final decision making
     @patch('app.final_decision_route')
     def test_decide_no_input(self, mock_decide):
         mock_decide.return_value = None
         response = self.app.post('/final_decision', data=dict(score=None))
         self.assertEqual(response.status_code, 400)
 
-    # # Test cases for adding a session to the database
-    # def test_add_session_to_database(self):
-    #     # Build a fake profile
-    #     userID = 100
-    #     job_title = 'Software Engineer'
-    #     responses = [
-    #         {"question": "Tell me about your experience.", 
-    #          "response": "I have worked at Google as a Software Engineer for 10 years", 
-    #          "feedback": "Good answer!"}
-    #     ]
-    #     decision = "10/10 Hired!"
-
-    #     db_test_session = db.session
+    # Test cases for adding a session to the database
+    def test_add_session_to_database(self):
+        userID = 100
+        job_title = 'Software Engineer'
+        responses = [
+            {"question": "Tell me about your experience.", 
+             "response": "I have worked at Google as a Software Engineer for 10 years", 
+             "feedback": "Good answer!"}
+        ]
+        decision = "10/10 Hired!"
         
-    #     # Invoke the add_session_to_database() function using the test database connection
-    #     add_session_to_database(userID, job_title, responses, decision, db_test_session)
+        this_session = db.session
 
-    #     # Check that the session was added to the database
-    #     self.cursor.execute("SELECT * FROM chatHistory JOIN sessionHistory ON chatHistory.sessionID = sessionHistory.sessionID")
-    #     session_history = self.cursor.fetchall()
-    #     self.assertEqual(len(session_history), 1) # Check that only one session exists
-    #     self.assertEqual(session_history[0][1], 1)
-    #     self.assertEqual(session_history[0][6], userID)
-    #     self.assertEqual(session_history[0][7], job_title)
-    #     self.assertEqual(session_history[0][2], responses[0]['question'])
-    #     self.assertEqual(session_history[0][3], responses[0]['response'])
-    #     self.assertEqual(session_history[0][4], responses[0]['feedback'])
-    #     self.assertIsNotNone(session_history[0][8]) # Check that the final decision is not None (i.e. it was calculated)
-    #     self.assertIsNotNone(session_history[0][9]) # Check that the timestamp is not None (i.e. it was added)
+        add_session_to_database(userID, job_title, responses, decision, this_session)
+
+        session = SessionHistory.query.order_by(SessionHistory.sessionID.desc()).first()
+        self.assertIsNotNone(session)
+        self.assertEqual(session.userID, userID)
+        self.assertEqual(session.jobTitle, job_title)
+        self.assertEqual(session.finalDecision, decision)
+
+        chat_records = ChatHistory.query.filter_by(sessionID=session.sessionID).all()
+        self.assertEqual(len(chat_records), len(responses))
+
+        for i, record in enumerate(chat_records):
+            self.assertEqual(record.botQuestion, responses[i]['question'])
+            self.assertEqual(record.userResponse, responses[i]['response'])
+            self.assertEqual(record.botReview, responses[i]['feedback'])
+
+    # Test cases for getting the chat logs and succeeding
+    def test_chat_logs_authenticated(self):
+        # Add a new user and log them in
+        self.register_user('testuser', 'testpassword')
+        self.login_user('testuser', 'testpassword')
+
+        response = self.app.get('/chat_logs')
+
+        # Verify the response
+        self.assertEqual(response.status_code, 200)
+
+    # Test cases for getting the chat logs and failing
+    def test_chat_logs_unauthenticated(self):
+        # Run the test without logging in
+        response = self.app.get('/chat_logs')
+
+        # Verify the response
+        self.assertNotEqual(response.status_code, 400)
 
 if __name__ == '__main__':
     unittest.main()
