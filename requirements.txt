@@ -7,3 +7,5 @@ flask_sqlalchemy==3.0.3
 Flask_WTF==1.1.1
 WTForms==3.0.1
 python-dotenv
+selenium
+pytest
