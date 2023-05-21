@@ -12,11 +12,11 @@ This web application is a Job Interview Simulator that helps users practice thei
 
 ## Architecture
 
-The application is built using the Flask web framework and is powered by OpenAI's GPT-4 API. It has the following primary components:
+The application is built using the Flask web framework and is powered by OpenAI's GPT-3.5 API. It has the following primary components:
 
 1. **Flask**: A lightweight web framework used to develop the web application.
 2. **SQLAlchemy**: A SQL toolkit and Object-Relational Mapping (ORM) system that gives application developers the full power and flexibility of SQL.
-3. **OpenAI API**: The GPT-4 API is used to generate interview questions, evaluate responses, and provide feedback to the user.
+3. **OpenAI API**: The GPT-3.5 API is used to generate interview questions, evaluate responses, and provide feedback to the user.
 4. **Flask-Login**: A Flask extension that handles user authentication and management.
 5. **Flask-WTF**: A Flask extension for handling forms.
 6. **Flask-Bcrypt**: A Flask extension for hashing passwords.
@@ -125,7 +125,7 @@ Before you begin, make sure you have completed the steps to set up and run the w
 Open a terminal or command prompt, navigate to the project directory, and run the following command to execute the unit tests:
 
 ```bash
-python -m unittest test_app.py
+python -m unittest unit_tests.py
 ```
 
 ## Selenium Unit Tests
