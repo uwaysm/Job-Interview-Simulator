@@ -75,19 +75,17 @@
                 <input class="job-control" id="jobTitle" placeholder="Job title">
                 <button class="btn btn-primary" id="jobTitleSubmit">Submit</button>
             </li>
-          </ul>
-            {% if current_user.is_authenticated %}
-            <ul class="nav nav-pills flex-column">
             <li>
-                <div>
-                    <button class="nav-link text-white chat-history-button">
-                        <svg class="bi me-2" width="15" height="16"><use xlink:href="#chat-left-dots"/></svg>
-                        Chat History
-                    </button>
-                </div>
+              {% if current_user.is_authenticated %}
+              <div>
+                  <button class="nav-link text-white chat-history-button">
+                      <svg class="bi me-2" width="15" height="16"><use xlink:href="#chat-left-dots"/></svg>
+                      Chat History
+                  </button>
+              </div>
+              {% endif %}
             </li>
           </ul>
-            {% endif %}
         
         
           <hr>
