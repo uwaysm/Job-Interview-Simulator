@@ -123,6 +123,24 @@
   max-width: 500px;
 }
 
+.image-container {
+  display: flex;
+}
+
+.chat-bubble {
+  display: none;
+  width: 10%;
+  opacity: 40%;
+}
+
+#chat-bubble-1 {
+  margin-bottom: 25%;
+}
+
+#chat-bubble-2 {
+  margin-bottom: 40%;
+}
+
 #testimonial-description {
   margin: auto;
 }

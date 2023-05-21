@@ -222,18 +222,6 @@ function appendMessage(message, sender) {
 
 $(document).ready(function () {
   $("#userInput").addClass("locked");
-
-  $("#settingsBtn").on("click", function () {
-    $("#settingsModal").modal("show");
-  });
-
-  // Opens the settings modal when the settings button is clicked.
-  $("#saveSettingsBtn").on("click", function () {
-    // Save settings changes here
-    $("#settingsModal").modal("hide");
-  });
-
-  //  Closes the settings modal when the save settings button is clicked. (Note: Settings changes should be saved here.)
   $("#sendBtn").addClass("locked");
   $("#userInput").addClass("locked");
   $("#userInput").prop("disabled", true);

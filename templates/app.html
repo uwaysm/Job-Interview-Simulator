@@ -23,15 +23,6 @@
 
   <!-- Reference: https://icons.getbootstrap.com/ -->
   <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-    <symbol id="sliders" viewBox="0 0 16 16">
-      <path fill-rule="evenodd"
-        d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z" />
-    </symbol>
-    <symbol id="person-circle" viewBox="0 0 16 16">
-      <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-      <path fill-rule="evenodd"
-        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-    </symbol>
     <symbol id="box-arrow-in-right" viewBox="0 0 16 16">
       <path fill-rule="evenodd"
         d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z" />
@@ -104,11 +95,6 @@
               {% endif %}
             </div>
             <div class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-              <button id="settingsBtn" class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor"
-                  class="bi me-2">
-                  <use xlink:href="#sliders" />
-                </svg>
-                Settings</button>
               <form action="/" method="GET">
                 <button class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2">
                     <use xlink:href="#back-to-home" />
@@ -160,34 +146,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Settings Modal -->
-  <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="settingsModalLabel">Settings</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <label for="checkForRealJobTitle">Check for Real Job Title:</label><input type="checkbox"
-            id="checkForRealJobTitle" checked />
-          <br>
-          <label for="checkForRealJobTitle">Check for is Genuine Response:</label><input type="checkbox"
-            id="checkforGenuineResponse" checked />
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-            Close
-          </button>
-          <button type="button" class="btn btn-primary" id="saveSettingsBtn">
-            Save changes
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
 
   <script>
     // Event listener for chat history button

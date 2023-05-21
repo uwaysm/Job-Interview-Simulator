@@ -173,4 +173,25 @@ window.onload = () => {
         // Reset the position of the logos
         $(".infinite-carousel-items").css("left", 0);
     }, 1500);
+
+    $(window).scroll(function() {
+        var scrollPos = $(window).scrollTop();
+        
+        // Calculate the position where the divs should appear/disappear
+        let bubble1 = $('#chat-bubble-1').offset().top - $(window).height() + 400;
+        let bubble2 = $('#chat-bubble-2').offset().top - $(window).height() + 400;
+
+        // Show or hide the divs based on the scroll position
+        if (scrollPos >= bubble1) {
+            $('#chat-bubble-1').fadeIn();
+        } else {
+            $('#chat-bubble-1').fadeOut();
+        }
+    
+        if (scrollPos >= bubble2) {
+            $('#chat-bubble-2').fadeIn();
+        } else {
+            $('#chat-bubble-2').fadeOut();
+        }
+    });
 };
