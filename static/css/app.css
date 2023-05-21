@@ -5,7 +5,7 @@
 }
 
 .chat-container-app {
-  height: 90vh;
+  height: 80vh;
 }
 
 .chat-container-history {
@@ -204,7 +204,7 @@
 
 @media (max-width: 576px){
   .sidebar {
-    width: 80%;
+    width: 90%;
     display: none;
   }
   .chat-container-app, .chat-container-history {
