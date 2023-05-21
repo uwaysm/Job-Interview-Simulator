@@ -96,16 +96,26 @@ function textloader(element) {
 
 // Simulate Typing Text,
 
+// Simulate Typing Text,
+
 function typeText(element, text) {
   let index = 0;
 
   return new Promise(resolve => {
-    let interval = setInterval(() => {
+    // Create an interval for scrolling
+    let scrollInterval = setInterval(() => {
+      $(".chat-container").scrollTop($(".chat-container")[0].scrollHeight);
+    }, 20);
+
+    // Continue with existing interval for typing
+    let typeInterval = setInterval(() => {
       if (index < text.length) {
         element.innerHTML += text.charAt(index);
         index++;
       } else {
-        clearInterval(interval);
+        // Once typing has finished, clear both intervals
+        clearInterval(typeInterval);
+        clearInterval(scrollInterval);
         resolve();
       }
     }, 20);
