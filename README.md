@@ -99,6 +99,15 @@ The unit tests for the Job Interview Simulator web application cover the followi
 - Test the final decision-making process based on user responses.
 - Test the final decision-making process with no input.
 
+## 6. Session Handling
+- Tests whether a session can be successfully added to the database. 
+- Compares the chat history recorded in the database with the input responses, checking if they are of the same length and contain the same elements.
+
+## 7. Chat Logs Access
+- Tests whether an authenticated user can successfully access the chat logs.
+- Checks if the response status code is 200, indicating successful access.
+- Tests the behavior when an unauthenticated user tries to access the chat logs page
+- Checks if the response status code is not equal to 400, indicating that an unauthorized request has not been made.
 You can find the corresponding test methods in the `TestFlaskApp` class in the `unit_tests.py` file.
 
 ## How to run the unit tests
