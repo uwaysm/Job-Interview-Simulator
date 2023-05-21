@@ -78,12 +78,83 @@ function submitJobTitle() {
     });
   }
 }
+// Takes the user's input from the "userInput" field, appends it to the chat box, and sends it to the "/evaluate_response" endpoint for evaluation.
+// Stores the response and feedback in the "responses" array. If there's an error, logs it in the console.
+// function sendResponse() {
+//   const userResponse = $("#userInput").val().trim();
+//   if (userResponse) {
+//     $("#sendBtn").prop("disabled", true);
+//     $("#userInput").prop("disabled", true);
 
-/**
- * Takes the user's input from the "userInput" field, appends it to the chat box, and sends it for evaluation.
- * The user's response is stored along with the question and feedback in the "responses" array.
- * If there's an error during evaluation, it is logged in the console.
- */
+//     const currentQuestion = questions[questionIndex - 1];
+//     const jobTitle = $("#jobTitle").val();
+
+//     appendMessage(userResponse, "user");
+
+//     $("#userInput").val("");
+
+//     $.ajax({
+//       url: "/evaluate_response",
+//       type: "POST",
+//       data: {
+//         user_response: userResponse,
+//         question: currentQuestion,
+//         job_title: jobTitle,
+//       },
+//       success: function (response) {
+//         responses.push({
+//           question: currentQuestion,
+//           response: userResponse,
+//           feedback: response,
+//         });
+
+//         displayFeedback(response);
+//       },
+//       error: function (error) {
+//         console.error("Error evaluating response:", error);
+//       },
+//     });
+//   }
+// }
+
+// function textloader(element) {
+//   element.textContent = '';
+
+//   loadInterval = setInterval(() => {
+//     element.textContent += '.';
+//     if(element.textContent === '....') {
+//       element.textContent = '';
+//     }
+//   }, 300);
+// }
+
+//Simulate loading
+
+function textloader(element) {
+  element.textContent = '';
+
+  loadInterval = setInterval(() => {
+    element.textContent += '.';
+    if(element.textContent === '....') {
+      element.textContent = '';
+    }
+  }, 300);
+}
+
+//Simulate Typing Text
+
+function typeText(element, text) {
+  let index = 0;
+
+  let interval = setInterval(() => {
+    if(index < text.length) {
+      element.innerHTML += text.charAt(index);
+      index++
+    } else {
+      clearInterval(interval);
+    }
+  }, 20)
+}
 
 function sendResponse() {
   const userResponse = $("#userInput").val().trim();
@@ -97,6 +168,11 @@ function sendResponse() {
     appendMessage(userResponse, "user");
 
     $("#userInput").val("");
+
+    // Create a temporary "bot" message with loading effect
+    const tempBotResponse = $("<li>").addClass("bot");
+    $("#chatBox").append(tempBotResponse);
+    textloader(tempBotResponse[0]);
 
     $.ajax({
       url: "/evaluate_response",
@@ -112,7 +188,8 @@ function sendResponse() {
           response: userResponse,
           feedback: response,
         });
-
+        // Clear the temporary "bot" message
+        tempBotResponse.remove();
         displayFeedback(response);
       },
       error: function (error) {
@@ -122,15 +199,10 @@ function sendResponse() {
   }
 }
 
-/**
- * Displays the next question in the interview process or finalizes the interview.
- * If there are more questions, the next question is appended to the chat box.
- * If there are no more questions, a final decision is sent and displayed.
- * Confetti animation is triggered upon completion of the interview.
- * 
- * If another interview is desired, the user can enter a job title.
- */
 
+
+// Removes the "locked" class from the elements, enables input fields and buttons, and displays the next question in the "questions" array.
+// If there are no more questions, it sends the user's responses to the "/final_decision" endpoint and displays the final decision in the chat box.
 function displayNextQuestion() {
   // Remove the 'locked' class from the elements
   $("#sendBtn").removeClass("locked");
@@ -210,53 +282,18 @@ function displayNextQuestion() {
   }
 }
 
-//Simulate loading
-
-function textloader(element) {
-  element.textContent = '';
-
-  loadInterval = setInterval(() => {
-    element.textContent += '.';
-    if(element.textContent === '....') {
-      element.textContent = '';
-    }
-  }, 300);
-}
-
-//Simulate Typing Text
-
-function typeText(element, text) {
-  let index = 0;
-
-  let interval = setInterval(() => {
-    if(index < text.length) {
-      element.innerHTML += text.charAt(index);
-      index++
-    } else {
-      clearInterval(interval);
-    }
-  }, 20)
-}
-
-
-
 //  Accepts "feedback" as an argument, appends the feedback message to the chat box, and calls the displayNextQuestion function.
 function displayFeedback(feedback) {
-  appendMessage(feedback, "bot");
-
+  appendMessage(feedback, "bot", true); // Use typing animation for feedback
+  clearInterval(loadInterval);
   const breakElement = $("<li>").addClass("break");
   $("#chatBox").append(breakElement);
+  
   displayNextQuestion();
 }
 
-/**
- * Appends a message to the chat box.
- *
- * @param {string} message - The message to be appended.
- * @param {string} sender - The sender of the message (e.g., "bot", "user").
- * @param {boolean} [typed=false] - Specifies if the message should be simulated as typed.
- */
-
+//  Accepts "message" and "sender" as arguments, creates a new list item element with the sender's class and message text,
+// and appends it to the chat box. Scrolls to the bottom of the chat box.
 function appendMessage(message, sender, typed = false) {
   const liElement = $("<li>").addClass(sender);
   $("#chatBox").append(liElement);

@@ -69,12 +69,12 @@
             <form method="POST" action="/login">
             {{ login_form.hidden_tag() }}
             <div class="form-element">
-                <label for="username-login">Username</label>
+                <label>Username</label>
                 {{ login_form.username(class="form-element__input", id="username-login",
             placeholder="Enter your Username") }}
             </div>
             <div class="form-element">
-                <label for="password-login">Password</label>
+                <label>Password</label>
                 {{ login_form.password(class="form-element__input", id="password-login",
             placeholder="Enter your Password") }}
             </div>
@@ -96,15 +96,15 @@
             <form method="POST" action="/register">
             {{ register_form.hidden_tag() }}
             <div class="form-element">
-                <label for="username-signup">Username</label>
+                <label>Username</label>
                 {{ register_form.username(class="form-element__input", id="username-signup", placeholder="Enter your Username") }}
             </div>
             <div class="form-element">
-                <label for="password-signup">Password</label>
+                <label>Password</label>
                 {{ register_form.password(class="form-element__input", id="password-signup", placeholder="Enter your Password") }}
             </div>
             <div class="form-element">
-              <label for="re-password-signup">Confirm your Password</label>
+              <label>Confirm your Password</label>
               {{ register_form.confirm_password(class="form-element__input", id="re-password-signup", placeholder="Confirm your Password") }}
             </div>
             <div class="form-element">
