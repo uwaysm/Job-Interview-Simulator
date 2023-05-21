@@ -127,13 +127,13 @@ def get_feedback(user_response, question, job_title, check_genuine_responses=Tru
             return "Please provide a valid response"
 
     # Create a prompt for the OpenAI API
-    prompt = f'Prompt: Given the job title "{job_title}", please analyze the following interview response to the question "{question}". Response: {user_response}. Provide a detailed evaluation of the response, highlighting its strengths, weaknesses, and any suggestions for improvement.'
+    prompt = f'Prompt: Given the job title "{job_title}", please analyze the following interview response to the question "{question}". Response: {user_response}. Provide a detailed evaluation of the response making sure the evulation is 100 word or less.'
 
     # Call the OpenAI API to get feedback
     response = openai.Completion.create(
         engine="text-davinci-003",
         prompt=prompt,
-        max_tokens=100,
+        max_tokens=200,
         n=1,
         stop=None,
         temperature=0.7,
