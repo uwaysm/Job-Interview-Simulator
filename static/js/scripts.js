@@ -96,17 +96,33 @@ function textloader(element) {
 
 // Simulate Typing Text
 
+// function typeText(element, text) {
+//   let index = 0;
+
+//   let interval = setInterval(() => {
+//     if (index < text.length) {
+//       element.innerHTML += text.charAt(index);
+//       index++;
+//     } else {
+//       clearInterval(interval);
+//     }
+//   }, 20);
+// }
+
 function typeText(element, text) {
   let index = 0;
 
-  let interval = setInterval(() => {
-    if (index < text.length) {
-      element.innerHTML += text.charAt(index);
-      index++;
-    } else {
-      clearInterval(interval);
-    }
-  }, 20);
+  return new Promise(resolve => {
+    let interval = setInterval(() => {
+      if (index < text.length) {
+        element.innerHTML += text.charAt(index);
+        index++;
+      } else {
+        clearInterval(interval);
+        resolve();
+      }
+    }, 20);
+  });
 }
 
 /**
@@ -178,7 +194,7 @@ function displayNextQuestion() {
 
   if (questionIndex < questions.length) {
     const question = questions[questionIndex];
-    appendMessage(question, "question");
+    appendMessage(question, "question", true)
     questionIndex++;
     $("#userInput").val("");
 
@@ -254,15 +270,24 @@ function displayNextQuestion() {
  * @param {string} feedback - The feedback message to be displayed.
  */
 
+// function displayFeedback(feedback) {
+//   appendMessage(feedback, "bot", true); // Use typing animation for feedback
+//   clearInterval(loadInterval);
+//   const breakElement = $("<li>").addClass("break");
+//   $("#chatBox").append(breakElement);
+
+//   displayNextQuestion();
+// }
+
 function displayFeedback(feedback) {
-  appendMessage(feedback, "bot", true); // Use typing animation for feedback
-  clearInterval(loadInterval);
-  const breakElement = $("<li>").addClass("break");
-  $("#chatBox").append(breakElement);
-
-  displayNextQuestion();
+  appendMessage(feedback, "bot", true) // Use typing animation for feedback
+    .then(() => {
+      clearInterval(loadInterval);
+      const breakElement = $("<li>").addClass("break");
+      $("#chatBox").append(breakElement);
+      displayNextQuestion();
+    });
 }
-
 /**
  * Appends a message to the chat box.
  *
@@ -271,13 +296,30 @@ function displayFeedback(feedback) {
  * @param {boolean} [typed=false] - Specifies if the message should be simulated as typed.
  */
 
+// function appendMessage(message, sender, typed = false) {
+//   const liElement = $("<li>").addClass(sender);
+//   $("#chatBox").append(liElement);
+
+//   if (sender === "bot") {
+//     if (typed) {
+//       typeText(liElement[0], message); // Simulate typing
+//     } else {
+//       liElement.text(message);
+//     }
+//   } else {
+//     liElement.text(message);
+//   }
+
+//   $(".chat-container").scrollTop($(".chat-container")[0].scrollHeight); // Scroll to bottom
+// }
+
 function appendMessage(message, sender, typed = false) {
   const liElement = $("<li>").addClass(sender);
   $("#chatBox").append(liElement);
 
   if (sender === "bot") {
     if (typed) {
-      typeText(liElement[0], message); // Simulate typing
+      return typeText(liElement[0], message); // Return the promise
     } else {
       liElement.text(message);
     }
