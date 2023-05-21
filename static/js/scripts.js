@@ -27,17 +27,19 @@ $(window).resize(function () {
   }
 });
 
-
-
 // Accepts a boolean "enable" as an argument and enables or disables the "jobTitle" input field and "jobTitleSubmit" button accordingly.
 function toggleJobTitleInput(enable) {
   $("#jobTitle").prop("disabled", !enable);
   $("#jobTitleSubmit").prop("disabled", !enable);
 }
 
-//  Validates the entered job title by making an AJAX request to the "/is_real_job_title" endpoint.
-// If it's a valid job title, it disables the job title input and submits the job title to the "/generate_questions" endpoint to receive a list of questions.
-// The questions are then stored in the "questions" array, and the first question is displayed.
+/**
+ * Validates the entered job title by making an AJAX request to the "/is_real_job_title" endpoint.
+ * If the job title is valid, it disables the job title input and submits the job title to the "/generate_questions" endpoint.
+ * The received list of questions is stored in the "questions" array, and the first question is displayed.
+ * If there are any errors during the process, they are logged in the console.
+ */
+
 function submitJobTitle() {
   const jobTitle = $("#jobTitle").val().trim();
 
@@ -78,83 +80,40 @@ function submitJobTitle() {
     });
   }
 }
-// Takes the user's input from the "userInput" field, appends it to the chat box, and sends it to the "/evaluate_response" endpoint for evaluation.
-// Stores the response and feedback in the "responses" array. If there's an error, logs it in the console.
-// function sendResponse() {
-//   const userResponse = $("#userInput").val().trim();
-//   if (userResponse) {
-//     $("#sendBtn").prop("disabled", true);
-//     $("#userInput").prop("disabled", true);
 
-//     const currentQuestion = questions[questionIndex - 1];
-//     const jobTitle = $("#jobTitle").val();
-
-//     appendMessage(userResponse, "user");
-
-//     $("#userInput").val("");
-
-//     $.ajax({
-//       url: "/evaluate_response",
-//       type: "POST",
-//       data: {
-//         user_response: userResponse,
-//         question: currentQuestion,
-//         job_title: jobTitle,
-//       },
-//       success: function (response) {
-//         responses.push({
-//           question: currentQuestion,
-//           response: userResponse,
-//           feedback: response,
-//         });
-
-//         displayFeedback(response);
-//       },
-//       error: function (error) {
-//         console.error("Error evaluating response:", error);
-//       },
-//     });
-//   }
-// }
-
-// function textloader(element) {
-//   element.textContent = '';
-
-//   loadInterval = setInterval(() => {
-//     element.textContent += '.';
-//     if(element.textContent === '....') {
-//       element.textContent = '';
-//     }
-//   }, 300);
-// }
-
-//Simulate loading
+// Simulate loading effect by looping dots in the message box
 
 function textloader(element) {
-  element.textContent = '';
+  element.textContent = "";
 
   loadInterval = setInterval(() => {
-    element.textContent += '.';
-    if(element.textContent === '....') {
-      element.textContent = '';
+    element.textContent += ".";
+    if (element.textContent === "....") {
+      element.textContent = "";
     }
   }, 300);
 }
 
-//Simulate Typing Text
+// Simulate Typing Text
 
 function typeText(element, text) {
   let index = 0;
 
   let interval = setInterval(() => {
-    if(index < text.length) {
+    if (index < text.length) {
       element.innerHTML += text.charAt(index);
-      index++
+      index++;
     } else {
       clearInterval(interval);
     }
-  }, 20)
+  }, 20);
 }
+
+/**
+ * Takes the user's input from the "userInput" field, appends it to the chat box, and sends it for evaluation.
+ * The user's response is stored along with the question and feedback in the "responses" array.
+ * If there's an error during evaluation, it is logged in the console.
+ */
 
 function sendResponse() {
   const userResponse = $("#userInput").val().trim();
@@ -199,10 +158,15 @@ function sendResponse() {
   }
 }
 
+/**
+ * Displays the next question in the interview process or finalizes the interview.
+ * If there are more questions, the next question is appended to the chat box.
+ * If there are no more questions, a final decision is sent and displayed.
+ * Confetti animation is triggered upon completion of the interview.
+ *
+ * If another interview is desired, the user can enter a job title.
+ */
 
-
-// Removes the "locked" class from the elements, enables input fields and buttons, and displays the next question in the "questions" array.
-// If there are no more questions, it sends the user's responses to the "/final_decision" endpoint and displays the final decision in the chat box.
 function displayNextQuestion() {
   // Remove the 'locked' class from the elements
   $("#sendBtn").removeClass("locked");
@@ -282,18 +246,31 @@ function displayNextQuestion() {
   }
 }
 
-//  Accepts "feedback" as an argument, appends the feedback message to the chat box, and calls the displayNextQuestion function.
+/**
+ * Displays feedback in the chat box with typing animation.
+ * Clears the load interval and appends a line break element.
+ * Proceeds to display the next question.
+ *
+ * @param {string} feedback - The feedback message to be displayed.
+ */
+
 function displayFeedback(feedback) {
   appendMessage(feedback, "bot", true); // Use typing animation for feedback
   clearInterval(loadInterval);
   const breakElement = $("<li>").addClass("break");
   $("#chatBox").append(breakElement);
-  
+
   displayNextQuestion();
 }
 
-//  Accepts "message" and "sender" as arguments, creates a new list item element with the sender's class and message text,
-// and appends it to the chat box. Scrolls to the bottom of the chat box.
+/**
+ * Appends a message to the chat box.
+ *
+ * @param {string} message - The message to be appended.
+ * @param {string} sender - The sender of the message (e.g., "bot", "user").
+ * @param {boolean} [typed=false] - Specifies if the message should be simulated as typed.
+ */
+
 function appendMessage(message, sender, typed = false) {
   const liElement = $("<li>").addClass(sender);
   $("#chatBox").append(liElement);
@@ -307,8 +284,8 @@ function appendMessage(message, sender, typed = false) {
   } else {
     liElement.text(message);
   }
-  
-  $(".chat-container").scrollTop($(".chat-container")[0].scrollHeight);  // Scroll to bottom
+
+  $(".chat-container").scrollTop($(".chat-container")[0].scrollHeight); // Scroll to bottom
 }
 
 // ------------------------------
