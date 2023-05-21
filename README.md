@@ -23,6 +23,7 @@ The application is built using the Flask web framework and is powered by OpenAI'
 7. **Flask-SQLAlchemy**: A Flask extension that provides a simple interface for using SQLAlchemy with Flask.
 
 ## Notes for marker
+- Execute the unit test (unit_test.py) before running the app.
 - When the html validator is run on the chat_logs.html, there are some errors associated with the Jinja2 code, this is because the HTML validator can only validate plain HTML. It cannot parse or understand server-side templating languages like Jinja2.
 - Therefore to test the html it's necessary to render the html in a browser and test the rendered html instead of the chat_logs.html as when they are rendered the Jinja2 templating engine will process all of the Jinja code and replace them with the appropriate HTML content.
 
@@ -101,13 +102,14 @@ The unit tests for the Job Interview Simulator web application cover the followi
 
 ## 6. Session Handling
 - Tests whether a session can be successfully added to the database. 
-- Compares the chat history recorded in the database with the input responses, checking if they are of the same length and contain the same elements.
+- Compares the chat history recorded in the database with the input responses, checking if they are of the same length and contain the same values.
 
 ## 7. Chat Logs Access
 - Tests whether an authenticated user can successfully access the chat logs.
 - Checks if the response status code is 200, indicating successful access.
 - Tests the behavior when an unauthenticated user tries to access the chat logs page
 - Checks if the response status code is not equal to 400, indicating that an unauthorized request has not been made.
+
 You can find the corresponding test methods in the `TestFlaskApp` class in the `unit_tests.py` file.
 
 ## How to run the unit tests
