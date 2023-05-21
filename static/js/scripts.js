@@ -94,20 +94,7 @@ function textloader(element) {
   }, 300);
 }
 
-// Simulate Typing Text
-
-// function typeText(element, text) {
-//   let index = 0;
-
-//   let interval = setInterval(() => {
-//     if (index < text.length) {
-//       element.innerHTML += text.charAt(index);
-//       index++;
-//     } else {
-//       clearInterval(interval);
-//     }
-//   }, 20);
-// }
+// Simulate Typing Text,
 
 function typeText(element, text) {
   let index = 0;
@@ -270,15 +257,6 @@ function displayNextQuestion() {
  * @param {string} feedback - The feedback message to be displayed.
  */
 
-// function displayFeedback(feedback) {
-//   appendMessage(feedback, "bot", true); // Use typing animation for feedback
-//   clearInterval(loadInterval);
-//   const breakElement = $("<li>").addClass("break");
-//   $("#chatBox").append(breakElement);
-
-//   displayNextQuestion();
-// }
-
 function displayFeedback(feedback) {
   appendMessage(feedback, "bot", true) // Use typing animation for feedback
     .then(() => {
@@ -295,23 +273,6 @@ function displayFeedback(feedback) {
  * @param {string} sender - The sender of the message (e.g., "bot", "user").
  * @param {boolean} [typed=false] - Specifies if the message should be simulated as typed.
  */
-
-// function appendMessage(message, sender, typed = false) {
-//   const liElement = $("<li>").addClass(sender);
-//   $("#chatBox").append(liElement);
-
-//   if (sender === "bot") {
-//     if (typed) {
-//       typeText(liElement[0], message); // Simulate typing
-//     } else {
-//       liElement.text(message);
-//     }
-//   } else {
-//     liElement.text(message);
-//   }
-
-//   $(".chat-container").scrollTop($(".chat-container")[0].scrollHeight); // Scroll to bottom
-// }
 
 function appendMessage(message, sender, typed = false) {
   const liElement = $("<li>").addClass(sender);
