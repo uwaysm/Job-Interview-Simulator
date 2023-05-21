@@ -136,7 +136,7 @@
 
             <div id="login" class="col-9">
                 {% if current_user.is_authenticated %}
-                <form action="/logout" method="POST" id="login-buttons">
+                <form action="/logout" method="POST" id="logout-buttons">
                     <p id="current-username" style="display: inline;">Hello, <b>{{current_user.username}}!</b></p>
                     <button id="logout-button" style="margin-left: 10px; height: 38px;" type="submit" class="btn btn-primary">Logout</button>
                 </form>
@@ -179,7 +179,7 @@
             </div>
 
             <div class="infinite-carousel-container">
-                <p></p><b>Proudly Endorsed By</b></p>
+                <b>Proudly Endorsed By</b>
                 <div class="infinite-carousel-items">
                     <div class="infinite-carousel-item">
                         <img class="vertical-center" src="../static/images/logos/amazon.png" alt="Amazon Logo">
@@ -311,17 +311,6 @@
         </div>
     </div>
 
-    <script>
-        setTimeout(function() {
-          let flashMessage = document.getElementById('flash-message');
-          if (flashMessage) {
-              flashMessage.style.opacity = "0";
-              setTimeout(function() {
-                  flashMessage.style.display = "none";
-              }, 1000);
-          }
-      }, 3000);
-      </script>
 </body>
 
 </html>
