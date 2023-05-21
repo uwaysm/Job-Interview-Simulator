@@ -4,57 +4,28 @@
 
 This web application is a Job Interview Simulator that helps users practice their interview skills. Users can enter a job title and the AI-powered system will generate relevant interview questions. Users can then respond to these questions and receive feedback on their responses, as well as a final decision on whether they would be accepted for the job.
 
+### Usage
+
+- Enter a job title, and the app will generate 5 interview questions for the role.
+- Respond to each question, and the app will evaluate your response and provide feedback.
+- After answering all the questions, the app will provide a final decision on your performance.
+
 ## Architecture
 
-The application is built using the Flask web framework and is powered by OpenAI's GPT-4 API. It has the following primary components:
+The application is built using the Flask web framework and is powered by OpenAI's GPT-3.5 API. It has the following primary components:
 
 1. **Flask**: A lightweight web framework used to develop the web application.
-2. **SQLite**: A lightweight, serverless database used to store user data and chat history.
-3. **OpenAI API**: The GPT-4 API is used to generate interview questions, evaluate responses, and provide feedback to the user.
+2. **SQLAlchemy**: A SQL toolkit and Object-Relational Mapping (ORM) system that gives application developers the full power and flexibility of SQL.
+3. **OpenAI API**: The GPT-3.5 API is used to generate interview questions, evaluate responses, and provide feedback to the user.
 4. **Flask-Login**: A Flask extension that handles user authentication and management.
 5. **Flask-WTF**: A Flask extension for handling forms.
 6. **Flask-Bcrypt**: A Flask extension for hashing passwords.
 7. **Flask-SQLAlchemy**: A Flask extension that provides a simple interface for using SQLAlchemy with Flask.
 
-
-### Requirements
-
-- Python 3.8 or higher
-- Flask
-- OpenAI
-- NLTK
-
-### Installation
-
-1. Clone the repository:
-```
-git clone https://github.com/uwaysm/Job-Interview-Simulator.git
-```
-
-2. Navigate to the project directory:
-```python
-cd job-interview-simulator
-```
-
-
-3. Install the required packages:
-```
-pip install -r requirements.txt
-```
-
-4. Set your OpenAI API key in the environment variable `OPENAI_API_KEY` or replace the placeholder value in the line `OPENAI_API_KEY = 'your_api_key_here'` with your actual API key.
-
-## How to Launch the Web Application
-
-# Job Interview Flask Application
-
-This is a Flask web application that uses OpenAI's GPT-3 model to aid in the job interview process.
-
-## Pre-requisites
-
-1. Python 3.7 or later
-2. pip
-3. virtualenv
+## Notes for marker
+- Execute the unit test (unit_test.py) before running the app.
+- When the html validator is run on the chat_logs.html, there are some errors associated with the Jinja2 code, this is because the HTML validator can only validate plain HTML. It cannot parse or understand server-side templating languages like Jinja2.
+- Therefore to test the html it's necessary to render the html in a browser and test the rendered html instead of the chat_logs.html as when they are rendered the Jinja2 templating engine will process all of the Jinja code and replace them with the appropriate HTML content.
 
 ## Setup
 
@@ -87,8 +58,9 @@ source env/bin/activate
 ```
 pip install -r requirements.txt
 ```
+5. Set your OpenAI API key in the `.env` file in the variable `OPENAI_API_KEY`
 
-5. Run the application:
+6. Run the application:
 ```
 python app.py
 ```
@@ -97,14 +69,7 @@ python app.py
 
 `http://localhost:5001/`
 
-### Usage
-
-- Enter a job title, and the app will generate 5 interview questions for the role.
-- Respond to each question, and the app will evaluate your response and provide feedback.
-- After answering all the questions, the app will provide a final decision on your performance.
-
-# Unit Tests
-
+# Python-Unittest Unit Tests
 The unit tests for the Job Interview Simulator web application cover the following features:
 
 ## 1. User Registration, Login, and Logout
@@ -135,7 +100,17 @@ The unit tests for the Job Interview Simulator web application cover the followi
 - Test the final decision-making process based on user responses.
 - Test the final decision-making process with no input.
 
-You can find the corresponding test methods in the `TestFlaskApp` class in the `test_app.py` file.
+## 6. Session Handling
+- Tests whether a session can be successfully added to the database. 
+- Compares the chat history recorded in the database with the input responses, checking if they are of the same length and contain the same values.
+
+## 7. Chat Logs Access
+- Tests whether an authenticated user can successfully access the chat logs.
+- Checks if the response status code is 200, indicating successful access.
+- Tests the behavior when an unauthenticated user tries to access the chat logs page
+- Checks if the response status code is not equal to 400, indicating that an unauthorized request has not been made.
+
+You can find the corresponding test methods in the `TestFlaskApp` class in the `unit_tests.py` file.
 
 ## How to run the unit tests
 
@@ -150,7 +125,21 @@ Before you begin, make sure you have completed the steps to set up and run the w
 Open a terminal or command prompt, navigate to the project directory, and run the following command to execute the unit tests:
 
 ```bash
-python -m unittest test_app.py
+python -m unittest unit_tests.py
+```
+
+## Selenium Unit Tests
+
+In our application, we use Selenium for end-to-end testing. Selenium is a powerful tool for controlling web browsers through programs and automating browser tasks. It provides a way to test interactions that require complex user behaviors or sequences of events, and it can be used to simulate real user interactions with your web application.
+
+### Running Selenium Tests
+
+Before running the tests, ensure that you have the Selenium WebDriver installed and configured. You will also need to have the specific WebDriver for the browser you wish to use (e.g., Chrome, Firefox).
+
+To run the tests, use the following command:
+
+```shell
+python selenium_test.py
 ```
 
 # Credits / Acknowledgements

@@ -16,7 +16,7 @@ const testimonials = [
     },
     {
         name: "Uways",
-        job: "Software Developer @ Amazon",
+        job: "Software Developer @ Bitcoin",
         testimonial: "If it wasn't for GetHired.ai I don't think I would've been able to work for Amazon!",
         rating: "&starf;&starf;&starf;&starf;&star;"
     },

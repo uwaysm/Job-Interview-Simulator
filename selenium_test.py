@@ -78,4 +78,3 @@ class TestChatbot():
     self.driver.find_element(By.CSS_SELECTOR, "#intro-button > .btn-primary").click()
     self.driver.find_element(By.ID, "dropdownUser1").click()
     self.driver.find_element(By.CSS_SELECTOR, "#login-buttons > .dropdown-item").click()
-  
