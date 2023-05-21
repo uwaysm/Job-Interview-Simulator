@@ -2,13 +2,13 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chat Logs</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <link rel="stylesheet" href="/static/css/style.css" />
-  <link rel="stylesheet" href="/static/css/app.css" />
+  <link rel="stylesheet" href="/static/css/style.css">
+  <link rel="stylesheet" href="/static/css/app.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -75,36 +75,36 @@
               <use xlink:href="#x-lg" />
             </svg></button>
           <span class="fs-4"><strong>Chat Logs</strong></span>
-          <hr />
+          <hr>
           <label class="form-label">Filter:</label>
           <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
               <div class="input-group">
                 <input style="background-color: #dbdbdb;" class="form-control" id="filterJobTitle" type="text" placeholder="Filter by job title"
-                  onkeyup="filterTable()" />
+                  onkeyup="filterTable()">
               </div>
             </li>
             <li class="nav-item">
               <div class="input-group">
-                <input style="background-color: #dbdbdb;" class="form-control" id="filterDate" type="date" placeholder="Filter by date"
-                  onchange="filterTable()" />
+                <input style="background-color: #dbdbdb;" class="form-control" id="filterDate" type="date" aria-label="Filter by date"
+                  onchange="filterTable()">
               </div>
             </li>
             <li class="nav-item">
               <div class="input-group">
                 <input style="background-color: #dbdbdb;" class="form-control" id="filterRating" type="number" min="0" max="10" step="1"
-                  placeholder="Filter by rating" onkeyup="filterTable()" />
+                  placeholder="Filter by rating" onkeyup="filterTable()">
               </div>
             </li>
             <li class="nav-item">
-              <form type="GET" action="/app">
+              <form method="GET" action="/app">
                 <button type="submit" class="btn btn-primary app-button">Go Back to App</button>
               </form>
             </li>
           </ul>
-          <hr />
+          <hr>
           <div class="dropdown">
-            <div href="#" class="flex align-items-center text-white text-ellipsis text-decoration-none dropdown-toggle"
+            <div class="flex align-items-center text-white text-ellipsis text-decoration-none dropdown-toggle"
               role="button" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
               {% if current_user.is_authenticated %}
               <strong>{{ current_user.username}}</strong>
@@ -114,7 +114,7 @@
             </div>
             <div class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
               <form action="/" method="GET">
-                <button class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2">
+                <button class="dropdown-item"><svg width="16" height="16" fill="currentColor" class="bi me-2">
                     <use xlink:href="#back-to-home" />
                   </svg>
                   Home
@@ -123,19 +123,12 @@
               <div class="dropdown-divider"></div>
               {% if current_user.is_authenticated %}
               <form action="/logout" method="POST" id="login-buttons">
-                <button class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2"
+                <button class="dropdown-item"><svg width="16" height="16" fill="currentColor" class="bi me-2"
                     viewBox="0 0 16 16">
                     <use xlink:href="#box-arrow-in-right" />
                   </svg>
                   Sign out</button>
               </form>
-              {% else %}
-              <form action="/login" method="POST" id="login-buttons">
-                <button class="dropdown-item" href="#"><svg width="16" height="16" fill="currentColor" class="bi me-2"
-                    viewBox="0 0 16 16">
-                    <use xlink:href="#box-arrow-in-right" />
-                  </svg>
-                  Sign in</button>
               {% endif %}
             </div>
           </div>
