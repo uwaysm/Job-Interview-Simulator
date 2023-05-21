@@ -1,6 +1,7 @@
 from flask import Flask, redirect, render_template, request, jsonify, session, url_for, flash
 import openai
 import json
+from dotenv import load_dotenv
 import os
 import sqlite3
 import secrets
@@ -14,12 +15,12 @@ from flask_wtf import FlaskForm
 from wtforms import PasswordField, StringField, SubmitField, ValidationError
 from wtforms.validators import EqualTo, InputRequired, Length
 
-
 # Initialize Flask app
 app = Flask(__name__)
+load_dotenv()  # take environment variables from .env.
 
 # Set OpenAI API key
-openai.api_key = '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'
+openai.api_key = os.getenv('OPENAI_API_KEY')
 
 # Main route, renders the landing page
 @app.route('/')
