@@ -198,6 +198,36 @@ function displayNextQuestion() {
   }
 }
 
+//Simulate loading
+
+function textloader(element) {
+  element.textContent = '';
+
+  loadInterval = setInterval(() => {
+    element.textContent += '.';
+    if(element.textContent === '....') {
+      element.textContent = '';
+    }
+  }, 300);
+}
+
+//Simulate Typing Text
+
+function typeText(element, text) {
+  let index = 0;
+
+  let interval = setInterval(() => {
+    if(index < text.length) {
+      element.innerHTML += text.charAt(index);
+      index++
+    } else {
+      clearInterval(interval);
+    }
+  }, 20)
+}
+
+
+
 //  Accepts "feedback" as an argument, appends the feedback message to the chat box, and calls the displayNextQuestion function.
 function displayFeedback(feedback) {
   appendMessage(feedback, "bot");
@@ -206,16 +236,22 @@ function displayFeedback(feedback) {
   $("#chatBox").append(breakElement);
   displayNextQuestion();
 }
-
-//  Accepts "message" and "sender" as arguments, creates a new list item element with the sender's class and message text,
-// and appends it to the chat box. Scrolls to the bottom of the chat box.
-function appendMessage(message, sender) {
-  const liElement = $("<li>").addClass(sender).text(message);
+function appendMessage(message, sender, typed = false) {
+  const liElement = $("<li>").addClass(sender);
   $("#chatBox").append(liElement);
 
-  $(".chat-container").scrollTop($(".chat-container")[0].scrollHeight);
-}
+  if (sender === "bot") {
+    if (typed) {
+      typeText(liElement[0], message); // Simulate typing
+    } else {
+      liElement.text(message);
+    }
+  } else {
+    liElement.text(message);
+  }
   
+  $(".chat-container").scrollTop($(".chat-container")[0].scrollHeight);  // Scroll to bottom
+}
 // ------------------------------
 // Event Listeners
 // ------------------------------
