@@ -78,8 +78,13 @@ function submitJobTitle() {
     });
   }
 }
-// Takes the user's input from the "userInput" field, appends it to the chat box, and sends it to the "/evaluate_response" endpoint for evaluation.
-// Stores the response and feedback in the "responses" array. If there's an error, logs it in the console.
+
+/**
+ * Takes the user's input from the "userInput" field, appends it to the chat box, and sends it for evaluation.
+ * The user's response is stored along with the question and feedback in the "responses" array.
+ * If there's an error during evaluation, it is logged in the console.
+ */
+
 function sendResponse() {
   const userResponse = $("#userInput").val().trim();
   if (userResponse) {
@@ -117,8 +122,15 @@ function sendResponse() {
   }
 }
 
-// Removes the "locked" class from the elements, enables input fields and buttons, and displays the next question in the "questions" array.
-// If there are no more questions, it sends the user's responses to the "/final_decision" endpoint and displays the final decision in the chat box.
+/**
+ * Displays the next question in the interview process or finalizes the interview.
+ * If there are more questions, the next question is appended to the chat box.
+ * If there are no more questions, a final decision is sent and displayed.
+ * Confetti animation is triggered upon completion of the interview.
+ * 
+ * If another interview is desired, the user can enter a job title.
+ */
+
 function displayNextQuestion() {
   // Remove the 'locked' class from the elements
   $("#sendBtn").removeClass("locked");
@@ -236,6 +248,15 @@ function displayFeedback(feedback) {
   $("#chatBox").append(breakElement);
   displayNextQuestion();
 }
+
+/**
+ * Appends a message to the chat box.
+ *
+ * @param {string} message - The message to be appended.
+ * @param {string} sender - The sender of the message (e.g., "bot", "user").
+ * @param {boolean} [typed=false] - Specifies if the message should be simulated as typed.
+ */
+
 function appendMessage(message, sender, typed = false) {
   const liElement = $("<li>").addClass(sender);
   $("#chatBox").append(liElement);
@@ -252,6 +273,7 @@ function appendMessage(message, sender, typed = false) {
   
   $(".chat-container").scrollTop($(".chat-container")[0].scrollHeight);  // Scroll to bottom
 }
+
 // ------------------------------
 // Event Listeners
 // ------------------------------
