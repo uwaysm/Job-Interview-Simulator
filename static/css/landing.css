@@ -241,7 +241,7 @@
     text-align: center;
   }
 
-  .popup, #video-modal {
+  .popup, #video-modal, .video-container {
     width: 100%;
     height: 100%;
     border-radius: 0;
@@ -254,4 +254,13 @@
   .infinite-carousel-item > img {
     width: 100%;
   }
+
+  #chat-bubble-1 {
+    margin-bottom: 8em;
+  }
+
+  #chat-bubble-2{
+    margin-bottom: 5em;
+  }
+
 }
