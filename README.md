@@ -139,7 +139,7 @@ Before running the tests, ensure that you have the Selenium WebDriver installed 
 To run the tests, use the following command:
 
 ```shell
-python -m unittest selenium_unittest.py```
+python -m unittest selenium_unittest.py
 ```
 
 # Credits / Acknowledgements
