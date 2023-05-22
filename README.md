@@ -62,7 +62,7 @@ pip install -r requirements.txt
 
 6. Run the application:
 ```
-python app.py
+python3 app.py
 ```
 
 6. Open a web browser and enter the following URL to access the application:
@@ -134,12 +134,12 @@ In our application, we use Selenium for end-to-end testing. Selenium is a powerf
 
 ### Running Selenium Tests
 
-Before running the tests, ensure that you have the Selenium WebDriver installed and configured. You will also need to have the specific WebDriver for the browser you wish to use (e.g., Chrome, Firefox).
+Before running the tests, ensure that you have the Selenium WebDriver installed and configured also ensure that the app is running through the command `python3 app.py`. You will also need to have the specific WebDriver for the browser you wish to use (e.g., Chrome, Firefox).
 
 To run the tests, use the following command:
 
 ```shell
-python selenium_test.py
+python -m unittest selenium_unittest.py
 ```
 
 # Credits / Acknowledgements
