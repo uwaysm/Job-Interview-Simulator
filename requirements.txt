@@ -8,3 +8,4 @@ WTForms==3.0.1
 python-dotenv
 selenium
 pytest
+webdriver_manager
