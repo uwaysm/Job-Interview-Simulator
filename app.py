@@ -240,7 +240,7 @@ def chat_logs():
 
     logs = c.fetchall()
     conn.close()
-    
+
     return render_template('chat_logs.html', logs=logs)
 
 # ========================================================================= #
@@ -364,6 +364,13 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+# Allows user to see the login modal when "Sign in" is clicked on the app page
+@app.route('/show-login-modal')
+def show_login_modal():
+    register_form = RegisterForm()
+    login_form = LoginForm()
+    return render_template('landing.html', register_form=register_form, login_form=login_form ,show_login_modal=True)
 
 # ========================================================================= #
 # ============================ Database Tables ============================ #

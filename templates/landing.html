@@ -2,37 +2,31 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GetHired.ai</title>
-
     <!-- Latest compiled and minified CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Latest compiled JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-
     <script src="../static/js/landing.js"></script>
-
-    <link href="../static/css/login.css" rel="stylesheet" type="text/css" />
-
-    <link href="../static/css/landing.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="../static/css/style.css" />
+    <link href="../static/css/login.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/landing.css" rel="stylesheet" type="text/css">
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
     <!-- Flash messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-        {% for category, message in messages %}
-            <div class="alert alert-{{ category }}" id="flash-message">
-                {{ message }}
-            </div>
-        {% endfor %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}" id="flash-message">
+        {{ message }}
+    </div>
+    {% endfor %}
     {% endif %}
-{% endwith %}
+    {% endwith %}
 
     {% if show_login_modal %}
     <!-- Show login modal when -->
@@ -42,7 +36,7 @@
             $("#overlay").fadeIn(600);
             $("#login-modal").show();
             $("#overlay").css("display", "block"); // activates overlay
-            
+
             // Prevents scrolling when modal is open
             $("html").css("position", "fixed");
             $("html").css("overflow-y", "scroll");
@@ -69,57 +63,66 @@
     <!-- Below is the login modal -->
     <div id="overlay"></div>
     <div id="login-modal" class="popup">
-        <div class="close-btn" aria-label="Close">&times;</div>
+        <div class="close-btn">&times;</div>
         <div class="form">
-            <h2>Welcome Back</h2>
+            <h2><span class="cursive-blue">Welcome Back</span></h2>
             <form method="POST" action="/login">
-            {{ login_form.hidden_tag() }}
-            <div class="form-element">
-                <label for="username-login">Username</label>
-                {{ login_form.username(class="form-element__input", id="username-login",
-            placeholder="Enter your Username") }}
-            </div>
-            <div class="form-element">
-                <label for="password-login">Password</label>
-                {{ login_form.password(class="form-element__input", id="password-logi",
-            placeholder="Enter your Password") }}
-            </div>
-            <div class="form-element">
-                <button id="btn">{{ login_form.submit(id="btn", value="Log in", ) }}</button>
-            </div>
-        </form>
+                {{ login_form.hidden_tag() }}
+                <div class="form-element">
+                    <label>Username</label>
+                    {{ login_form.username(class="form-element__input", id="username-login",
+                    placeholder="Enter your Username") }}
+                </div>
+                <div class="form-element">
+                    <label>Password</label>
+                    {{ login_form.password(class="form-element__input", id="password-login",
+                    placeholder="Enter your Password") }}
+                </div>
+                <div class="form-element">
+                    <button id="btn">{{ login_form.submit(id="btn", value="Log in", ) }}</button>
+                </div>
+            </form>
             <div class="form-element2">
-              <button class="signup-button">Register</button>
-            </div>
-            <div class="form-element">
-                <a href="#">Forgot your password?</a>
+                <button class="signup-button">Register</button>
             </div>
         </div>
     </div>
 
     <!-- Below is the signup modal -->
     <div id="signup-modal" class="popup">
-        <div class="close-btn" aria-label="Close">&times;</div>
+        <div class="close-btn">&times;</div>
         <div class="form">
-            <h2>Hi, Stranger!</h2>
+            <h2><span class="cursive-blue">Hi, Stranger!</span></h2>
             <form method="POST" action="/register">
-            {{ register_form.hidden_tag() }}
-            <div class="form-element">
-                <label for="username-signup">Username</label>
-                {{ register_form.username(class="form-element__input", id="username-signup", placeholder="Enter your Username") }}
-            </div>
-            <div class="form-element">
-                <label for="password-signup">Password</label>
-                {{ register_form.password(class="form-element__input", id="password-signup", placeholder="Enter your Password") }}
-            </div>
-            <div class="form-element">
-              <label for="re-password-signup">Confirm your Password</label>
-              {{ register_form.confirm_password(class="form-element__input", id="password", placeholder="Confirm your Password") }}
-            </div>
-            <div class="form-element">
-                <button id="btn">{{ register_form.submit(id="btn", value="Sign Up") }}</button>
-            </div>
-        </form>
+                {{ register_form.hidden_tag() }}
+                <div class="form-element">
+                    <label>Username</label>
+                    {{ register_form.username(class="form-element__input", id="username-signup", placeholder="Enter your Username") }}
+                </div>
+                <div class="form-element">
+                    <label>Password</label>
+                    {{ register_form.password(class="form-element__input", id="password-signup", placeholder="Enter your Password") }}
+                </div>
+                <div class="form-element">
+                    <label>Confirm your Password</label>
+                    {{ register_form.confirm_password(class="form-element__input", id="re-password-signup",
+                    placeholder="Confirm your Password") }}
+                </div>
+                <div class="form-element">
+                    <button>{{ register_form.submit(id="btn", value="Sign Up") }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Below is the tutorial video modal -->
+    <div id="video-modal" class="popup">
+        <div class="close-btn">&times;</div>
+        <div class="video-container">
+            <video controls>
+                <source src="../static/videos/GetHired.ai%20Demo%20-%20Made%20with%20Clipchamp.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
         </div>
     </div>
 
@@ -134,9 +137,10 @@
 
             <div id="login" class="col-9">
                 {% if current_user.is_authenticated %}
-                <form action="/logout" method="POST" id="login-buttons">
-                    <p style="display: inline;">Hello, <b>{{current_user.username}}!</b></p>
-                    <button style="margin-left: 2em;" type="submit" class="btn btn-primary">Logout</button>
+                <form action="/logout" method="POST" id="logout-buttons">
+                    <p id="current-username" style="display: inline;">Hello, <b>{{current_user.username}}!</b></p>
+                    <button id="logout-button" style="margin-left: 10px; height: 38px;" type="submit"
+                        class="btn btn-primary">Logout</button>
                 </form>
                 {% else %}
                 <div id="login-buttons" class="vertical-center">
@@ -154,20 +158,20 @@
         <div id="introduction" class="container-fluid">
             <div class="column-center">
                 <div id="intro-header" class="content">
-                    <h1>The Best Way to Nail Your Next 
-                        <br>
-                        <span id="job-title" class="fade-in show"></span> 
-                        <br>
-                        Interview
-                    </h1>
+                    <h1>The Best Way to Nail Your Next</h1>
+                    <div>
+                        <h1><span id="job-title" class="fade-in show">Job Title</span></h1>
+                    </div>
+                    <h1>Interview</h1>
                 </div>
                 <div id="intro-content" class="content p-content">
                     <p>
-                        Navigating the job market can be challenging, but GetHired.ai is
-                        here to assist you in acing your interviews and landing your dream
-                        job. Our AI-powered job interview chatbot is designed to provide you
-                        with personalized guidance, helping you boost your confidence and
-                        enhance your interview skills.
+                        Navigating the job market can be challenging, but <b>GetHired.ai</b> is
+                        here to assist you in <span class="underline-orange">acing your interviews and landing your
+                            dream
+                            job</span>. Our AI-powered job interview chatbot is designed to provide you
+                        with personalized guidance, helping you <span class="underline-orange">boost your confidence and
+                            enhance your interview skills</span>.
                     </p>
                 </div>
             </div>
@@ -178,67 +182,82 @@
             </div>
 
             <div class="infinite-carousel-container">
-                <p> <b>Proudly Endorsed By</b></p>
+                <b>Proudly Endorsed By</b>
                 <div class="infinite-carousel-items">
                     <div class="infinite-carousel-item">
-                        <img class="vertical-center" src="../static/images/logos/amazon.png" width="70%" alt="Amazon Logo">
+                        <img class="vertical-center" src="../static/images/logos/amazon.png" alt="Amazon Logo">
                     </div>
                     <div class="infinite-carousel-item">
-                        <img class="vertical-center" src="../static/images/logos/google.png" width="70%" alt="Google Logo">
+                        <img class="vertical-center" src="../static/images/logos/google.png" alt="Google Logo">
                     </div>
                     <div class="infinite-carousel-item">
-                        <img class="vertical-center" src="../static/images/logos/gradaustralia.png" width="70%" alt="gradaustralia Logo">
+                        <img class="vertical-center" src="../static/images/logos/gradaustralia.png"
+                            alt="gradaustralia Logo">
                     </div>
                     <div class="infinite-carousel-item">
-                        <img class="vertical-center" src="../static/images/logos/LinkedIn.png" width="70%" alt="LinkedIn Logo">
+                        <img class="vertical-center" src="../static/images/logos/LinkedIn.png" alt="LinkedIn Logo">
                     </div>
                     <div class="infinite-carousel-item">
-                        <img class="vertical-center" src="../static/images/logos/Seek.png" width="70%" alt="Seek Logo">
+                        <img class="vertical-center" src="../static/images/logos/Seek.png" alt="Seek Logo">
                     </div>
                     <div class="infinite-carousel-item">
-                        <img class="vertical-center" src="../static/images/logos/UWA.png" width="70%" alt="UWA Logo">
+                        <img class="vertical-center" src="../static/images/logos/UWA.png" alt="UWA Logo">
                     </div>
-                  <!-- Add more items -->
+                    <!-- Add more items -->
                 </div>
             </div>
 
-            <div class="content">
+            <div id="image-container" class="content">
+                <!-- source: https://www.clipartmax.com/middle/m2i8H7K9b1G6A0i8_speech-bubble-oval-symbol-with-three-dots-icon-speech-bubble-with-dots/ -->
+                <img id="chat-bubble-1" class="chat-bubble" src="../static/images/clipart418314_flipped.png"
+                    alt="Speech bubble with three dots">
                 <!-- source: https://pngtree.com/freepng/meeting-of-people-face-to-face-for-consultation-job-interview-concept-design_5442387.html?sce=sol_pin -->
-                <img id="interview-image" src="../static/images/InterviewIllustration.png" alt="Two people in an interview" width="60%">
+                <img id="interview-image" src="../static/images/InterviewIllustration.png"
+                    alt="Two people in an interview">
+                <!-- source: https://www.clipartmax.com/middle/m2i8H7K9b1G6A0i8_speech-bubble-oval-symbol-with-three-dots-icon-speech-bubble-with-dots/ -->
+                <img id="chat-bubble-2" class="chat-bubble" src="../static/images/clipart418314.png"
+                    alt="Speech bubble with three dots">
             </div>
 
         </div>
 
-        <div id="about-us" class="container-fluid">
-            <div class="column-center">
-                <div id="about-header" class="content">
-                    <h1 class="h1-content">About Us</h1>
+        <div id="summary" class="container-fluid">
+            <div class="row">
+                <div class="summary-content column-center col-md-6">
+                    <div id="about-header" class="content">
+                        <h1 class="h1-content">About Us</h1>
+                    </div>
+                    <div id="about-us" class="content p-content">
+                        <p>
+                            GetHired.ai was founded by a group of students from the University of Western Australia,
+                            who recognized the <span class="underline-orange">necessity for an intuitive interview
+                                preparation tool</span>.
+                        </p>
+                        <p>
+                            We are a team of <span class="underline-orange">aspiring developers</span> who strongly
+                            believe that everyone should have access
+                            to the <span class="underline-orange">resources needed to ace their next interview and
+                                achieve their career aspirations</span>.
+                        </p>
+                    </div>
                 </div>
-                <div id="about-content" class="content p-content">
-                    <p>
-                        GetHired.ai was founded by a group of students from the University of Western Australia, 
-                        who recognized the necessity for an intuitive interview preparation tool.
-                    </p>
-                    <p>
-                        We are a team of aspiring developers who strongly believe that everyone should have access 
-                        to the resources needed to ace their next interview and achieve their career aspirations.
-                    </p>
-                </div>
-            </div>
-        </div>
 
-        <div id="our-purpose" class="container-fluid">
-            <div class="column-center">
-                <div id="purpose-header" class="content">
-                    <h1 class="h1-content">Our Purpose</h1>
-                </div>
-                <div id="purpose-content" class="content p-content">
-                    <p>
-                        We understand that preparing for interviews are daunting. That is why we created GetHired.ai, now you can practice your interview skills with our AI-powered chatbot.
-                    </p>
-                    <p>
-                        Our purpose is to provide fellow students struggling with job interviews with a platform to practice and hone their skills so they can land their dream job.
-                    </p>
+                <div class="summary-content column-center col-md-6">
+                    <div id="purpose-header" class="content">
+                        <h1 class="h1-content">Our Purpose</h1>
+                    </div>
+                    <div id="our-purpose" class="content p-content">
+                        <p>
+                            We understand that preparing for interviews are daunting. That is why we created
+                            GetHired.ai, now you can <span class="underline-orange">practice your interview skills with
+                                our AI-powered chatbot</span>.
+                        </p>
+                        <p>
+                            Our purpose is to provide fellow students struggling with job interviews with a platform to
+                            <span class="underline-orange">practice and hone their skills so they can land their dream
+                                job</span>.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -246,7 +265,8 @@
         <div id="testimonial" class="container-fluid">
             <div id="testimonial-carousel" class="row">
                 <div id="testimonial-description" class="col-md-4 column-center">
-                    <h1 class="h1-content">Don't just take our world for it, check how GetHired.io helped real students</h1>
+                    <h1 class="h1-content">Don't just take our word for it, check how GetHired.io helped <span
+                            class="cursive-blue">real students</span></h1>
                     <div id="testimonial-arrows">
                         <button id="prev">&#60;</button>
                         <button id="next">&#62;</button>
@@ -255,26 +275,26 @@
                 <div id="testimonial-content" class="col-md-7 column-center">
                     <div class="vertical-center">
                         <h3 id="testimonial-text">
-
+                            testimonial text
                         </h3>
-                        <p id="testimonial-name">
-    
+                        <p id="testimonial-name" style="font-weight: bold; font-family: 'Lobster', cursive;">
+
                         </p>
-                        <p id="testimonial-job">
-    
+                        <p id="testimonial-job" style="font-style: italic;">
+
                         </p>
                         <p id="testimonial-rating">
-    
+
                         </p>
                     </div>
-                </div> 
+                </div>
             </div>
         </div>
 
         <div id="epilogue" class="container-fluid">
             <div class="column-center">
                 <div id="epilogue-header" class="content">
-                    <h1 class="h1-content">Ready to Get Hired?</h1>
+                    <h1 class="h1-content underline-orange">Ready to Get Hired?</h1>
                 </div>
                 <div id="epilogue-button">
                     <button type="button" class="btn btn-primary launch-app-button">Launch App</button>
@@ -292,31 +312,21 @@
                 <p class="footer-legal">All rights reserved.</p>
             </div>
             <div class="col-sm-2">
-                <p class="footer-content vertical-center">Link1</p>
+                <a href="#about-us" class="footer-content vertical-center">About</a>
             </div>
             <div class="col-sm-2">
-                <p class="footer-content vertical-center">Link2</p>
+                <a href="#our-purpose" class="footer-content vertical-center">Purpose</a>
             </div>
             <div class="col-sm-2">
-                <p class="footer-content vertical-center">Link3</p>
+                <a href="#testimonial" class="footer-content vertical-center">Testimonials</a>
             </div>
             <div class="col-sm-2">
-                <p class="footer-content vertical-center">Link4</p>
+                <a href="https://teaching.csse.uwa.edu.au/units/CITS3403/" class="footer-content vertical-center">Unit
+                    Page</a>
             </div>
         </div>
     </div>
 
-    <script>
-        setTimeout(function() {
-          let flashMessage = document.getElementById('flash-message');
-          if (flashMessage) {
-              flashMessage.style.opacity = "0";
-              setTimeout(function() {
-                  flashMessage.style.display = "none";
-              }, 1000);
-          }
-      }, 3000);
-      </script>
 </body>
 
 </html>

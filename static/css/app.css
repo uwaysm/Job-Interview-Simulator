@@ -1,7 +1,19 @@
 .chat-container {
-  height: 700px;
   overflow-y: scroll;
   padding-left: 220px;
+  width: 100%;
+}
+
+.chat-container-app {
+  height: 80vh;
+}
+
+.chat-container-history {
+  height: 95vh;
+}
+
+#chatbot-ready-message {
+  font-size: larger;
 }
 
 .chat-box {
@@ -22,7 +34,6 @@
 }
 
 .bot {
-  font-family: Arial, sans-serif;
   color: #333;
   background: #d7d9db;
   border-radius: 0 16px 16px 16px;
@@ -30,7 +41,6 @@
 }
 
 .final {
-  font-family: Arial, sans-serif;
   color: #050505;
   background: #c0cedb;
   border-radius: 0 16px 16px 16px;
@@ -38,7 +48,6 @@
 }
 
 .question{
-  font-family: Arial, sans-serif;
   color: #ffffff;
   background: #3a3c3e;
   border-radius: 0 16px 16px 16px;
@@ -46,7 +55,6 @@
 }
 
 .user {
-  font-family: Arial, sans-serif;
   color: #ffffff;
   background: #007bff;
   border-radius: 16px 16px 0 16px;
@@ -64,7 +72,6 @@
 .sidebar {
   position: absolute;
   width: 220px;
-  background-color: #f8f9fa;
   height: 100vh;
 }
 
@@ -114,15 +121,26 @@
   border: none;
 }
 .bi {
-vertical-align: -.125em;
-pointer-events: none;
-fill: currentColor;
+  vertical-align: -.125em;
+  pointer-events: none;
+  fill: currentColor;
+}
+
+#jobSearch {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+#jobSearch > * {
+  margin-bottom: 10px;
 }
 
 .job-control{
-  width: 50%;
+  width: 100%;
+  height: 40px;
   background-color: #dbdbdb;
-  border-radius: .5rem; /* Add rounded corners */
+  border-radius: .5rem;
   outline: none;
   border: none;
 }
@@ -137,7 +155,6 @@ fill: currentColor;
 
 .form-control{
   height: 10%;
-  background-color: #dbdbdb;
   border-radius: .5rem; /* Add rounded corners */
   padding: 10px; /* Add some padding */
   border-color: grey;
@@ -166,7 +183,7 @@ fill: currentColor;
   align-items: center; /* Center the button vertically */
   width: 50%;
   position: absolute;
-  bottom: 20%;
+  bottom: 10px;
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: .5rem;
@@ -175,6 +192,7 @@ fill: currentColor;
 .input-group-chatbox button {
   width: 50px;
 }
+
 #sendBtn{
   font-size: 1.25rem;
   color: black;
@@ -182,4 +200,72 @@ fill: currentColor;
   border: none;
   outline: none;
   box-shadow: none;
+}
+
+@media (max-width: 576px){
+  .sidebar {
+    width: 90%;
+    display: none;
+  }
+  .chat-container-app, .chat-container-history {
+    position: absolute;
+    top: 5%;
+    bottom: auto;
+    left: 0;
+    right: 0;
+    padding-left: 0;
+  }
+  .user-input,
+  .input-group-chatbox {
+    position: fixed;
+    width: 90%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    bottom: 5px;
+  }
+
+  .user-input {
+    bottom: 0;
+  }
+  .input-group-chatbox button {
+    width: 30%;
+  }
+  .openbtn{
+    display: block;
+    color: white;
+    margin-top: 2%;
+    background: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+  }
+  .top-row{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5%;
+    background-color: #212529;
+  }
+  .center-text {
+    margin-left: 10px;
+  }
+  .closebtn{
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: white;
+    margin-top: 2%;
+    background: transparent;
+    border: none;
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+@media (min-width: 576px){
+  .top-row, .closebtn, .openbtn{
+    display: none;
+  }
 }

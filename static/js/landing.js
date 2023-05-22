@@ -16,13 +16,13 @@ const testimonials = [
     },
     {
         name: "Uways",
-        job: "Software Developer @ Amazon",
+        job: "Software Developer @ Bitcoin",
         testimonial: "If it wasn't for GetHired.ai I don't think I would've been able to work for Amazon!",
         rating: "&starf;&starf;&starf;&starf;&star;"
     },
     {
         name: "Jason",
-        job: "CEO @ SomeRandomStartUp",
+        job: "CEO @ Bitcoin",
         testimonial: "I was able to get a job at my dream company thanks to GetHired.ai!",
         rating: "&starf;&starf;&starf;&starf;&starf;"
     },
@@ -67,6 +67,16 @@ function changeTitle() {
     setInterval(displayNextItem, 3000);
 }
 
+setTimeout(function() {
+    let flashMessage = document.getElementById('flash-message');
+    if (flashMessage) {
+        flashMessage.style.opacity = "0";
+        setTimeout(function() {
+            flashMessage.style.display = "none";
+        }, 1000);
+    }
+}, 3000);
+
 // Functions to run when the page loads
 window.onload = () => {
     // EventListeners for buttons:
@@ -81,12 +91,6 @@ window.onload = () => {
         .getElementsByClassName("launch-app-button")[1]
         .addEventListener("click", function () {
             window.location.href = "/app";
-    });
-    // Tutorial button
-    document
-        .getElementById("tutorial-button")
-        .addEventListener("click", function () {
-            window.alert("Tutorial not yet implemented")
     });
 
     // Carousel variables
@@ -137,6 +141,18 @@ window.onload = () => {
         $("html").css("overflow-y", "scroll");
     });
 
+    // Display the login modal when login button is clicked
+    $("#tutorial-button").click(function () {
+        $("#video-modal").fadeIn(600);
+        $("#overlay").fadeIn(600);
+        $("#video-modal").show();
+        $("#overlay").css("display", "block"); // activates overlay
+        
+        // Prevents scrolling when modal is open
+        $("html").css("position", "fixed");
+        $("html").css("overflow-y", "scroll");
+    });
+
     // Hide the modals when the close button is clicked
     $(".close-btn").click(function () {
         $(".popup").hide();
@@ -167,4 +183,22 @@ window.onload = () => {
         // Reset the position of the logos
         $(".infinite-carousel-items").css("left", 0);
     }, 1500);
+
+    // Show the chat bubbles when the user scrolls to them
+    $(window).scroll(function() {
+        var scrollPos = $(window).scrollTop();
+        
+        // Calculate the position where the divs should appear/disappear
+        let bubble1 = $('#chat-bubble-1').offset().top - $(window).height() + 1300;
+        let bubble2 = $('#chat-bubble-2').offset().top - $(window).height() + 1300;
+
+        // Show or hide the divs based on the scroll position
+        if (scrollPos >= bubble1) {
+            $('#chat-bubble-1').fadeIn();
+        } 
+
+        if (scrollPos >= bubble2) {
+            $('#chat-bubble-2').fadeIn();
+        }
+    });
 };

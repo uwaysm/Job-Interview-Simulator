@@ -49,7 +49,7 @@
   font-weight: bolder;
 }
 
-#login-buttons {
+#login-buttons, #logout-buttons {
   float: right;
 }
 
@@ -57,11 +57,18 @@
   text-align: center;
 }
 
+#intro-header div {
+  background-color: #F4C131;
+  border-radius: 20px;
+  margin: auto;
+  width: 80%;
+}
+
 #job-title {
   color: #3164f4;
+  font-size: larger;
   font-family: 'Lobster', cursive;
   transition: 1s ease-in;
-  white-space: nowrap;
 }
 
 .fade-in {
@@ -82,9 +89,21 @@
   margin: 0.5em;
 }
 
+#about-header, #purpose-header {
+  font-family: 'Lobster', cursive;
+  color: #3164f4;
+  width: 18em;
+  background-color: #F4C131;
+  border-radius: 20px;
+}
+
 .infinite-carousel-container {
   width: 100%;
   overflow: hidden;
+}
+
+.infinite-carousel-container p {
+  font-family: 'Lobster', cursive;
 }
 
 .infinite-carousel-items {
@@ -96,8 +115,32 @@
   margin: 1em 2em 1em 0;
 }
 
+.infinite-carousel-item > img, #interview-image {
+  width: 70%;
+}
+
 #interview-image {
   max-width: 500px;
+}
+
+.image-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.chat-bubble {
+  display: none;
+  width: 10%;
+  opacity: 40%;
+  max-width: 100px;
+}
+
+#chat-bubble-1 {
+  margin-bottom: 18em;
+}
+
+#chat-bubble-2{
+  margin-bottom: 14em;
 }
 
 #testimonial-description {
@@ -140,6 +183,11 @@
   margin: 10em auto 1em auto;
 }
 
+#footer a {
+  text-decoration: none;
+  color: black;
+}
+
 .footer-legal {
   font-size: small;
   margin: 0;
@@ -151,10 +199,37 @@
   margin: 0;
 }
 
+#video-modal {
+  width: 70%;
+}
+
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio (9 / 16 * 100) */
+  width: 100%;
+  overflow: hidden;
+}
+
+.video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
 /* CSS for when screen width drops below 576px */
 @media (max-width: 576px) {
   #top, #main, #footer {
     width: 100%;
+  }
+
+  #top {
+    margin-bottom: 4em;
+  }
+
+  #current-username {
+    font-size: small;
   }
 
   .p-content {
@@ -162,11 +237,11 @@
     text-align: left;
   }
 
-  .content, #footer-links .logo, .footer-legal {
+  .content, #footer * {
     text-align: center;
   }
 
-  .popup {
+  .popup, #video-modal, .video-container {
     width: 100%;
     height: 100%;
     border-radius: 0;
@@ -177,6 +252,15 @@
   }
 
   .infinite-carousel-item > img {
-    width: 80%;
+    width: 100%;
   }
+
+  #chat-bubble-1 {
+    margin-bottom: 8em;
+  }
+
+  #chat-bubble-2{
+    margin-bottom: 5em;
+  }
+
 }
