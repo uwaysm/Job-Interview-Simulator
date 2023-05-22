@@ -67,7 +67,7 @@ python3 app.py
 
 6. Open a web browser and enter the following URL to access the application:
 
-`http://localhost:5001/`
+`http://127.0.0.1:5000/`
 
 # Python-Unittest Unit Tests
 The unit tests for the Job Interview Simulator web application cover the following features:
