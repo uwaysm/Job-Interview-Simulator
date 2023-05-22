@@ -146,10 +146,10 @@ python -m unittest selenium_unittest.py
 
 This project is a collaborative effort by the following team members:
 
-- Uways Minty (https://github.com/uwaysm)
-- Lloyd Na (https://github.com/LloydN01)
-- Jericho Cura (https://github.com/hurrkage)
-- Jason Millman (https://github.com/Jayce-m)
+- Uways Minty (https://github.com/uwaysm) - 23416583
+- Lloyd Na (https://github.com/LloydN01) - 23433196
+- Jericho Cura (https://github.com/hurrkage) - 23102622
+- Jason Millman (https://github.com/Jayce-m) - 23283528
 
 We would also like to thank everyone who provided their valuable feedback and suggestions during the development process.
 
